@@ -9,8 +9,8 @@ import {
 import {
   getPairFeeDetails,
   calculateMinimumReceived,
-  getTransactionFee,
-  removeCommas
+  removeCommas,
+  calculateSwapTransactionsFee
 } from 'utils';
 import { useRateCalculator } from './useRateCalculator';
 
@@ -45,13 +45,7 @@ export const useSwapInfo = ({
     });
 
   const totalTransactionsFee = useMemo(
-    () =>
-      activeRoute?.transactions
-        ?.reduce((acc, tx) => {
-          const bnTransactionFee = new BigNumber(getTransactionFee(tx) ?? '0');
-          return acc.plus(bnTransactionFee);
-        }, new BigNumber('0'))
-        .toString(10),
+    () => calculateSwapTransactionsFee(activeRoute?.transactions),
     [activeRoute?.transactions]
   );
 

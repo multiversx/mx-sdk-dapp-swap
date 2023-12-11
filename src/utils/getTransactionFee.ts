@@ -14,9 +14,9 @@ export const getTransactionFee = (rawTransaction: IPlainTransactionObject) => {
   networkConfig.MinGasLimit = GAS_LIMIT;
   networkConfig.GasPerDataByte = GAS_PER_DATA_BYTE;
   networkConfig.GasPriceModifier = GAS_PRICE_MODIFIER;
+
   try {
-    const value = transaction.computeFee(networkConfig).toString(10);
-    return value;
+    return transaction.computeFee(networkConfig).toString(10);
   } catch (err) {
     return 0;
   }
