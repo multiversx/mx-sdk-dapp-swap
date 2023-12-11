@@ -9,17 +9,22 @@ import { getTokenRequiredRule } from 'validation/rules/swap/getTokenRequiredRule
 import { getTooManyDecimalsRule } from 'validation/rules/swap/getTooManyDecimalsRule';
 import { SwapFormType } from 'validation/types/swapForm.types';
 import { applyValidationSchemaRules } from 'validation/utils';
+import { RuleType } from '../types';
 
 type UseSwapValidationSchemaProps = {
   firstToken?: TokenOptionType;
-  secondToken?: TokenOptionType;
+  firstTokenValidations?: RuleType<string | undefined>[];
   minAcceptedAmount?: number;
+  secondToken?: TokenOptionType;
+  secondTokenValidations?: RuleType<string | undefined>[];
 };
 
 export const useSwapValidationSchema = ({
-  minAcceptedAmount,
   firstToken,
-  secondToken
+  firstTokenValidations = [],
+  minAcceptedAmount,
+  secondToken,
+  secondTokenValidations = []
 }: UseSwapValidationSchemaProps) => {
   const commonInputRules = [
     getIsValidNumberRule(),
@@ -29,7 +34,8 @@ export const useSwapValidationSchema = ({
   const firstInputRules = [
     getTokenRequiredRule(firstToken?.value),
     getInputInsufficientFundsRule(firstToken?.token),
-    getTooManyDecimalsRule(firstToken?.token)
+    getTooManyDecimalsRule(firstToken?.token),
+    ...firstTokenValidations
   ];
 
   const firstInputValidationSchema = applyValidationSchemaRules(string(), [
@@ -39,7 +45,8 @@ export const useSwapValidationSchema = ({
 
   const secondInputRules = [
     getTokenRequiredRule(secondToken?.value),
-    getTooManyDecimalsRule(secondToken?.token)
+    getTooManyDecimalsRule(secondToken?.token),
+    ...secondTokenValidations
   ];
 
   const secondInputValidationSchema = applyValidationSchemaRules(string(), [
