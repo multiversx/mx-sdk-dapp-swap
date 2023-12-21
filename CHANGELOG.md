@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[1.7.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/5)] - 2023-12-21
+
+- [Removed axios](https://github.com/multiversx/mx-sdk-dapp-swap/pull/4)
+
 ## [[1.6.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/3)] - 2023-12-11
 
 - [Added ability to add additional validation rules](https://github.com/multiversx/mx-sdk-dapp-swap/pull/2)
