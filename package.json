@@ -103,7 +103,6 @@
     "@multiversx/sdk-dapp": "2.20.1",
     "@multiversx/sdk-network-providers": "2.0.0",
     "anchorme": "2.1.2",
-    "axios": "0.24.0",
     "bech32": "2.0.0",
     "bignumber.js": "9.x",
     "formik": "2.2.9",
