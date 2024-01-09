@@ -1,6 +1,6 @@
 {
   "name": "@multiversx/sdk-dapp-swap",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "A library to hold the main logic for swapping between tokens on the MultiversX blockchain",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
@@ -83,7 +83,7 @@
   ],
   "peerDependencies": {
     "@multiversx/sdk-core": "12.8.0",
-    "@multiversx/sdk-dapp": "2.27.0",
+    "@multiversx/sdk-dapp": "^2.27.0",
     "react": ">=18",
     "react-dom": ">=18"
   },
