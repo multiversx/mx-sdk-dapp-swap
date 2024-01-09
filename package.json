@@ -4,7 +4,10 @@
   "description": "A library to hold the main logic for swapping between tokens on the MultiversX blockchain",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
-  "repository": "multiversx/mx-sdk-dapp-swap",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/multiversx/mx-sdk-dapp-swap.git"
+  },
   "main": "./__commonjs",
   "module": "./",
   "types": "./",
