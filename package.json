@@ -83,7 +83,7 @@
   ],
   "peerDependencies": {
     "@multiversx/sdk-core": "12.8.0",
-    "@multiversx/sdk-dapp": "2.27.0",
+    "@multiversx/sdk-dapp": "^2.27.0",
     "react": ">=18",
     "react-dom": ">=18"
   },
