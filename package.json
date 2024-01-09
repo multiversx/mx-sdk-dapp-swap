@@ -105,7 +105,7 @@
     "@multiversx/sdk-core": "12.8.0",
     "@multiversx/sdk-dapp": "2.27.0",
     "@multiversx/sdk-network-providers": "2.0.0",
-    "anchorme": "2.1.2",
+    "anchorme": "3.0.5",
     "bech32": "2.0.0",
     "bignumber.js": "9.x",
     "formik": "2.2.9",
