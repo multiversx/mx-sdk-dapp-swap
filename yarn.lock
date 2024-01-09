@@ -2097,7 +2097,7 @@
     keccak "3.0.2"
     protobufjs "7.2.4"
 
-"@multiversx/sdk-dapp@^2.27.0":
+"@multiversx/sdk-dapp@2.27.0":
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/@multiversx/sdk-dapp/-/sdk-dapp-2.27.0.tgz#f15bbaa62997e1decd91f93a1ddee0ad4b1b6462"
   integrity sha512-RGMjhdwZnn4X9Oo23bIUUHT3BqwivqjxkOzm5VK1Vxb32NS5TVGJETD9bm9QZBphN5RkF+rJlvTY97tH4PEwPQ==
