@@ -83,7 +83,7 @@
   ],
   "peerDependencies": {
     "@multiversx/sdk-core": "12.8.0",
-    "@multiversx/sdk-dapp": "^2.27.0",
+    "@multiversx/sdk-dapp": ">=2.27.0",
     "react": ">=18",
     "react-dom": ">=18"
   },
@@ -100,6 +100,7 @@
   "dependencies": {
     "@apollo/client": "3.7.16",
     "@multiversx/sdk-core": "12.8.0",
+    "@multiversx/sdk-dapp": "2.27.0",
     "@multiversx/sdk-network-providers": "2.0.0",
     "anchorme": "2.1.2",
     "bech32": "2.0.0",
