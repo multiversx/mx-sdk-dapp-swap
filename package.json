@@ -1,6 +1,6 @@
 {
   "name": "@multiversx/sdk-dapp-swap",
-  "version": "1.7.4",
+  "version": "1.7.4-alpha.0",
   "description": "A library to hold the main logic for swapping between tokens on the MultiversX blockchain",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
@@ -98,7 +98,7 @@
     "react-tooltip": "4.2.21"
   },
   "dependencies": {
-    "@apollo/client": "3.7.16",
+    "@apollo/client": "3.9.1",
     "@multiversx/sdk-network-providers": "2.2.1",
     "anchorme": "2.1.2",
     "bech32": "2.0.0",
