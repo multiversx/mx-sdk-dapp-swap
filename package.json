@@ -101,6 +101,7 @@
     "@apollo/client": "3.9.1",
     "@multiversx/sdk-network-providers": "2.2.1",
     "anchorme": "2.1.2",
+    "apollo-upload-client": "^18.0.1",
     "bech32": "2.0.0",
     "bignumber.js": "9.x",
     "formik": "2.2.9",
