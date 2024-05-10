@@ -14,8 +14,7 @@ const DEFAULT_IDENTIFIERS: string[] = [];
 const safeTokenTypes = [
   TokenTypesEnum.core,
   TokenTypesEnum.ecosystem,
-  TokenTypesEnum.community,
-  TokenTypesEnum.junglecommunity
+  TokenTypesEnum.community
 ];
 
 interface GetTokensType {
@@ -83,7 +82,8 @@ export const useTokens = (options?: UseTokensType) => {
 
     if (onlySafeTokens) {
       const safeTokens = newTokens.filter(
-        ({ type }) => type && safeTokenTypes.includes(type)
+        ({ type }) =>
+          type && type !== 'FungibleESDT-LP' && safeTokenTypes.includes(type)
       );
 
       setTokens(safeTokens);
