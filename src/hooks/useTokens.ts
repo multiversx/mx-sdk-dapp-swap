@@ -3,19 +3,15 @@ import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
 import { GET_TOKENS, GET_TOKENS_AND_BALANCE, TokensType } from 'queries';
 import { EsdtType, FactoryType, TokenTypesEnum, UserEsdtType } from 'types';
 import { getSortedTokensByUsdValue } from 'utils';
+import { useFetchTokenPrices } from './useFetchTokenPrices';
 import { useLazyQueryWrapper } from './useLazyQueryWrapper';
 
 const DEFAULT_OFFSET = 0;
 const DEFAULT_LIMIT = 500;
 const DEFAULT_ENABLED_SWAPS = true;
+const DEFAULT_PRICE_POLLING = false;
 const DEFAULT_ONLY_SAFE_TOKENS = true;
 const DEFAULT_IDENTIFIERS: string[] = [];
-
-const safeTokenTypes = [
-  TokenTypesEnum.core,
-  TokenTypesEnum.ecosystem,
-  TokenTypesEnum.community
-];
 
 interface GetTokensType {
   limit?: number;
@@ -26,27 +22,28 @@ interface GetTokensType {
 }
 
 interface UseTokensType {
+  pricePolling?: boolean;
   onlySafeTokens?: boolean;
 }
 
 export const useTokens = (options?: UseTokensType) => {
-  const { client } = useAuthorizationContext();
+  const { client, isAuthenticated, isAccessTokenLoading } =
+    useAuthorizationContext();
 
   if (!client) {
     throw new Error('Swap GraphQL client not initialized');
   }
 
+  const pricePolling = options?.pricePolling ?? DEFAULT_PRICE_POLLING;
+  const onlySafeTokens = options?.onlySafeTokens ?? DEFAULT_ONLY_SAFE_TOKENS;
+
   const [tokens, setTokens] = useState<UserEsdtType[]>([]);
   const [wrappedEgld, setWrappedEgld] = useState<EsdtType>();
   const [swapConfig, setSwapConfig] = useState<FactoryType>();
-  const { isAuthenticated, isAccessTokenLoading } = useAuthorizationContext();
 
-  const sortedTokensByUsdValue = useMemo(
-    () => getSortedTokensByUsdValue({ tokens, wrappedEgld }),
-    [tokens, wrappedEgld]
-  );
-
-  const onlySafeTokens = options?.onlySafeTokens ?? DEFAULT_ONLY_SAFE_TOKENS;
+  const { tokenPrices } = useFetchTokenPrices({
+    isPollingEnabled: pricePolling
+  });
 
   const handleOnCompleted = (data?: TokensType | null) => {
     if (!data) {
@@ -59,16 +56,19 @@ export const useTokens = (options?: UseTokensType) => {
       setSwapConfig(factory);
     }
 
-    if (wrappingInfo && wrappingInfo.length) {
-      setWrappedEgld(wrappingInfo[0].wrappedToken);
-    }
+    const newWrappedEgld =
+      wrappingInfo && wrappingInfo.length
+        ? wrappingInfo[0].wrappedToken
+        : undefined;
+
+    setWrappedEgld(newWrappedEgld);
 
     if (!swapTokens) {
       setTokens([]);
       return;
     }
 
-    const newTokens: UserEsdtType[] = swapTokens.map((token) => {
+    const tokensWithBalance: UserEsdtType[] = swapTokens.map((token) => {
       const tokenFound = userTokens?.find(
         ({ identifier }) => identifier === token.identifier
       );
@@ -80,23 +80,27 @@ export const useTokens = (options?: UseTokensType) => {
       };
     });
 
+    const sortedTokensWithBalance = getSortedTokensByUsdValue({
+      tokens: tokensWithBalance,
+      wrappedEgld: newWrappedEgld
+    });
+
     if (onlySafeTokens) {
-      const safeTokens = newTokens.filter(
-        ({ type }) =>
-          type && type !== 'FungibleESDT-LP' && safeTokenTypes.includes(type)
+      const safeTokens = sortedTokensWithBalance.filter(
+        ({ type }) => type !== TokenTypesEnum.experimental
       );
 
       setTokens(safeTokens);
       return;
     }
 
-    setTokens(newTokens);
+    setTokens(sortedTokensWithBalance);
   };
 
   const {
-    execute: getTokensTrigger,
+    isError,
     isLoading,
-    isError
+    execute: getTokensTrigger
   } = useLazyQueryWrapper<TokensType>({
     query: isAuthenticated ? GET_TOKENS_AND_BALANCE : GET_TOKENS,
     queryOptions: {
@@ -110,7 +114,7 @@ export const useTokens = (options?: UseTokensType) => {
       return;
     }
 
-    const { limit, offset, identifiers, enabledSwaps } = {
+    const variables = {
       limit: options?.limit ?? DEFAULT_LIMIT,
       offset: options?.offset ?? DEFAULT_OFFSET,
       identifiers: options?.identifiers ?? DEFAULT_IDENTIFIERS,
@@ -118,22 +122,32 @@ export const useTokens = (options?: UseTokensType) => {
     };
 
     getTokensTrigger({
-      variables: {
-        identifiers,
-        offset,
-        limit,
-        enabledSwaps
-      }
+      variables
     });
   };
 
+  const tokensWithUpdatedPrice = useMemo(
+    () =>
+      tokens.map((token) => {
+        const tokenPrice = tokenPrices?.find(
+          ({ identifier }) => identifier === token.identifier
+        )?.price;
+
+        return {
+          ...token,
+          price: tokenPrice ?? token.price
+        };
+      }),
+    [tokens, tokenPrices]
+  );
+
   return {
-    tokens: sortedTokensByUsdValue,
     swapConfig,
     wrappedEgld,
     isTokensError: isError,
     isTokensLoading: isLoading,
-    refetch: getTokensTrigger,
-    getTokens
+    tokens: tokensWithUpdatedPrice,
+    getTokens,
+    refetch: getTokensTrigger
   };
 };
