@@ -25,8 +25,8 @@
     "test:watch": "jest --watch"
   },
   "devDependencies": {
-    "@multiversx/sdk-core": "12.8.0",
-    "@multiversx/sdk-dapp": "2.28.0",
+    "@multiversx/sdk-core": "13.1.0",
+    "@multiversx/sdk-dapp": "2.32.5",
     "@size-limit/preset-small-lib": "7.0.8",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.3.0",

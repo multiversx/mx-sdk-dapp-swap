@@ -3,9 +3,6 @@ export enum TokenTypesEnum {
   ecosystem = 'Ecosystem',
   community = 'Community',
   experimental = 'Experimental',
-  junglecommunity = 'Jungle-Community',
-  jungle = 'Jungle',
-  jungleexperimental = 'Jungle-Experimental',
   unlisted = 'Unlisted'
 }
 
@@ -18,16 +15,23 @@ export interface AssetsType {
   social?: any;
 }
 
-export interface EsdtType {
-  balance: string | null;
-  decimals: number;
+export interface TokenBaseType {
   name: string;
-  identifier: string;
+  decimals: number;
   ticker: string;
-  owner: string;
   assets?: AssetsType;
+}
+
+export interface EsdtType extends TokenBaseType {
+  balance: string | null;
+  identifier: string;
+  owner: string;
   price?: string;
-  type?: TokenTypesEnum;
+  type?: TokenTypesEnum | 'FungibleESDT-LP';
+}
+
+export interface NftCollectionType extends TokenBaseType {
+  collection: string;
 }
 
 export interface UserEsdtType extends EsdtType {

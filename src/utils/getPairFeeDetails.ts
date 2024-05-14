@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { PairType, FarmPairType } from 'types';
+import { PairType } from 'types';
 
 const empty = {
   burn: undefined,
@@ -8,7 +8,7 @@ const empty = {
   lpHolders: undefined
 };
 
-export const getPairFeeDetails = (pair?: PairType | FarmPairType) => {
+export const getPairFeeDetails = (pair?: PairType) => {
   if (!pair) {
     return empty;
   }

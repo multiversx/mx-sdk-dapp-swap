@@ -1,14 +1,25 @@
-import { EsdtType, TokenTypesEnum } from './tokens.types';
+import { EsdtType, NftCollectionType, TokenTypesEnum } from './tokens.types';
 
 export enum PairStatesEnum {
-  inactive = 'Inactive',
   active = 'Active',
-  activeNoSwaps = 'ActiveNoSwaps'
+  inactive = 'Inactive',
+  partialActive = 'PartialActive'
+}
+
+export interface SimpleLockType {
+  address: string;
+
+  lockedToken: NftCollectionType; // LKESDT
+  lpProxyToken: NftCollectionType; // LKLP
+  farmProxyToken: NftCollectionType; // LKFARM
+
+  intermediatedPairs: string[];
+  intermediatedFarms: string[];
 }
 
 export interface LockedTokensInfoType {
-  lockingScAddress: string;
   unlockEpoch: number;
+  lockingSC: SimpleLockType;
 }
 
 export interface PairType {
@@ -44,25 +55,4 @@ export interface PairType {
   specialFeePercent: number;
 
   lockedTokensInfo?: LockedTokensInfoType;
-}
-
-export interface FarmPairType {
-  address: string;
-  firstToken: EsdtType;
-  firstTokenPriceUSD: string;
-  secondToken: EsdtType;
-  secondTokenPriceUSD: string;
-  liquidityPoolToken: EsdtType;
-
-  state: PairStatesEnum;
-  type: TokenTypesEnum;
-  info: {
-    reserves0: string;
-    reserves1: string;
-    totalSupply: string;
-  };
-
-  feesAPR: string;
-  totalFeePercent: number;
-  specialFeePercent: number;
 }
