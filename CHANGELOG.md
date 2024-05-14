@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [[1.7.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/13)] - 2024-05-14
+## [[1.7.6](https://github.com/multiversx/mx-sdk-dapp-swap/pull/15)] - 2024-05-14
 
 - [Adds price polling feature](https://github.com/multiversx/mx-sdk-dapp-swap/pull/14)
 - [Preserve input values on login/logout](https://github.com/multiversx/mx-sdk-dapp-swap/pull/14)
+
+## [[1.7.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/13)] - 2024-02-01
+
 - [Added publish script next](https://github.com/multiversx/mx-sdk-dapp-swap/pull/13)
 
 ## [[1.7.4](https://github.com/multiversx/mx-sdk-dapp-swap/pull/12)] - 2024-02-01
