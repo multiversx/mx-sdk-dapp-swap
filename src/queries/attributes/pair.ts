@@ -1,4 +1,5 @@
 import { esdtAttributes } from './esdt';
+import { simpleLockAttributes } from './simpleLock';
 
 export const pairAttributes = `
   address
@@ -38,7 +39,9 @@ export const pairAttributes = `
   specialFeePercent
 
   lockedTokensInfo {
-    lockingScAddress
+    lockingSC {
+      ${simpleLockAttributes}
+    }
     unlockEpoch
   }
 `;

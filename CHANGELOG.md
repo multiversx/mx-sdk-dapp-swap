@@ -7,13 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[1.7.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/13)] - 2024-05-14
+
+- [Adds price polling feature](https://github.com/multiversx/mx-sdk-dapp-swap/pull/14)
+- [Preserve input values on login/logout](https://github.com/multiversx/mx-sdk-dapp-swap/pull/14)
+- [Added publish script next](https://github.com/multiversx/mx-sdk-dapp-swap/pull/13)
+
 ## [[1.7.4](https://github.com/multiversx/mx-sdk-dapp-swap/pull/12)] - 2024-02-01
+
 - [Fixed network provider depnendencies](https://github.com/multiversx/mx-sdk-dapp-swap/pull/12)
 
 ## [[1.7.3](https://github.com/multiversx/mx-sdk-dapp-swap/pull/11)] - 2024-02-01
+
 - [Regenerate yarn.lock](https://github.com/multiversx/mx-sdk-dapp-swap/pull/11)
 
 ## [[1.7.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/10)] - 2024-01-11
+
 - [Upgrade sdks](https://github.com/multiversx/mx-sdk-dapp-swap/pull/9)
 
 ## [[1.7.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/6)] - 2023-01-09

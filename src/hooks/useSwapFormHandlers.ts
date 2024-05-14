@@ -4,9 +4,10 @@ import BigNumber from 'bignumber.js';
 import { EGLD_IDENTIFIER, FIXED_INPUT } from 'constants/general';
 import { SwapRouteType, SelectOptionType } from 'types';
 import {
-  meaningfulFormatAmount,
   getTokenDecimals,
-  getBalanceMinusDust
+  getBalanceMinusDust,
+  meaningfulFormatAmount,
+  getCorrectAmountsOnTokenChange
 } from 'utils';
 import { useInputAmountUsdValue } from './useInputAmountUsdValue';
 import { GetSwapRouteType } from './useSwapRoute';
@@ -189,7 +190,15 @@ export const useSwapFormHandlers = ({
       const hasBothTokens = tokenInID != null && tokenOutID != null;
 
       if (hasBothTokens) {
+        const { amountIn, amountOut } = getCorrectAmountsOnTokenChange({
+          activeRoute,
+          newTokenOption: option?.token,
+          currentTokenOption: current.firstToken?.token
+        });
+
         getSwapRoute({
+          amountIn,
+          amountOut,
           tokenInID,
           tokenOutID,
           tolerancePercentage
@@ -198,8 +207,6 @@ export const useSwapFormHandlers = ({
 
       return {
         ...current,
-        firstAmount: '',
-        secondAmount: '',
         firstToken: option
       };
     });
@@ -211,12 +218,20 @@ export const useSwapFormHandlers = ({
     }
 
     setFormState((current) => {
-      const tokenInID = current.firstToken?.value;
       const tokenOutID = option?.value;
+      const tokenInID = current.firstToken?.value;
       const hasBothTokens = tokenInID != null && tokenOutID != null;
 
       if (hasBothTokens) {
+        const { amountIn, amountOut } = getCorrectAmountsOnTokenChange({
+          activeRoute,
+          newTokenOption: option?.token,
+          currentTokenOption: current.secondToken?.token
+        });
+
         getSwapRoute({
+          amountIn,
+          amountOut,
           tokenInID,
           tokenOutID,
           tolerancePercentage
@@ -225,8 +240,6 @@ export const useSwapFormHandlers = ({
 
       return {
         ...current,
-        firstAmount: '',
-        secondAmount: '',
         secondToken: option
       };
     });

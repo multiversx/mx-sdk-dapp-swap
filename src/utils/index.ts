@@ -12,3 +12,4 @@ export * from './meaningfulFormatAmount';
 export * from './removeCommas';
 export * from './roundAmount';
 export * from './translateSwapError';
+export * from './getCorrectAmountsOnTokenChange';

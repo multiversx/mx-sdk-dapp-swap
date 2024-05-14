@@ -1,11 +1,10 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   DocumentNode,
+  useApolloClient,
   QueryHookOptions,
-  LazyQueryHookOptions,
-  OperationVariables
+  LazyQueryHookOptions
 } from '@apollo/client';
-import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
 
 export const useLazyQueryWrapper = <TData>({
   query,
@@ -14,37 +13,34 @@ export const useLazyQueryWrapper = <TData>({
   query: DocumentNode;
   queryOptions?: QueryHookOptions<TData>;
 }) => {
-  const { client } = useAuthorizationContext();
+  const apolloClient = useApolloClient();
+  const [isLoading, setIsLoading] = useState<boolean>();
+  const [isError, setIsError] = useState<boolean>();
+  const [error, setError] = useState<string>();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  const queryVariables = useRef<OperationVariables>();
-
-  const executeQuery = async (
-    options?: Partial<LazyQueryHookOptions<TData>>
-  ) => {
-    queryVariables.current = options?.variables ?? queryOptions?.variables;
+  const execute = async (options?: Partial<LazyQueryHookOptions<TData>>) => {
+    const onCompleted = options?.onCompleted ?? queryOptions?.onCompleted;
+    const variables = options?.variables ?? queryOptions?.variables;
 
     try {
       setIsLoading(true);
 
-      const response = await client?.query({
+      const response = await apolloClient.query<TData>({
         query,
-        variables: queryVariables?.current
+        variables
       });
 
       const responseData = response?.data;
+      const errors = response?.errors;
 
-      if (response?.error) {
-        setIsLoading(false);
+      if (errors && errors.length > 0) {
         setIsError(true);
-        console.error(response.error);
-        return null;
+        setError(errors[0].message);
       }
 
       if (responseData) {
-        const onCompleted = options?.onCompleted ?? queryOptions?.onCompleted;
+        setIsError(false);
+        setError(undefined);
         onCompleted?.(responseData);
       }
 
@@ -55,28 +51,14 @@ export const useLazyQueryWrapper = <TData>({
       setIsLoading(false);
       setIsError(true);
       console.error(e);
-      return null;
-    }
-  };
-
-  const refetch = (variables?: Partial<OperationVariables>) => {
-    if (!queryVariables.current) {
-      console.log('Refetch query was executed before the actual query.');
       return;
     }
-
-    const refetchVariables = variables ?? queryVariables.current;
-
-    executeQuery({
-      ...queryOptions,
-      variables: refetchVariables
-    });
   };
 
   return {
     isLoading,
     isError,
-    execute: executeQuery,
-    refetch
+    error,
+    execute
   };
 };
