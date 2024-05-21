@@ -5,7 +5,5 @@ export const getTokenRequiredRule = (
 ): RuleType<string | undefined> => ({
   name: 'token',
   message: 'Token required',
-  test: (amount) => {
-    return Boolean(amount && tokenId);
-  }
+  test: () => Boolean(tokenId)
 });
