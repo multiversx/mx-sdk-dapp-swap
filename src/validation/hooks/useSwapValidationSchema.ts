@@ -4,6 +4,7 @@ import { SwapRouteType } from 'types/swap.types';
 import { Shape } from 'types/yupShape.types';
 import { getIsValidNumberRule } from 'validation/rules/common/getIsValidNumberRule';
 import { getMinAmountRule } from 'validation/rules/common/getMinAmountRule';
+import { getAmountRequiredRule } from 'validation/rules/swap/getAmountRequiredRule';
 import { getInputInsufficientFundsRule } from 'validation/rules/swap/getInputInsufficientFundsRule';
 import { getTokenRequiredRule } from 'validation/rules/swap/getTokenRequiredRule';
 import { getTooManyDecimalsRule } from 'validation/rules/swap/getTooManyDecimalsRule';
@@ -21,12 +22,13 @@ type UseSwapValidationSchemaProps = {
 
 export const useSwapValidationSchema = ({
   firstToken,
-  firstTokenValidations = [],
-  minAcceptedAmount,
   secondToken,
+  minAcceptedAmount,
+  firstTokenValidations = [],
   secondTokenValidations = []
 }: UseSwapValidationSchemaProps) => {
   const commonInputRules = [
+    getAmountRequiredRule(),
     getIsValidNumberRule(),
     getMinAmountRule({ minAcceptedAmount })
   ];
