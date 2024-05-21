@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[1.7.7](https://github.com/multiversx/mx-sdk-dapp-swap/pull/18)] - 2024-05-21
+
+- [Fixes validation rules](https://github.com/multiversx/mx-sdk-dapp-swap/pull/17)
+
 ## [[1.7.6](https://github.com/multiversx/mx-sdk-dapp-swap/pull/15)] - 2024-05-14
 
 - [Adds price polling feature](https://github.com/multiversx/mx-sdk-dapp-swap/pull/14)
