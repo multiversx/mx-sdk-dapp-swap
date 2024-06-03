@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 import BigNumber from 'bignumber.js';
-import { EGLD_IDENTIFIER, FIXED_INPUT } from 'constants/general';
+import { EGLD_IDENTIFIER, FIXED_INPUT, FIXED_OUTPUT } from 'constants/general';
 import { SwapRouteType, SelectOptionType } from 'types';
 import {
   getTokenDecimals,
@@ -190,10 +190,14 @@ export const useSwapFormHandlers = ({
       const hasBothTokens = tokenInID != null && tokenOutID != null;
 
       if (hasBothTokens) {
+        const isFixedInput = activeRoute?.swapType === FIXED_INPUT;
+
         const { amountIn, amountOut } = getCorrectAmountsOnTokenChange({
           activeRoute,
-          newTokenOption: option?.token,
-          currentTokenOption: current.firstToken?.token
+          newToken: option?.token,
+          needsParsing: isFixedInput,
+          firstToken: current.firstToken?.token,
+          secondToken: current.secondToken?.token
         });
 
         getSwapRoute({
@@ -220,13 +224,18 @@ export const useSwapFormHandlers = ({
     setFormState((current) => {
       const tokenOutID = option?.value;
       const tokenInID = current.firstToken?.value;
+
       const hasBothTokens = tokenInID != null && tokenOutID != null;
 
       if (hasBothTokens) {
+        const isFixedOutput = activeRoute?.swapType === FIXED_OUTPUT;
+
         const { amountIn, amountOut } = getCorrectAmountsOnTokenChange({
           activeRoute,
-          newTokenOption: option?.token,
-          currentTokenOption: current.secondToken?.token
+          newToken: option?.token,
+          needsParsing: isFixedOutput,
+          firstToken: current.firstToken?.token,
+          secondToken: current.secondToken?.token
         });
 
         getSwapRoute({
