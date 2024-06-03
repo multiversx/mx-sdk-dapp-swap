@@ -4,38 +4,50 @@ import { SwapRouteType, UserEsdtType } from 'types';
 import { meaningfulFormatAmount } from './meaningfulFormatAmount';
 
 export const getCorrectAmountsOnTokenChange = ({
+  newToken,
+  firstToken,
+  secondToken,
   activeRoute,
-  newTokenOption,
-  currentTokenOption
+  needsParsing
 }: {
+  needsParsing: boolean;
+  newToken?: UserEsdtType;
+  firstToken?: UserEsdtType;
+  secondToken?: UserEsdtType;
   activeRoute?: SwapRouteType;
-  newTokenOption?: UserEsdtType;
-  currentTokenOption?: UserEsdtType;
 }) => {
-  if (!activeRoute || !newTokenOption || !currentTokenOption)
+  if (!activeRoute || !newToken)
     return {
       amountIn: undefined,
       amountOut: undefined
     };
 
   const isFixedInput = activeRoute?.swapType === FIXED_INPUT;
-  const initialParsedAmount = isFixedInput
+  const inputParsedAmount = isFixedInput
     ? activeRoute?.amountIn
     : activeRoute?.amountOut;
 
-  // format initial amount with the initial decimals
+  const inputToken = isFixedInput
+    ? activeRoute?.tokenInID
+    : activeRoute?.tokenOutID;
+
+  const inputTokenDecimals =
+    inputToken === firstToken?.identifier
+      ? firstToken?.decimals
+      : secondToken?.decimals;
+
+  // format input amount with the input decimals
   // and preserve precision in case it was a max button amount
-  const formattedInitialParsedAmount = meaningfulFormatAmount({
-    amount: initialParsedAmount,
+  const formattedInputParsedAmount = meaningfulFormatAmount({
+    amount: inputParsedAmount,
     showLastNonZeroDecimal: true,
-    decimals: currentTokenOption.decimals
+    decimals: inputTokenDecimals
   });
 
   // parse the precise old amount with the new decimals
-  const parsedNewAmount = parseAmount(
-    formattedInitialParsedAmount,
-    newTokenOption?.decimals
-  );
+  const parsedNewAmount = needsParsing
+    ? parseAmount(formattedInputParsedAmount, newToken?.decimals)
+    : inputParsedAmount;
 
   const amountIn = isFixedInput ? parsedNewAmount : undefined;
   const amountOut = isFixedInput ? undefined : parsedNewAmount;
