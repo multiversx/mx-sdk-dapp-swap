@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
+import { stringIsFloat } from '@multiversx/sdk-dapp/utils';
 import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
-import BigNumber from 'bignumber.js';
 import { EGLD_IDENTIFIER, FIXED_INPUT, FIXED_OUTPUT } from 'constants/general';
 import { SwapRouteType, SelectOptionType } from 'types';
 import {
@@ -122,13 +122,14 @@ export const useSwapFormHandlers = ({
       const tokenOutID = current.secondToken?.value;
       const hasBothTokens = tokenInID != null && tokenOutID != null;
 
-      const isGreaterThanZero = new BigNumber(amount).isGreaterThan(0);
-
-      if (hasBothTokens && isGreaterThanZero) {
+      if (hasBothTokens) {
         lastInputTouched.current = InputTouchedEnum.first;
 
         const decimals = current.firstToken?.token.decimals;
-        const amountIn = parseAmount(amount, decimals);
+
+        const amountIn = stringIsFloat(amount)
+          ? parseAmount(amount, decimals)
+          : '';
 
         getSwapRoute({
           amountIn,
@@ -155,13 +156,14 @@ export const useSwapFormHandlers = ({
       const tokenInID = current.firstToken?.value;
       const tokenOutID = current.secondToken?.value;
       const hasBothTokens = tokenInID != null && tokenOutID != null;
-      const isGreaterThanZero = new BigNumber(amount).isGreaterThan(0);
 
-      if (hasBothTokens && isGreaterThanZero) {
+      if (hasBothTokens) {
         lastInputTouched.current = InputTouchedEnum.second;
 
         const decimals = current.secondToken?.token.decimals;
-        const amountOut = parseAmount(amount, decimals);
+        const amountOut = stringIsFloat(amount)
+          ? parseAmount(amount, decimals)
+          : '';
 
         getSwapRoute({
           amountOut,
@@ -224,7 +226,6 @@ export const useSwapFormHandlers = ({
     setFormState((current) => {
       const tokenOutID = option?.value;
       const tokenInID = current.firstToken?.value;
-
       const hasBothTokens = tokenInID != null && tokenOutID != null;
 
       if (hasBothTokens) {
@@ -265,7 +266,7 @@ export const useSwapFormHandlers = ({
 
       const hasBothTokens = tokenInID != null && tokenOutID != null;
 
-      if (!hasBothTokens || amountIn === '0') {
+      if (!hasBothTokens) {
         return current;
       }
 

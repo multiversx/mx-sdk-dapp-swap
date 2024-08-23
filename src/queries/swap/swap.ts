@@ -11,7 +11,7 @@ const transactionsString = `
 `;
 
 const swapString = `
-  query (
+  query swapPackageSwapRoute (
     $amountIn: String
     $amountOut: String
     $tokenInID: String!
