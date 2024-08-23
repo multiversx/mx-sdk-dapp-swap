@@ -10,7 +10,7 @@ export const useFetchTokenPrices = ({
   isPollingEnabled?: boolean;
 }) => {
   const tokensQuery = gql`
-    query {
+    query swapPackageTokenPrices {
       tokens(enabledSwaps: true) {
         price
         identifier
