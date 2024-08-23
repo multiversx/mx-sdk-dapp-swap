@@ -3,13 +3,15 @@ import { useQueryWrapper } from 'hooks';
 import { EsdtType } from 'types';
 
 export const useFetchTokenPrices = ({
+  skip = false,
   isPollingEnabled = false
 }: {
+  skip?: boolean;
   isPollingEnabled?: boolean;
 }) => {
   const tokensQuery = gql`
-    query {
-      tokens {
+    query swapPackageTokenPrices {
+      tokens(enabledSwaps: true) {
         price
         identifier
       }
@@ -20,7 +22,7 @@ export const useFetchTokenPrices = ({
     isPollingEnabled,
     query: tokensQuery,
     queryOptions: {
-      skip: !isPollingEnabled
+      skip
     }
   });
 

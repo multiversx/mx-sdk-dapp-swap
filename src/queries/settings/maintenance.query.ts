@@ -7,7 +7,7 @@ export interface MaintenanceQueryType {
 }
 
 export const maintenanceQuery = gql`
-  query maintenanceQuery {
+  query swapPackageMaintenance {
     factory {
       maintenance
     }
