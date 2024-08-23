@@ -14,7 +14,7 @@ export interface TokensType {
 }
 
 export const GET_TOKENS = gql`
-  query ($identifiers: [String!], $enabledSwaps: Boolean) {
+  query swapPackageTokens ($identifiers: [String!], $enabledSwaps: Boolean) {
     tokens(identifiers: $identifiers, enabledSwaps: $enabledSwaps) {
       ${esdtAttributes}
     }
@@ -30,7 +30,7 @@ export const GET_TOKENS = gql`
 `;
 
 export const GET_TOKENS_AND_BALANCE = gql`
-  query ($identifiers: [String!], $offset: Int, $limit: Int, $enabledSwaps: Boolean) {
+  query swapPackageTokensWithBalance ($identifiers: [String!], $offset: Int, $limit: Int, $enabledSwaps: Boolean) {
     tokens(identifiers: $identifiers, enabledSwaps: $enabledSwaps) {
       ${esdtAttributes}
     }
