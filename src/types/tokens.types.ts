@@ -28,6 +28,8 @@ export interface EsdtType extends TokenBaseType {
   owner: string;
   price?: string;
   type?: TokenTypesEnum | 'FungibleESDT-LP';
+  previous24hPrice?: string;
+  previous7dPrice?: string;
 }
 
 export interface NftCollectionType extends TokenBaseType {
