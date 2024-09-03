@@ -14,4 +14,6 @@ export const esdtAttributes = `
   }
   price
   type
+  previous24hPrice
+  previous7dPrice 
 `;
