@@ -145,17 +145,12 @@ export const useSwapRoute = ({
     if (!variables) return true;
 
     const { amountIn, amountOut } = variables;
-
     const hasAmount = Boolean(amountIn ?? amountOut);
-    const isSwap = swapActionType === SwapActionTypesEnum.swap;
 
-    if (!isSwap || !hasAmount) {
-      handleOnCompleted({ wrapEgld: undefined }); // trigger on completed to show the exchange rate
-      return true;
-    }
+    if (!hasAmount) return true;
 
     return false;
-  }, [variables, isAuthenticated, swapActionType]);
+  }, [variables]);
 
   const { data, refetch, isRefetching, isLoading, isError } = useQueryWrapper<
     SwapRouteQueryResponseType | WrappingQueryResponseType
