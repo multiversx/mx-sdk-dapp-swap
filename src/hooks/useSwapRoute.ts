@@ -65,6 +65,7 @@ export const useSwapRoute = ({
   const [variables, setVariables] = useState<GetSwapRouteType>();
   const [swapRoute, setSwapRoute] = useState<SwapRouteType>();
   const [swapRouteError, setSwapRouteError] = useState<string>();
+  const [pollingEnabled, setPollingEnabled] = useState(isPollingEnabled);
 
   const previousFetchVariablesRef = useRef<GetSwapRouteVariablesType>();
 
@@ -77,6 +78,35 @@ export const useSwapRoute = ({
       }),
     [variables, wrappedEgld]
   );
+
+  const query = useMemo(() => {
+    if (swapActionType === SwapActionTypesEnum.wrap) return wrapEgldQuery;
+    if (swapActionType === SwapActionTypesEnum.unwrap) return unwrapEgldQuery;
+
+    return isAuthenticated ? swapQuery : swapWithoutTransactionsQuery;
+  }, [isAuthenticated, swapActionType]);
+
+  const skip = useMemo(() => {
+    if (!variables) return true;
+
+    const { amountIn, amountOut } = variables;
+    const hasAmount = Boolean(amountIn ?? amountOut);
+
+    if (!hasAmount) return true;
+
+    return false;
+  }, [variables]);
+
+  const { data, error, refetch, isRefetching, isLoading, isError } =
+    useQueryWrapper<SwapRouteQueryResponseType | WrappingQueryResponseType>({
+      query,
+      queryOptions: {
+        skip,
+        client,
+        variables
+      },
+      isPollingEnabled: pollingEnabled
+    });
 
   const handleOnCompleted = (
     data?: SwapRouteQueryResponseType | WrappingQueryResponseType
@@ -123,46 +153,15 @@ export const useSwapRoute = ({
         setSwapRouteError(undefined);
         break;
       default:
-        const { swap, errors } = data as SwapRouteQueryResponseType;
-
-        const error = errors
-          ? translateSwapError(errors[0].message)
-          : undefined;
+        const { swap } = data as SwapRouteQueryResponseType;
 
         setSwapRoute(swap);
-        setSwapRouteError(error);
+        setSwapRouteError(error?.message);
+        if (isError) {
+          setPollingEnabled(false);
+        }
     }
   };
-
-  const query = useMemo(() => {
-    if (swapActionType === SwapActionTypesEnum.wrap) return wrapEgldQuery;
-    if (swapActionType === SwapActionTypesEnum.unwrap) return unwrapEgldQuery;
-
-    return isAuthenticated ? swapQuery : swapWithoutTransactionsQuery;
-  }, [isAuthenticated, swapActionType]);
-
-  const skip = useMemo(() => {
-    if (!variables) return true;
-
-    const { amountIn, amountOut } = variables;
-    const hasAmount = Boolean(amountIn ?? amountOut);
-
-    if (!hasAmount) return true;
-
-    return false;
-  }, [variables]);
-
-  const { data, refetch, isRefetching, isLoading, isError } = useQueryWrapper<
-    SwapRouteQueryResponseType | WrappingQueryResponseType
-  >({
-    query,
-    queryOptions: {
-      skip,
-      client,
-      variables
-    },
-    isPollingEnabled
-  });
 
   const getSwapRoute = ({
     amountIn,
