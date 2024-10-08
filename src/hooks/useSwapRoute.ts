@@ -78,6 +78,35 @@ export const useSwapRoute = ({
     [variables, wrappedEgld]
   );
 
+  const query = useMemo(() => {
+    if (swapActionType === SwapActionTypesEnum.wrap) return wrapEgldQuery;
+    if (swapActionType === SwapActionTypesEnum.unwrap) return unwrapEgldQuery;
+
+    return isAuthenticated ? swapQuery : swapWithoutTransactionsQuery;
+  }, [isAuthenticated, swapActionType]);
+
+  const skip = useMemo(() => {
+    if (!variables) return true;
+
+    const { amountIn, amountOut } = variables;
+    const hasAmount = Boolean(amountIn ?? amountOut);
+
+    if (!hasAmount) return true;
+
+    return false;
+  }, [variables]);
+
+  const { data, error, refetch, isRefetching, isLoading, isError } =
+    useQueryWrapper<SwapRouteQueryResponseType | WrappingQueryResponseType>({
+      query,
+      queryOptions: {
+        skip,
+        client,
+        variables
+      },
+      isPollingEnabled
+    });
+
   const handleOnCompleted = (
     data?: SwapRouteQueryResponseType | WrappingQueryResponseType
   ) => {
@@ -123,46 +152,14 @@ export const useSwapRoute = ({
         setSwapRouteError(undefined);
         break;
       default:
-        const { swap, errors } = data as SwapRouteQueryResponseType;
-
-        const error = errors
-          ? translateSwapError(errors[0].message)
-          : undefined;
+        const { swap } = data as SwapRouteQueryResponseType;
 
         setSwapRoute(swap);
-        setSwapRouteError(error);
+
+        const translatedError = translateSwapError(error?.message);
+        setSwapRouteError(translatedError);
     }
   };
-
-  const query = useMemo(() => {
-    if (swapActionType === SwapActionTypesEnum.wrap) return wrapEgldQuery;
-    if (swapActionType === SwapActionTypesEnum.unwrap) return unwrapEgldQuery;
-
-    return isAuthenticated ? swapQuery : swapWithoutTransactionsQuery;
-  }, [isAuthenticated, swapActionType]);
-
-  const skip = useMemo(() => {
-    if (!variables) return true;
-
-    const { amountIn, amountOut } = variables;
-    const hasAmount = Boolean(amountIn ?? amountOut);
-
-    if (!hasAmount) return true;
-
-    return false;
-  }, [variables]);
-
-  const { data, refetch, isRefetching, isLoading, isError } = useQueryWrapper<
-    SwapRouteQueryResponseType | WrappingQueryResponseType
-  >({
-    query,
-    queryOptions: {
-      skip,
-      client,
-      variables
-    },
-    isPollingEnabled
-  });
 
   const getSwapRoute = ({
     amountIn,

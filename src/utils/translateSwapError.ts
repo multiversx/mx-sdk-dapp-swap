@@ -5,7 +5,9 @@ const errorMap: Record<string, string> = {
     'Smart Swap not possible because you would lose more than 5%.'
 };
 
-export const translateSwapError = (serviceError: string) => {
+export const translateSwapError = (serviceError?: string) => {
+  if (!serviceError) return;
+
   const defaultTranslation = 'No swap route found.';
   const foundErrorKey = Object.keys(errorMap).find((key) =>
     serviceError.includes(key)
