@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[1.8.3](https://github.com/multiversx/mx-sdk-dapp-swap/pull/28)] - 2024-10-08
+
+- [Improve RouteError Handling](https://github.com/multiversx/mx-sdk-dapp-swap/pull/27)
+
 ## [[1.8.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/26)] - 2024-09-12
 
 - [Fixes EGLD <-> WEGLD missing transactions](https://github.com/multiversx/mx-sdk-dapp-swap/pull/26)
