@@ -65,7 +65,6 @@ export const useSwapRoute = ({
   const [variables, setVariables] = useState<GetSwapRouteType>();
   const [swapRoute, setSwapRoute] = useState<SwapRouteType>();
   const [swapRouteError, setSwapRouteError] = useState<string>();
-  const [pollingEnabled, setPollingEnabled] = useState(isPollingEnabled);
 
   const previousFetchVariablesRef = useRef<GetSwapRouteVariablesType>();
 
@@ -105,7 +104,7 @@ export const useSwapRoute = ({
         client,
         variables
       },
-      isPollingEnabled: pollingEnabled
+      isPollingEnabled
     });
 
   const handleOnCompleted = (
@@ -156,10 +155,9 @@ export const useSwapRoute = ({
         const { swap } = data as SwapRouteQueryResponseType;
 
         setSwapRoute(swap);
-        setSwapRouteError(error?.message);
-        if (isError) {
-          setPollingEnabled(false);
-        }
+
+        const translatedError = translateSwapError(error?.message);
+        setSwapRouteError(translatedError);
     }
   };
 
