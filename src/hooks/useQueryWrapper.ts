@@ -35,10 +35,10 @@ export const useQueryWrapper = <TData>({
   });
 
   const startPollingCallback = useCallback(() => {
-    if (isPageVisible && isPollingEnabled) {
+    if (isPageVisible && isPollingEnabled && !error) {
       startPolling(POLLING_INTERVAL);
     }
-  }, [isPageVisible, isPollingEnabled, startPolling]);
+  }, [isPageVisible, isPollingEnabled, startPolling, error]);
 
   // mount and unmount
   useEffect(() => {
@@ -61,7 +61,7 @@ export const useQueryWrapper = <TData>({
   }, [refetchTrigger, isRefetchEnabled, refetch, startPollingCallback]);
 
   const isLoading = data == null && loading;
-  const isError = Boolean(error && data == null);
+  const isError = Boolean(error || data == null);
   const isRefetching = loading;
 
   return {

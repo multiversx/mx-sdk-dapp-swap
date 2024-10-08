@@ -62,5 +62,4 @@ export const swapWithoutTransactionsQuery = gql`
 
 export interface SwapRouteQueryResponseType {
   swap: SwapRouteType;
-  errors?: GraphqlErrorsResponseType[];
 }
