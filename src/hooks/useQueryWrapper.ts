@@ -61,7 +61,7 @@ export const useQueryWrapper = <TData>({
   }, [refetchTrigger, isRefetchEnabled, refetch, startPollingCallback]);
 
   const isLoading = data == null && loading;
-  const isError = Boolean(error || data == null);
+  const isError = Boolean(error);
   const isRefetching = loading;
 
   return {
