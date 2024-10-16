@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [[1.9.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/3)] - 2024-10-16
+## [[1.9.0-alpha.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/3)] - 2024-10-16
 
 - [Upgrade sdk-dapp](https://github.com/multiversx/mx-sdk-dapp-swap/pull/31)
 
