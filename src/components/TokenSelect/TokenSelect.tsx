@@ -39,25 +39,24 @@ export const TokenSelect = ({
   const ref = React.useRef(null);
   const disableOption = (option: any) => option.value === disabledOption?.value;
 
-  const FormatOptionLabel = () => (
-    option: any,
-    { context }: { context: any }
-  ) => {
-    const { label, value: val, token } = option;
-    const inDropdown = context === 'menu';
-    const isDisabled = disableOption(option);
+  const FormatOptionLabel =
+    () =>
+    (option: any, { context }: { context: any }) => {
+      const { label, value: val, token } = option;
+      const inDropdown = context === 'menu';
+      const isDisabled = disableOption(option);
 
-    const args = {
-      inDropdown,
-      label,
-      value: val,
-      token,
-      isDisabled,
-      handleDisabledOptionClick
+      const args = {
+        inDropdown,
+        label,
+        value: val,
+        token,
+        isDisabled,
+        handleDisabledOptionClick
+      };
+
+      return <SelectOption {...args} />;
     };
-
-    return <SelectOption {...args} />;
-  };
 
   return (
     <div className='dapp-core-swap-select-container'>

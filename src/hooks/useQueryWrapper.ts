@@ -6,15 +6,15 @@ import { useIsPageVisible } from 'hooks';
 export const useQueryWrapper = <TData>({
   query,
   queryOptions,
+  refetchTrigger,
   isPollingEnabled = false,
-  isRefetchEnabled = false,
-  refetchTrigger
+  isRefetchEnabled = false
 }: {
   query: DocumentNode;
+  refetchTrigger?: number;
   isPollingEnabled?: boolean;
   isRefetchEnabled?: boolean;
   queryOptions?: QueryHookOptions<TData>;
-  refetchTrigger?: number;
 }) => {
   const isPageVisible = useIsPageVisible();
 
@@ -34,11 +34,12 @@ export const useQueryWrapper = <TData>({
     ...queryOptions
   });
 
+  // listening on queryOptions resets the polling interval -> posibile race condition fix
   const startPollingCallback = useCallback(() => {
     if (isPageVisible && isPollingEnabled && !error) {
       startPolling(POLLING_INTERVAL);
     }
-  }, [isPageVisible, isPollingEnabled, startPolling, error]);
+  }, [isPageVisible, isPollingEnabled, error, queryOptions]);
 
   // mount and unmount
   useEffect(() => {
@@ -58,7 +59,7 @@ export const useQueryWrapper = <TData>({
 
     refetch();
     startPollingCallback();
-  }, [refetchTrigger, isRefetchEnabled, refetch, startPollingCallback]);
+  }, [refetchTrigger, isRefetchEnabled]);
 
   const isLoading = data == null && loading;
   const isError = Boolean(error);
