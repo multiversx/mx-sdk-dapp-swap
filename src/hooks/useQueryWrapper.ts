@@ -30,7 +30,7 @@ export const useQueryWrapper = <TData>({
   } = useQuery<TData>(query, {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'no-cache', // used for first run
-    nextFetchPolicy: 'no-cache', // "cache-and-network", // used for subsequent runs
+    nextFetchPolicy: 'no-cache', // used for subsequent runs
     ...queryOptions
   });
 
@@ -38,6 +38,8 @@ export const useQueryWrapper = <TData>({
   const startPollingCallback = useCallback(() => {
     if (isPageVisible && isPollingEnabled && !error) {
       startPolling(POLLING_INTERVAL);
+    } else {
+      stopPolling();
     }
   }, [isPageVisible, isPollingEnabled, error, queryOptions]);
 
@@ -66,7 +68,7 @@ export const useQueryWrapper = <TData>({
   const isRefetching = loading;
 
   return {
-    data,
+    data: isError ? undefined : data,
     error,
     isError,
     isLoading,
