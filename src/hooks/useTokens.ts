@@ -110,10 +110,6 @@ export const useTokens = (options?: UseTokensType) => {
   });
 
   const getTokens = (options?: GetTokensType) => {
-    if (isAccessTokenLoading) {
-      return;
-    }
-
     const variables = {
       limit: options?.limit ?? DEFAULT_LIMIT,
       offset: options?.offset ?? DEFAULT_OFFSET,

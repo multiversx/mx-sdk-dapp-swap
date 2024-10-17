@@ -1,48 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { useClosureRef } from '@multiversx/sdk-dapp/hooks/useClosureRef';
 import { print } from 'graphql';
 import {
-  AuthorizationHeadersRequestParamsType,
-  SwapGraphQLAddressEnum
+  SwapGraphQLAddressEnum,
+  AuthorizationHeadersRequestParamsType
 } from 'types';
 import { AuthorizationContext } from './context';
 
 export const SwapAuthorizationProvider = ({
-  getAccessToken,
-  getAuthorizationHeaders,
+  children,
+  accessToken,
   graphQLAddress,
-  children
+  isAccessTokenLoading = false,
+  getAuthorizationHeaders
 }: {
+  accessToken?: string;
+  children: React.ReactNode;
+  isAccessTokenLoading?: boolean;
   graphQLAddress: SwapGraphQLAddressEnum | string;
-  getAccessToken?: () => Promise<string>;
   getAuthorizationHeaders?: (
     requestParams: AuthorizationHeadersRequestParamsType
   ) => Promise<void | null | Record<string, string>>;
-  children: React.ReactNode;
 }) => {
-  const [accessToken, setAccessToken] = useState<string>();
-
-  const onGetAccessToken = async () => {
-    let newAccessToken = '';
-
-    try {
-      newAccessToken = (await getAccessToken?.()) ?? '';
-    } catch (e) {
-      console.error(e);
-    }
-    setAccessToken(newAccessToken);
-    return newAccessToken;
-  };
-
-  const onGetAccessTokenRef = useClosureRef(onGetAccessToken);
-  useEffect(() => {
-    //initialize token for isAuthenticated boolean
-    onGetAccessTokenRef?.current?.();
-  }, []);
-
   const authMiddleware = setContext(async (req, { headers }) => {
     const requestParams: AuthorizationHeadersRequestParamsType = {
       url: graphQLAddress,
@@ -57,11 +38,11 @@ export const SwapAuthorizationProvider = ({
 
     const authorizationHeaders = await getAuthorizationHeaders?.(requestParams);
 
-    const token = await onGetAccessTokenRef.current();
-
-    const authorizationBearerHeader = {
-      Authorization: `Bearer ${token}`
-    };
+    const authorizationBearerHeader = accessToken
+      ? {
+          Authorization: `Bearer ${accessToken}`
+        }
+      : {};
 
     return {
       headers: {
@@ -107,10 +88,10 @@ export const SwapAuthorizationProvider = ({
   return (
     <AuthorizationContext.Provider
       value={{
-        isAuthenticated: accessToken != null && accessToken != '',
-        isAccessTokenLoading: accessToken == null,
+        client,
         accessToken,
-        client
+        isAccessTokenLoading,
+        isAuthenticated: Boolean(accessToken)
       }}
     >
       {children}
