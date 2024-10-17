@@ -50,6 +50,7 @@ export const useSwapFormHandlers = ({
 
   const handleOnChangeSwapRoute = (swapRoute?: SwapRouteType) => {
     if (!swapRoute) {
+      setActiveRoute(undefined);
       return;
     }
 
