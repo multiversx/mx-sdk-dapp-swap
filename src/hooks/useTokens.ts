@@ -27,8 +27,7 @@ interface UseTokensType {
 }
 
 export const useTokens = (options?: UseTokensType) => {
-  const { client, isAuthenticated, isAccessTokenLoading } =
-    useAuthorizationContext();
+  const { client, isAuthenticated } = useAuthorizationContext();
 
   if (!client) {
     throw new Error('Swap GraphQL client not initialized');
