@@ -27,8 +27,7 @@ interface UseTokensType {
 }
 
 export const useTokens = (options?: UseTokensType) => {
-  const { client, isAuthenticated, isAccessTokenLoading } =
-    useAuthorizationContext();
+  const { client, isAuthenticated } = useAuthorizationContext();
 
   if (!client) {
     throw new Error('Swap GraphQL client not initialized');
@@ -110,10 +109,6 @@ export const useTokens = (options?: UseTokensType) => {
   });
 
   const getTokens = (options?: GetTokensType) => {
-    if (isAccessTokenLoading) {
-      return;
-    }
-
     const variables = {
       limit: options?.limit ?? DEFAULT_LIMIT,
       offset: options?.offset ?? DEFAULT_OFFSET,
