@@ -24,35 +24,11 @@ export interface LockedTokensInfoType {
 
 export interface PairType {
   address: string;
-
   firstToken: EsdtType;
-  firstTokenPrice: string;
-  firstTokenPriceUSD: string;
-  firstTokenVolume24h: string;
-  firstTokenLockedValueUSD: string;
-
   secondToken: EsdtType;
-  secondTokenPrice: string;
-  secondTokenPriceUSD: string;
-  secondTokenVolume24h: string;
-  secondTokenLockedValueUSD: string;
-
-  liquidityPoolToken: EsdtType;
-
-  state: PairStatesEnum;
   type: TokenTypesEnum;
-  lockedValueUSD: string;
-  info: {
-    reserves0: string;
-    reserves1: string;
-    totalSupply: string;
-  };
-
   feesAPR: string;
-  feesUSD24h: string;
-  volumeUSD24h: string;
   totalFeePercent: number;
   specialFeePercent: number;
-
   lockedTokensInfo?: LockedTokensInfoType;
 }
