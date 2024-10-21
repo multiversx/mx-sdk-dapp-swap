@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useQuery, DocumentNode, QueryHookOptions } from '@apollo/client';
+import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
 import { POLLING_INTERVAL } from 'constants/index';
 import { useIsPageVisible } from 'hooks';
 
@@ -17,6 +18,7 @@ export const useQueryWrapper = <TData>({
   queryOptions?: QueryHookOptions<TData>;
 }) => {
   const isPageVisible = useIsPageVisible();
+  const { client } = useAuthorizationContext();
 
   const {
     error,
@@ -28,6 +30,7 @@ export const useQueryWrapper = <TData>({
     startPolling,
     ...rest
   } = useQuery<TData>(query, {
+    client,
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'no-cache', // used for first run
     nextFetchPolicy: 'no-cache', // used for subsequent runs
