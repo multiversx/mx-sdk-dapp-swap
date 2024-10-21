@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import {
   DocumentNode,
-  useApolloClient,
   QueryHookOptions,
   LazyQueryHookOptions
 } from '@apollo/client';
+import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
 
 export const useLazyQueryWrapper = <TData>({
   query,
@@ -13,7 +13,7 @@ export const useLazyQueryWrapper = <TData>({
   query: DocumentNode;
   queryOptions?: QueryHookOptions<TData>;
 }) => {
-  const apolloClient = useApolloClient();
+  const { client } = useAuthorizationContext();
   const [isLoading, setIsLoading] = useState<boolean>();
   const [isError, setIsError] = useState<boolean>();
   const [error, setError] = useState<string>();
@@ -25,7 +25,7 @@ export const useLazyQueryWrapper = <TData>({
     try {
       setIsLoading(true);
 
-      const response = await apolloClient.query<TData>({
+      const response = await client?.query<TData>({
         query,
         variables
       });
