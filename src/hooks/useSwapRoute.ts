@@ -21,11 +21,11 @@ import { useQueryWrapper } from './useQueryWrapper';
 
 export interface GetSwapRouteType {
   amountIn?: string;
-  amountOut?: string;
   tokenInID: string;
+  amountOut?: string;
   tokenOutID: string;
-  wrappingAmount?: string; // used only by wrapping queries
   tolerancePercentage?: number;
+  wrappingAmount?: string; // used only by wrapping queries
 }
 
 export interface GetSwapRouteVariablesType
@@ -34,19 +34,19 @@ export interface GetSwapRouteVariablesType
 }
 
 export interface UseSwapRouteType {
-  isSwapRouteError?: boolean;
   swapRouteError?: string;
-  isAmountInLoading: boolean;
-  getSwapRoute: (props: GetSwapRouteType) => void;
   swapRoute?: SwapRouteType;
+  isSwapRouteError?: boolean;
+  isAmountInLoading: boolean;
+  isSwapRouteLoading: boolean;
+  isAmountOutLoading: boolean;
+  transactions?: RawTransactionType[];
+  swapActionType?: SwapActionTypesEnum;
   previousFetchVariables: React.MutableRefObject<
     GetSwapRouteVariablesType | undefined
   >;
+  getSwapRoute: (props: GetSwapRouteType) => void;
   refetch: (variables?: Partial<OperationVariables>) => void;
-  transactions?: RawTransactionType[];
-  isSwapRouteLoading: boolean;
-  isAmountOutLoading: boolean;
-  swapActionType?: SwapActionTypesEnum;
 }
 
 export const useSwapRoute = ({
@@ -107,21 +107,20 @@ export const useSwapRoute = ({
       isPollingEnabled
     });
 
-  const handleOnCompleted = (
-    data?: SwapRouteQueryResponseType | WrappingQueryResponseType
-  ) => {
-    if (!variables || !data) {
+  const handleOnCompleted = () => {
+    if (!variables) {
       setSwapRoute(undefined);
-      setSwapRouteError(undefined);
+      setSwapRouteError(translateSwapError(error?.message));
       return;
     }
 
     switch (swapActionType) {
       case SwapActionTypesEnum.wrap:
       case SwapActionTypesEnum.unwrap:
-        const { wrapEgld, unwrapEgld } = data as WrappingQueryResponseType;
+        const wrapTx = (data as WrappingQueryResponseType)?.wrapEgld;
+        const unwrapTx = (data as WrappingQueryResponseType)?.unwrapEgld;
+        const tx = wrapTx ?? unwrapTx;
 
-        const transaction = wrapEgld ?? unwrapEgld;
         const swapType = variables.amountIn ? FIXED_INPUT : FIXED_OUTPUT;
         const amount = variables.amountIn ?? variables.amountOut;
 
@@ -145,19 +144,20 @@ export const useSwapRoute = ({
 
           intermediaryAmounts: [],
           pairs: [],
-          transactions: transaction ? [transaction] : []
+          transactions: tx ? [tx] : []
         };
 
-        setSwapRoute(wrappingSwapRoute);
+        // ignore errors for wrapping because the endpoints don't work when not authenticated
         setSwapRouteError(undefined);
+        setSwapRoute(wrappingSwapRoute);
         break;
       default:
-        const { swap } = data as SwapRouteQueryResponseType;
-
-        setSwapRoute(swap);
-
+        const swap = (data as SwapRouteQueryResponseType)?.swap;
         const translatedError = translateSwapError(error?.message);
+
+        // we do not set partial routes
         setSwapRouteError(translatedError);
+        setSwapRoute(translatedError ? undefined : swap);
     }
   };
 
@@ -186,7 +186,7 @@ export const useSwapRoute = ({
     previousFetchVariablesRef.current = variables;
   };
 
-  useEffect(() => handleOnCompleted(data), [data]);
+  useEffect(handleOnCompleted, [data, error]);
 
   const isAmountOutLoading = Boolean(
     (isLoading || isRefetching) && previousFetchVariablesRef.current?.amountIn

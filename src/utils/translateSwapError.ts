@@ -8,7 +8,7 @@ const errorMap: Record<string, string> = {
 export const translateSwapError = (serviceError?: string) => {
   if (!serviceError) return;
 
-  const defaultTranslation = 'No swap route found.';
+  const defaultTranslation = 'No trade route found.';
   const foundErrorKey = Object.keys(errorMap).find((key) =>
     serviceError.includes(key)
   );

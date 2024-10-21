@@ -7,15 +7,15 @@ import { useIsPageVisible } from 'hooks';
 export const useQueryWrapper = <TData>({
   query,
   queryOptions,
+  refetchTrigger,
   isPollingEnabled = false,
-  isRefetchEnabled = false,
-  refetchTrigger
+  isRefetchEnabled = false
 }: {
   query: DocumentNode;
+  refetchTrigger?: number;
   isPollingEnabled?: boolean;
   isRefetchEnabled?: boolean;
   queryOptions?: QueryHookOptions<TData>;
-  refetchTrigger?: number;
 }) => {
   const isPageVisible = useIsPageVisible();
   const { client } = useAuthorizationContext();
@@ -33,15 +33,18 @@ export const useQueryWrapper = <TData>({
     client,
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'no-cache', // used for first run
-    nextFetchPolicy: 'no-cache', // "cache-and-network", // used for subsequent runs
+    nextFetchPolicy: 'no-cache', // used for subsequent runs
     ...queryOptions
   });
 
+  // listening on queryOptions resets the polling interval -> posibile race condition fix
   const startPollingCallback = useCallback(() => {
     if (isPageVisible && isPollingEnabled && !error) {
       startPolling(POLLING_INTERVAL);
+    } else {
+      stopPolling();
     }
-  }, [isPageVisible, isPollingEnabled, startPolling, error]);
+  }, [isPageVisible, isPollingEnabled, error, queryOptions]);
 
   // mount and unmount
   useEffect(() => {
@@ -61,14 +64,14 @@ export const useQueryWrapper = <TData>({
 
     refetch();
     startPollingCallback();
-  }, [refetchTrigger, isRefetchEnabled, refetch, startPollingCallback]);
+  }, [refetchTrigger, isRefetchEnabled]);
 
   const isLoading = data == null && loading;
   const isError = Boolean(error);
   const isRefetching = loading;
 
   return {
-    data,
+    data: isError ? undefined : data,
     error,
     isError,
     isLoading,

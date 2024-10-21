@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [[1.9.0-alpha.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/3)] - 2024-10-16
 
 - [Upgrade sdk-dapp](https://github.com/multiversx/mx-sdk-dapp-swap/pull/31)
 
+## [[2.0.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/33)] - 2024-10-18
+
+- [Fixes balances not updating on authenticated change. Many other fixes.](https://github.com/multiversx/mx-sdk-dapp-swap/pull/32)
 
 ## [[1.8.4](https://github.com/multiversx/mx-sdk-dapp-swap/pull/30)] - 2024-10-09
 

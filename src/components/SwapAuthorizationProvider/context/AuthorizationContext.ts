@@ -2,15 +2,15 @@ import { createContext, useContext } from 'react';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
 export type AuthorizationContextType = {
-  isAuthenticated?: boolean;
   accessToken?: string;
+  isAuthenticated?: boolean;
   isAccessTokenLoading: boolean;
   client?: ApolloClient<NormalizedCacheObject>;
 };
 
 export const AuthorizationContext = createContext<AuthorizationContextType>({
-  isAuthenticated: false,
   accessToken: '',
+  isAuthenticated: false,
   isAccessTokenLoading: true
 });
 
