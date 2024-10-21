@@ -1,6 +1,6 @@
 {
   "name": "@multiversx/sdk-dapp-swap",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A library to hold the main logic for swapping between tokens on the MultiversX blockchain",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
@@ -25,8 +25,11 @@
     "test:watch": "jest --watch"
   },
   "devDependencies": {
-    "@multiversx/sdk-core": "13.1.0",
-    "@multiversx/sdk-dapp": "2.32.5",
+    "@apollo/client": ">=3.8.6",
+    "graphql": ">=16.9.0",
+    "@multiversx/sdk-network-providers": ">=2.8.0",
+    "@multiversx/sdk-core": ">=13.5.0",
+    "@multiversx/sdk-dapp": ">=3.0.0",
     "@size-limit/preset-small-lib": "7.0.8",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.3.0",
@@ -86,10 +89,13 @@
     "transaction"
   ],
   "peerDependencies": {
-    "@multiversx/sdk-core": ">=12.18.0",
-    "@multiversx/sdk-dapp": ">=2.28.0",
+    "@multiversx/sdk-core": ">=13.5.0",
+    "@multiversx/sdk-dapp": ">=3.0.0",
+    "@apollo/client": ">=3.8.6",
+    "@multiversx/sdk-network-providers": ">=2.8.0",
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "graphql": ">=16.9.0"
   },
   "optionalDependencies": {
     "classnames": "2.3.1",
@@ -98,13 +104,10 @@
     "react-tooltip": "4.2.21"
   },
   "dependencies": {
-    "@apollo/client": "3.11.8",
-    "@multiversx/sdk-network-providers": "2.2.1",
     "anchorme": "2.1.2",
     "bech32": "2.0.0",
     "bignumber.js": "9.x",
     "formik": "2.2.9",
-    "graphql": "15.5.0",
     "sass": "1.54.0",
     "yup": "0.32.11"
   }
