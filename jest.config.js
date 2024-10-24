@@ -19,6 +19,7 @@ module.exports = {
     '@multiversx/sdk-dapp/(.*)':
       '<rootDir>/node_modules/@multiversx/sdk-dapp/__commonjs/$1',
     uint8arrays: '<rootDir>/node_modules/uint8arrays/cjs/src',
-    multiformats: '<rootDir>/node_modules/multiformats/cjs/src'
+    multiformats: '<rootDir>/node_modules/multiformats/cjs/src',
+    '^uuid$': require.resolve('uuid')
   }
 };
