@@ -1,4 +1,4 @@
-import { EsdtType, NftCollectionType, TokenTypesEnum } from './tokens.types';
+import { EsdtType, NftCollectionType } from './tokens.types';
 
 export enum PairStatesEnum {
   active = 'Active',
@@ -26,7 +26,6 @@ export interface PairType {
   address: string;
   firstToken: EsdtType;
   secondToken: EsdtType;
-  type: TokenTypesEnum;
   feesAPR: string;
   totalFeePercent: number;
   specialFeePercent: number;
