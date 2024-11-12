@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[2.1.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/39)] - 2024-11-12
+
+- [Removed onlySafeTokens](https://github.com/multiversx/mx-sdk-dapp-swap/pull/39)
+
 ## [[2.1.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/37)] - 2024-10-24
+
 - [Fixed tests](https://github.com/multiversx/mx-sdk-dapp-swap/pull/37)
 - [Remove network-providers dependency](https://github.com/multiversx/mx-sdk-dapp-swap/pull/35)
 
 ## [[2.1.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/34)] - 2024-10-21
+
 - [Upgrade sdk-dapp](https://github.com/multiversx/mx-sdk-dapp-swap/pull/31)
 
 ## [[2.0.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/33)] - 2024-10-18

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
 import { GET_TOKENS, GET_TOKENS_AND_BALANCE, TokensType } from 'queries';
-import { EsdtType, FactoryType, TokenTypesEnum, UserEsdtType } from 'types';
+import { EsdtType, FactoryType, UserEsdtType } from 'types';
 import { getSortedTokensByUsdValue } from 'utils';
 import { useFetchTokenPrices } from './useFetchTokenPrices';
 import { useLazyQueryWrapper } from './useLazyQueryWrapper';
@@ -10,7 +10,6 @@ const DEFAULT_OFFSET = 0;
 const DEFAULT_LIMIT = 500;
 const DEFAULT_ENABLED_SWAPS = true;
 const DEFAULT_PRICE_POLLING = false;
-const DEFAULT_ONLY_SAFE_TOKENS = true;
 const DEFAULT_IDENTIFIERS: string[] = [];
 
 interface GetTokensType {
@@ -18,12 +17,10 @@ interface GetTokensType {
   offset?: number;
   identifiers?: string[];
   enabledSwaps?: boolean;
-  onlySafeTokens?: boolean;
 }
 
 interface UseTokensType {
   pricePolling?: boolean;
-  onlySafeTokens?: boolean;
 }
 
 export const useTokens = (options?: UseTokensType) => {
@@ -34,7 +31,6 @@ export const useTokens = (options?: UseTokensType) => {
   }
 
   const pricePolling = options?.pricePolling ?? DEFAULT_PRICE_POLLING;
-  const onlySafeTokens = options?.onlySafeTokens ?? DEFAULT_ONLY_SAFE_TOKENS;
 
   const [tokens, setTokens] = useState<UserEsdtType[]>([]);
   const [wrappedEgld, setWrappedEgld] = useState<EsdtType>();
@@ -83,15 +79,6 @@ export const useTokens = (options?: UseTokensType) => {
       tokens: tokensWithBalance,
       wrappedEgld: newWrappedEgld
     });
-
-    if (onlySafeTokens) {
-      const safeTokens = sortedTokensWithBalance.filter(
-        ({ type }) => type !== TokenTypesEnum.experimental
-      );
-
-      setTokens(safeTokens);
-      return;
-    }
 
     setTokens(sortedTokensWithBalance);
   };
