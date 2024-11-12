@@ -2,7 +2,6 @@ export enum TokenTypesEnum {
   core = 'Core',
   ecosystem = 'Ecosystem',
   community = 'Community',
-  experimental = 'Experimental',
   unlisted = 'Unlisted'
 }
 

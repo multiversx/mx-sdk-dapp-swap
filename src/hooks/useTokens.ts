@@ -18,12 +18,10 @@ interface GetTokensType {
   offset?: number;
   identifiers?: string[];
   enabledSwaps?: boolean;
-  onlySafeTokens?: boolean;
 }
 
 interface UseTokensType {
   pricePolling?: boolean;
-  onlySafeTokens?: boolean;
 }
 
 export const useTokens = (options?: UseTokensType) => {
@@ -34,7 +32,6 @@ export const useTokens = (options?: UseTokensType) => {
   }
 
   const pricePolling = options?.pricePolling ?? DEFAULT_PRICE_POLLING;
-  const onlySafeTokens = options?.onlySafeTokens ?? DEFAULT_ONLY_SAFE_TOKENS;
 
   const [tokens, setTokens] = useState<UserEsdtType[]>([]);
   const [wrappedEgld, setWrappedEgld] = useState<EsdtType>();
@@ -83,15 +80,6 @@ export const useTokens = (options?: UseTokensType) => {
       tokens: tokensWithBalance,
       wrappedEgld: newWrappedEgld
     });
-
-    if (onlySafeTokens) {
-      const safeTokens = sortedTokensWithBalance.filter(
-        ({ type }) => type !== TokenTypesEnum.experimental
-      );
-
-      setTokens(safeTokens);
-      return;
-    }
 
     setTokens(sortedTokensWithBalance);
   };
