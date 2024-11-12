@@ -1,10 +1,3 @@
-export enum TokenTypesEnum {
-  core = 'Core',
-  ecosystem = 'Ecosystem',
-  community = 'Community',
-  unlisted = 'Unlisted'
-}
-
 export interface AssetsType {
   website?: string;
   description?: string;
@@ -26,7 +19,7 @@ export interface EsdtType extends TokenBaseType {
   identifier: string;
   owner: string;
   price?: string;
-  type?: TokenTypesEnum | 'FungibleESDT-LP';
+  type?: 'FungibleESDT-LP';
   previous24hPrice?: string;
   previous7dPrice?: string;
 }
