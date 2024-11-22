@@ -10,4 +10,4 @@ export * from './useLazyQueryWrapper';
 export * from './useSwapFormHandlers';
 export * from './useInputAmountUsdValue';
 export * from './useFetchMaintenanceFlag';
-
+export * from './useFilteredTokens';
