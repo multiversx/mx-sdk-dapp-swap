@@ -51,9 +51,6 @@ query swapPackageFilteredTokens ($enabledSwaps: Boolean, $pagination: Connection
         }
         cursor
       }
-      pageData {
-        count
-      }
       pageInfo {
         hasNextPage
       }
@@ -96,9 +93,6 @@ export const GET_FILTERED_TOKENS_AND_BALANCE = gql`
           ${esdtAttributes}
         }
         cursor
-      }
-      pageData {
-        count
       }
       pageInfo {
         hasNextPage
