@@ -13,6 +13,7 @@ import {
 } from 'types';
 import { getSortedTokensByUsdValue, mergeTokens } from 'utils';
 import { useFetchTokenPrices } from './useFetchTokenPrices';
+import { useIntersectionObserver } from './useIntersectionObserver';
 import { useLazyQueryWrapper } from './useLazyQueryWrapper';
 
 const DEFAULT_OFFSET = 0;
@@ -63,62 +64,40 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   const [swapConfig, setSwapConfig] = useState<FactoryType>();
   let ignoreNextHasMore = false;
 
-  let previousSearchInput = '';
-
   const { tokenPrices } = useFetchTokenPrices({
     isPollingEnabled: pricePolling
   });
 
   const handleOnCompleted = (data?: FilteredTokensQueryType | null) => {
-    if (!data) {
-      return;
-    }
+    if (!data) return;
 
     const { wrappingInfo, userTokens, factory, filteredTokens } = data;
-
     const { edges, pageInfo } = filteredTokens;
 
-    if (factory) {
-      setSwapConfig(factory);
-    }
+    if (factory) setSwapConfig(factory);
 
     const newWrappedEgld =
       wrappingInfo && wrappingInfo.length
         ? wrappingInfo[0].wrappedToken
         : undefined;
-
     setWrappedEgld(newWrappedEgld);
 
-    if (!edges) {
-      return;
-    }
+    if (!edges) return;
 
     setCurrentCursor(edges[edges.length - 1]?.cursor);
-
     const tokensWithBalance: UserEsdtType[] = edges.map((token) => ({
       ...token.node,
-      balance: '0', // Default balance if not found in userTokens
-      valueUSD: '0' // Default valueUSD if not found in userTokens
+      balance: '0',
+      valueUSD: '0'
     }));
 
     const mergedTokens = mergeTokens(tokensWithBalance, userTokens);
-
     const sortedTokensWithBalance = getSortedTokensByUsdValue({
       tokens: mergedTokens,
       wrappedEgld: newWrappedEgld
     });
 
-    if (previousSearchInput !== searchInput) {
-      if (sortedTokensWithBalance.length === 1 && newWrappedEgld) {
-        setTokens(sortedTokensWithBalance);
-      }
-      setTokens(sortedTokensWithBalance);
-      previousSearchInput = searchInput ?? '';
-    } else {
-      setTokens((prevTokens) =>
-        mergeTokens(prevTokens, sortedTokensWithBalance)
-      );
-    }
+    setTokens((prevTokens) => mergeTokens(prevTokens, sortedTokensWithBalance));
 
     if (!pageInfo?.hasNextPage && !ignoreNextHasMore) {
       setHasMore(false);
@@ -180,7 +159,6 @@ export const useFilteredTokens = (options?: UseTokensType) => {
       isInitialLoad.current = false;
       return;
     }
-
     setPagination({ first: 20, after: '' });
     setLoadedCursors(new Set());
     setHasMore(true);
@@ -194,34 +172,15 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     }
   }, [pagination]);
 
-  useEffect(() => {
-    if (!options?.observerId) return;
-    const element = document.getElementById(options.observerId);
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading) {
-          // Check if the current cursor is already loaded
-          if (currentCursor && !loadedCursors.has(currentCursor)) {
-            const newPagination = {
-              first: 20,
-              after: currentCursor
-            };
-
-            setPagination(newPagination);
-          }
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    observer.observe(element);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [tokens, options?.observerId]);
+  useIntersectionObserver({
+    tokens,
+    hasMore,
+    isLoading: isLoading ?? false,
+    observerId: options?.observerId ?? '',
+    loadedCursors,
+    currentCursor: currentCursor ?? '',
+    setPagination
+  });
 
   return {
     swapConfig,
