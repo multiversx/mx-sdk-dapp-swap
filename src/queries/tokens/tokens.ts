@@ -54,6 +54,9 @@ query swapPackageFilteredTokens ($enabledSwaps: Boolean, $pagination: Connection
       pageInfo {
         hasNextPage
       }
+      pageData {
+        count
+      }
     }
     wrappingInfo {
       wrappedToken {
@@ -96,6 +99,9 @@ export const GET_FILTERED_TOKENS_AND_BALANCE = gql`
       }
       pageInfo {
         hasNextPage
+      }
+      pageData {
+        count
       }
     }
     userTokens (offset: $offset, limit: $limit) {

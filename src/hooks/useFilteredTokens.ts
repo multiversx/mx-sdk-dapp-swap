@@ -62,6 +62,7 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   const [tokens, setTokens] = useState<UserEsdtType[]>([]);
   const [wrappedEgld, setWrappedEgld] = useState<EsdtType>();
   const [swapConfig, setSwapConfig] = useState<FactoryType>();
+  const [tokensCount, setTokensCount] = useState<number>();
   let ignoreNextHasMore = false;
 
   const { tokenPrices } = useFetchTokenPrices({
@@ -72,8 +73,9 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     if (!data) return;
 
     const { wrappingInfo, userTokens, factory, filteredTokens } = data;
-    const { edges, pageInfo } = filteredTokens;
+    const { edges, pageInfo, pageData } = filteredTokens;
 
+    setTokensCount(pageData?.count);
     if (factory) setSwapConfig(factory);
 
     const newWrappedEgld =
@@ -188,6 +190,7 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     isTokensError: isError,
     isTokensLoading: isLoading,
     tokens: tokensWithUpdatedPrice,
+    totalTokensCount: tokensCount,
     getTokens,
     refetch: getTokensTrigger
   };
