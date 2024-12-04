@@ -36,3 +36,10 @@ export interface UserEsdtType extends EsdtType {
 export interface WrappingInfoType {
   wrappedToken: EsdtType;
 }
+
+export interface TokensPaginationType {
+  before?: string;
+  after?: string;
+  first?: number;
+  last?: number;
+}
