@@ -10,6 +10,7 @@ import {
   getCorrectAmountsOnTokenChange
 } from 'utils';
 import { useInputAmountUsdValue } from './useInputAmountUsdValue';
+import usePrevious from './usePrevious';
 import { GetSwapRouteType } from './useSwapRoute';
 
 type SwapFormStateType = {
@@ -39,6 +40,7 @@ export const useSwapFormHandlers = ({
   const [activeRoute, setActiveRoute] = useState<SwapRouteType>();
   const isSwitching = useRef<boolean>();
   const lastInputTouched = useRef<InputTouchedEnum>();
+  const prevSecondToken = usePrevious(formState.secondToken);
 
   const inputAmountsUsdValue = useInputAmountUsdValue({
     swapRoute: activeRoute,
@@ -254,6 +256,10 @@ export const useSwapFormHandlers = ({
         secondToken: option
       };
     });
+
+    if (!prevSecondToken && formState.firstAmount) {
+      handleOnChangeFirstAmount(formState.firstAmount);
+    }
   };
 
   const handleOnFirstMaxBtnChange = () => {
