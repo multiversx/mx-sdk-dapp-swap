@@ -10,7 +10,7 @@ import {
   getCorrectAmountsOnTokenChange
 } from 'utils';
 import { useInputAmountUsdValue } from './useInputAmountUsdValue';
-import usePrevious from './usePrevious';
+import { usePrevious } from './usePrevious';
 import { GetSwapRouteType } from './useSwapRoute';
 
 type SwapFormStateType = {

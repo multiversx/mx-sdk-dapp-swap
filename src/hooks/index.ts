@@ -12,3 +12,4 @@ export * from './useSwapFormHandlers';
 export * from './useInputAmountUsdValue';
 export * from './useFetchMaintenanceFlag';
 export * from './useIntersectionObserver';
+export * from './usePrevious';
