@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- [Fixed swap calculation when first amount was entered before second token](https://github.com/multiversx/mx-sdk-dapp-swap/pull/42)
+
 ## [[2.1.3](https://github.com/multiversx/mx-sdk-dapp-swap/pull/41)] - 2024-12-04
 
 - [Progressive Fetching for Tokens](https://github.com/multiversx/mx-sdk-dapp-swap/pull/40)
