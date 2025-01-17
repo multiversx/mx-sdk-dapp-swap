@@ -168,6 +168,11 @@ export const useSwapRoute = ({
     tokenOutID,
     tolerancePercentage = 1
   }: GetSwapRouteType) => {
+    if (!amountIn && !amountOut) {
+      setVariables(undefined);
+      return;
+    }
+
     const guardedTolerancePercentage =
       tolerancePercentage < 0 || tolerancePercentage > 100
         ? 1
@@ -186,7 +191,7 @@ export const useSwapRoute = ({
     previousFetchVariablesRef.current = variables;
   };
 
-  useEffect(handleOnCompleted, [data, error]);
+  useEffect(handleOnCompleted, [data, error, variables]);
 
   const isAmountOutLoading = Boolean(
     (isLoading || isRefetching) && previousFetchVariablesRef.current?.amountIn
