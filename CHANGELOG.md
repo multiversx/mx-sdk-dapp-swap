@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[2.1.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/45)] - 2025-01-17
+
+- [FIX: Swap route is defined when both inputs don't have amounts](https://github.com/multiversx/mx-sdk-dapp-swap/pull/44)
+
 ## [[2.1.4](https://github.com/multiversx/mx-sdk-dapp-swap/pull/43)] - 2025-01-14
 
 - [Fixed swap calculation when first amount was entered before second token](https://github.com/multiversx/mx-sdk-dapp-swap/pull/42)
