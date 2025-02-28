@@ -1,7 +1,15 @@
 import React from 'react';
-import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  from,
+  HttpLink,
+  InMemoryCache,
+  split
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { print } from 'graphql';
 import {
   SwapGraphQLAddressEnum,
@@ -67,12 +75,34 @@ export const SwapAuthorizationProvider = ({
     }
   });
 
-  const httpLink = from([errorLink, new HttpLink({ uri: graphQLAddress })]);
+  const httpLink = new HttpLink({
+    uri: graphQLAddress
+  });
+
+  const wsLink = new WebSocketLink({
+    uri: graphQLAddress,
+    options: {
+      reconnect: true
+    }
+  });
+
+  // Split traffic between HTTP and WebSocket
+  const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      );
+    },
+    wsLink,
+    httpLink
+  );
 
   const client = new ApolloClient({
+    link: from([authMiddleware, errorLink, splitLink]),
     cache: new InMemoryCache(),
-    link: authMiddleware.concat(httpLink),
-    queryDeduplication: false, // FIX: fixes canceled queries not beeing sent to the server when retriggered
+    queryDeduplication: false,
     defaultOptions: {
       watchQuery: {
         fetchPolicy: 'no-cache',
