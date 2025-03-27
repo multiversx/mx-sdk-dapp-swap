@@ -27,8 +27,8 @@
   "devDependencies": {
     "@apollo/client": ">=3.8.6",
     "graphql": ">=16.9.0",
-    "@multiversx/sdk-core": ">=13.12.0",
-    "@multiversx/sdk-dapp": ">=3.0.0",
+    "@multiversx/sdk-core": "^14.x",
+    "@multiversx/sdk-dapp": "^4.x",
     "@size-limit/preset-small-lib": "7.0.8",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.3.0",
@@ -88,8 +88,8 @@
     "transaction"
   ],
   "peerDependencies": {
-    "@multiversx/sdk-core": ">=13.12.0",
-    "@multiversx/sdk-dapp": ">=3.0.0",
+    "@multiversx/sdk-core": "^14.x",
+    "@multiversx/sdk-dapp": "^4.x",
     "@apollo/client": ">=3.8.6",
     "react": ">=18",
     "react-dom": ">=18",

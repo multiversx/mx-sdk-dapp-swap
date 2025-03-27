@@ -2,7 +2,6 @@ import {
   Address,
   Transaction,
   TransactionOptions,
-  TransactionPayload,
   TransactionVersion,
   IPlainTransactionObject
 } from '@multiversx/sdk-core';
@@ -28,19 +27,26 @@ export const createTransactionFromRaw = (
 
   const { address } = accountSelector(store.getState());
 
-  const dataPayload = isStringBase64(data ?? '')
-    ? TransactionPayload.fromEncoded(data)
-    : new TransactionPayload(data);
+  const dataPayload = data
+    ? isStringBase64(data)
+      ? Buffer.from(data, 'base64')
+      : Buffer.from(data.trim())
+    : undefined;
 
-  return new Transaction({
-    value: value.valueOf(),
+  const transaction = new Transaction({
+    value: BigInt(value),
     data: dataPayload,
     receiver: new Address(receiver),
     sender: new Address(sender && sender !== '' ? sender : address),
-    gasLimit: gasLimit.valueOf() ?? GAS_LIMIT,
-    gasPrice: gasPrice.valueOf() ?? GAS_PRICE,
+    gasLimit: BigInt(gasLimit.valueOf() ?? GAS_LIMIT),
+    gasPrice: BigInt(gasPrice.valueOf() ?? GAS_PRICE),
     chainID: chainID.valueOf(),
-    version: new TransactionVersion(version ?? VERSION),
-    ...(options ? { options: new TransactionOptions(options) } : {})
+    version: new TransactionVersion(version ?? VERSION).valueOf()
   });
+
+  if (options) {
+    transaction.options = new TransactionOptions(options).valueOf();
+  }
+
+  return transaction;
 };
