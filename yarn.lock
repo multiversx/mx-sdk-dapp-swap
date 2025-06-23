@@ -2218,7 +2218,7 @@
   resolved "https://registry.yarnpkg.com/@multiversx/sdk-dapp-utils/-/sdk-dapp-utils-2.0.0.tgz#15cae568ae5d25ea2ac12c3793d52d18db5ac1fe"
   integrity sha512-NcaQUgXrjDqjKJgbUj1eM11ID7sDJRVFamjEA/VO4qquP8jBOrSeW0ltvppHElZGC/A14tNDERPbZQkrLIa2KQ==
 
-"@multiversx/sdk-dapp@^5.x":
+"@multiversx/sdk-dapp@5.0.0-alpha.8":
   version "5.0.0-alpha.8"
   resolved "https://registry.yarnpkg.com/@multiversx/sdk-dapp/-/sdk-dapp-5.0.0-alpha.8.tgz#8b5c5e9a68961211c1e91e755378d7934b15b435"
   integrity sha512-h8kSqBBl43Lc9QGh2UHFXthJLyzSxYoxpRRxTvFUgc+NA6FI3RR4sOiphY1yYX2Ex3Bmh3KjNwfyvwrPJM8ulg==
