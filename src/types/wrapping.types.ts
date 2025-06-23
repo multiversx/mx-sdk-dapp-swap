@@ -1,6 +1,6 @@
-import { RawTransactionType } from 'lib';
+import { IPlainTransactionObject } from 'lib';
 
 export interface WrappingQueryResponseType {
-  wrapEgld?: RawTransactionType;
-  unwrapEgld?: RawTransactionType;
+  wrapEgld?: IPlainTransactionObject;
+  unwrapEgld?: IPlainTransactionObject;
 }

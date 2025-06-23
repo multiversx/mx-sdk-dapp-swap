@@ -3,7 +3,7 @@ import {
   GAS_PRICE,
   VERSION,
   isStringBase64,
-  store,
+  getStore,
   accountSelector,
   Address,
   Transaction,
@@ -27,7 +27,7 @@ export const createTransactionFromRaw = (
     options
   } = rawTransaction;
 
-  const { address } = accountSelector(store.getState());
+  const { address } = accountSelector(getStore().getState());
 
   const dataPayload = data
     ? isStringBase64(data)
