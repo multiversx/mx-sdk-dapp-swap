@@ -1,6 +1,5 @@
-import { formatAmount } from '@multiversx/sdk-dapp/utils';
-import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 import BigNumber from 'bignumber.js';
+import { formatAmount, parseAmount } from 'lib';
 import { SwapActionTypesEnum } from 'types';
 
 export const calculateMinimumReceived = ({

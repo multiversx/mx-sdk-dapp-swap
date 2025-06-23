@@ -1,4 +1,4 @@
-import { stringIsFloat } from '@multiversx/sdk-dapp/utils/validation/stringIsFloat';
+import { stringIsFloat } from 'lib';
 import { RuleType } from 'validation/types';
 
 export const getIsValidNumberRule = (): RuleType<string | undefined> => ({

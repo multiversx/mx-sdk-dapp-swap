@@ -1,12 +1,10 @@
 import {
+  IPlainTransactionObject,
+  NetworkConfig,
+  TransactionComputer,
   GAS_LIMIT,
   GAS_PER_DATA_BYTE,
   GAS_PRICE_MODIFIER
-} from '@multiversx/sdk-dapp/constants';
-import {
-  IPlainTransactionObject,
-  NetworkConfig,
-  TransactionComputer
 } from 'lib';
 import { createTransactionFromRaw } from './createTransactionFromRaw';
 

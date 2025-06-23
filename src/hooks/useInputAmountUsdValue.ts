@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { formatAmount } from '@multiversx/sdk-dapp/utils';
 import BigNumber from 'bignumber.js';
+import { formatAmount } from 'lib';
 import { SwapRouteType, SelectOptionType } from 'types';
 import { roundAmount } from 'utils';
 

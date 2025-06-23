@@ -1,4 +1,4 @@
-import { RawTransactionType } from '@multiversx/sdk-dapp/types/transactions.types';
+import { RawTransactionType } from 'lib';
 
 export interface WrappingQueryResponseType {
   wrapEgld?: RawTransactionType;

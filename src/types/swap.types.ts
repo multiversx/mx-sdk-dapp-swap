@@ -1,4 +1,4 @@
-import { RawTransactionType } from '@multiversx/sdk-dapp/types/transactions.types';
+import { RawTransactionType } from 'lib';
 import { PairType } from './pairs.types';
 import { UserEsdtType } from './tokens.types';
 

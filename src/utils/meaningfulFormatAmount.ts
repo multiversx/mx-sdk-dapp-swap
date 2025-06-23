@@ -1,6 +1,5 @@
-import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
-import { stringIsInteger } from '@multiversx/sdk-dapp/utils/validation/stringIsInteger';
 import { DIGITS } from 'constants/index';
+import { formatAmount, stringIsInteger } from 'lib';
 
 export const meaningfulFormatAmount = ({
   amount = '0',

@@ -1,5 +1,5 @@
-import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 import BigNumber from 'bignumber.js';
+import { parseAmount } from 'lib';
 import { EsdtType } from 'types';
 import { RuleType } from 'validation/types';
 

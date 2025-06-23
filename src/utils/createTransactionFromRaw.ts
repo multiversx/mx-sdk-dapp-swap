@@ -1,8 +1,10 @@
-import { GAS_LIMIT, GAS_PRICE, VERSION } from '@multiversx/sdk-dapp/constants';
-import { accountSelector } from '@multiversx/sdk-dapp/reduxStore/selectors';
-import { store } from '@multiversx/sdk-dapp/reduxStore/store';
-import { isStringBase64 } from '@multiversx/sdk-dapp/utils/decoders/base64Utils';
 import {
+  GAS_LIMIT,
+  GAS_PRICE,
+  VERSION,
+  isStringBase64,
+  store,
+  accountSelector,
   Address,
   Transaction,
   TransactionOptions,
