@@ -1,14 +1,14 @@
+import { GAS_LIMIT, GAS_PRICE, VERSION } from '@multiversx/sdk-dapp/constants';
+import { accountSelector } from '@multiversx/sdk-dapp/reduxStore/selectors';
+import { store } from '@multiversx/sdk-dapp/reduxStore/store';
+import { isStringBase64 } from '@multiversx/sdk-dapp/utils/decoders/base64Utils';
 import {
   Address,
   Transaction,
   TransactionOptions,
   TransactionVersion,
   IPlainTransactionObject
-} from '@multiversx/sdk-core';
-import { GAS_LIMIT, GAS_PRICE, VERSION } from '@multiversx/sdk-dapp/constants';
-import { accountSelector } from '@multiversx/sdk-dapp/reduxStore/selectors';
-import { store } from '@multiversx/sdk-dapp/reduxStore/store';
-import { isStringBase64 } from '@multiversx/sdk-dapp/utils/decoders/base64Utils';
+} from 'lib';
 
 export const createTransactionFromRaw = (
   rawTransaction: IPlainTransactionObject
