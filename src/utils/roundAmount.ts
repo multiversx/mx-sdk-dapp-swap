@@ -1,6 +1,6 @@
-import { stringIsFloat } from '@multiversx/sdk-dapp/utils/validation/stringIsFloat';
 import BigNumber from 'bignumber.js';
 import { DIGITS } from 'constants/index';
+import { stringIsFloat } from 'lib';
 
 export const roundAmount = (amount: string, digits = DIGITS) => {
   if (!stringIsFloat(amount)) {

@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { OperationVariables } from '@apollo/client';
-import { RawTransactionType } from '@multiversx/sdk-dapp/types/transactions.types';
 import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
 import { FIXED_INPUT, FIXED_OUTPUT } from 'constants/general';
+import { IPlainTransactionObject } from 'lib';
 import {
   swapQuery,
   wrapEgldQuery,
@@ -40,7 +40,7 @@ export interface UseSwapRouteType {
   isAmountInLoading: boolean;
   isSwapRouteLoading: boolean;
   isAmountOutLoading: boolean;
-  transactions?: RawTransactionType[];
+  transactions?: IPlainTransactionObject[];
   swapActionType?: SwapActionTypesEnum;
   previousFetchVariables: React.MutableRefObject<
     GetSwapRouteVariablesType | undefined

@@ -1,5 +1,5 @@
-import { parseAmount } from '@multiversx/sdk-dapp/utils';
 import { FIXED_INPUT } from 'constants/general';
+import { parseAmount } from 'lib';
 import { SwapRouteType, UserEsdtType } from 'types';
 import { meaningfulFormatAmount } from './meaningfulFormatAmount';
 

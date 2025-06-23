@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
-import { stringIsFloat } from '@multiversx/sdk-dapp/utils';
-import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 import { EGLD_IDENTIFIER, FIXED_INPUT, FIXED_OUTPUT } from 'constants/general';
+import { stringIsFloat, parseAmount } from 'lib';
 import { SwapRouteType, SelectOptionType } from 'types';
 import {
   getTokenDecimals,
@@ -9,6 +8,7 @@ import {
   meaningfulFormatAmount,
   getCorrectAmountsOnTokenChange
 } from 'utils';
+
 import { useInputAmountUsdValue } from './useInputAmountUsdValue';
 import { usePrevious } from './usePrevious';
 import { GetSwapRouteType } from './useSwapRoute';

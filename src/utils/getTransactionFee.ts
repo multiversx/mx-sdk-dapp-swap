@@ -1,13 +1,11 @@
 import {
   IPlainTransactionObject,
   NetworkConfig,
-  TransactionComputer
-} from '@multiversx/sdk-core';
-import {
+  TransactionComputer,
   GAS_LIMIT,
   GAS_PER_DATA_BYTE,
   GAS_PRICE_MODIFIER
-} from '@multiversx/sdk-dapp/constants';
+} from 'lib';
 import { createTransactionFromRaw } from './createTransactionFromRaw';
 
 export const getTransactionFee = (rawTransaction: IPlainTransactionObject) => {

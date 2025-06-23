@@ -1,5 +1,5 @@
-import { DECIMALS } from '@multiversx/sdk-dapp/constants';
 import { EGLD_IDENTIFIER } from 'constants/general';
+import { DECIMALS } from 'lib';
 import { EsdtType, PairType } from 'types';
 
 export const getTokenDecimals = ({

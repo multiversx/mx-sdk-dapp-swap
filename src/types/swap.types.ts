@@ -1,4 +1,4 @@
-import { RawTransactionType } from '@multiversx/sdk-dapp/types/transactions.types';
+import { IPlainTransactionObject } from 'lib';
 import { PairType } from './pairs.types';
 import { UserEsdtType } from './tokens.types';
 
@@ -23,7 +23,7 @@ export interface SwapRouteType {
 
   intermediaryAmounts: string[];
   pairs: PairType[];
-  transactions?: RawTransactionType[];
+  transactions?: IPlainTransactionObject[];
 }
 
 export enum SwapActionTypesEnum {
