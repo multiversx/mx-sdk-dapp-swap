@@ -1,5 +1,5 @@
-import { IPlainTransactionObject } from '@multiversx/sdk-core/out';
 import BigNumber from 'bignumber.js';
+import { IPlainTransactionObject } from 'lib';
 import { getTransactionFee } from './getTransactionFee';
 
 export const calculateSwapTransactionsFee = (
