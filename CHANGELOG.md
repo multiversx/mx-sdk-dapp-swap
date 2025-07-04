@@ -7,13 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [[4.0.0-alpha.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/56)] - 2025-07-04
+## [[4.0.0-alpha.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/54)] - 2025-07-04
 
-- [Upgrade MVX packages. Fixes EGLD balance check](https://github.com/multiversx/mx-sdk-dapp-swap/pull/56)
+- [Upgrade MVX packages. Fixes EGLD balance check](https://github.com/multiversx/mx-sdk-dapp-swap/pull/54)
 
-## [[4.0.0-alpha.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/55)] - 2025-06-23
+## [[4.0.0-alpha.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/52)] - 2025-06-23
 
-- [Upgrade sdk-dapp to v.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/52)
+- [Upgrade sdk-dapp to v.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/51)
 - [Moved sdk-dapp and sdk-core imports to the lib folder](https://github.com/multiversx/mx-sdk-dapp-swap/pull/50)
 
 ## [[3.0.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/48)] - 2025-03-27
