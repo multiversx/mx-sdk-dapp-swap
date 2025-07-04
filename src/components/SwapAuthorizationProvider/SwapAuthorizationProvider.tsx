@@ -13,12 +13,10 @@ export const SwapAuthorizationProvider = ({
   children,
   accessToken,
   graphQLAddress,
-  isAccessTokenLoading = false,
   getAuthorizationHeaders
 }: {
   accessToken?: string;
   children: React.ReactNode;
-  isAccessTokenLoading?: boolean;
   graphQLAddress: SwapGraphQLAddressEnum | string;
   getAuthorizationHeaders?: (
     requestParams: AuthorizationHeadersRequestParamsType
@@ -90,7 +88,6 @@ export const SwapAuthorizationProvider = ({
       value={{
         client,
         accessToken,
-        isAccessTokenLoading,
         isAuthenticated: Boolean(accessToken)
       }}
     >

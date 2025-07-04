@@ -14,7 +14,7 @@ export const getInputInsufficientFundsRule = (
       const bnAmount = new BigNumber(parsedAmount);
       const bnBalance = new BigNumber(token.balance ?? '0');
 
-      return bnBalance.comparedTo(bnAmount) >= 0;
+      return bnBalance.isGreaterThanOrEqualTo(bnAmount);
     }
     return true;
   }

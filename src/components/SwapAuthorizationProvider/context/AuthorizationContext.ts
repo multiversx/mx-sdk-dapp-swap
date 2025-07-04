@@ -4,14 +4,12 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 export type AuthorizationContextType = {
   accessToken?: string;
   isAuthenticated?: boolean;
-  isAccessTokenLoading: boolean;
   client?: ApolloClient<NormalizedCacheObject>;
 };
 
 export const AuthorizationContext = createContext<AuthorizationContextType>({
   accessToken: '',
-  isAuthenticated: false,
-  isAccessTokenLoading: true
+  isAuthenticated: false
 });
 
 export const useAuthorizationContext = () => {
