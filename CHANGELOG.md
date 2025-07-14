@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.0.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/58)] - 2025-07-14
+
+- [Upgrade axios to 1.10.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/57)
+
 ## [[4.0.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/56)] - 2025-07-10
 
 - [Upgrade sdk-dapp V5 to major version](https://github.com/multiversx/mx-sdk-dapp-swap/pull/55)
