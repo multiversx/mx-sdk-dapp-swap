@@ -37,6 +37,8 @@
     "@types/react-dom": "18.2.8",
     "@typescript-eslint/eslint-plugin": "5.0.0",
     "@typescript-eslint/parser": "5.22.0",
+    "axios": "^1.10.0",
+    "bignumber.js": "^9.x",
     "esbuild": "0.14.47",
     "esbuild-node-externals": "1.4.1",
     "esbuild-plugin-svgr": "1.0.1",
@@ -91,7 +93,8 @@
     "@apollo/client": ">=3.11.8",
     "@multiversx/sdk-core": "^14.x",
     "@multiversx/sdk-dapp": "^5.x",
-    "axios": "1.10.0",
+    "axios": "^1.10.0",
+    "bignumber.js": "^9.x",
     "graphql": ">=16.9.0",
     "react": ">=18",
     "react-dom": ">=18"
@@ -106,7 +109,6 @@
     "@multiversx/sdk-dapp-utils": "^2.x",
     "anchorme": "2.1.2",
     "bech32": "2.0.0",
-    "bignumber.js": "9.x",
     "formik": "2.2.9",
     "sass": "1.54.0",
     "yup": "0.32.11"
