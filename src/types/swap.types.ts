@@ -3,23 +3,23 @@ import { PairType } from './pairs.types';
 import { UserEsdtType } from './tokens.types';
 
 export interface RouteType {
+  fees: string[];
   pairs: PairType[];
   tokenRoute: string[];
   pricesImpact: string[];
   intermediaryAmounts: string[];
-  fees: string[];
 }
 
 export type SmartRouteType = {
   amountOut: string;
-  tokenOutExchangeRateDenom: string;
-  tokenInExchangeRateDenom: string;
-  tokenInExchangeRate: number;
-  tokenOutExchangeRate: number;
-  tokensPriceDeviationPercent: number | null;
-  feePercentage: number;
   feeAmount: number;
   routes: RouteType[];
+  feePercentage: number;
+  tokenInExchangeRate: number;
+  tokenOutExchangeRate: number;
+  tokenInExchangeRateDenom: string;
+  tokenOutExchangeRateDenom: string;
+  tokensPriceDeviationPercent: number | null;
 } | null;
 
 export interface SwapRouteType {

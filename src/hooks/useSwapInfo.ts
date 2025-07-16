@@ -21,9 +21,9 @@ import { useRateCalculator } from './useRateCalculator';
 
 interface UseSwapInfoProps {
   tolerance: string;
+  activeRoute?: SwapRouteType;
   firstToken?: SelectOptionType;
   secondToken?: SelectOptionType;
-  activeRoute?: SwapRouteType;
   swapActionType?: SwapActionTypesEnum;
 }
 
@@ -34,7 +34,6 @@ export const useSwapInfo = ({
   secondToken,
   swapActionType
 }: UseSwapInfoProps) => {
-  console.log('activeRoute', activeRoute);
   const [tokenRoutes, setTokenRoutes] = useState<TokenRouteType[]>();
   const [minimumAmountReceived, setMinimumAmountReceived] = useState<string>();
   const [priceImpacts, setPriceImpacts] = useState<PriceImpactType[]>();
