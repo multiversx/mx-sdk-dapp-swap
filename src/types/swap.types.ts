@@ -45,7 +45,7 @@ export interface SwapRouteType {
   pairs: PairType[];
   transactions?: IPlainTransactionObject[];
 
-  smartSwap: SmartRouteType;
+  smartSwap: SmartRouteType | null;
 }
 
 export enum SwapActionTypesEnum {
