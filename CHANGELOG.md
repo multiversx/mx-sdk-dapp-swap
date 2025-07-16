@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.0.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/60)] - 2025-07-16
+
+- [Adds smart swap feature](https://github.com/multiversx/mx-sdk-dapp-swap/pull/59)
+
 ## [[4.0.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/58)] - 2025-07-14
 
 - [Upgrade axios to 1.10.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/57)
