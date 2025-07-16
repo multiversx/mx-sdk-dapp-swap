@@ -27,11 +27,18 @@ export const useRateCalculator = ({
     const {
       tokenInID,
       tokenOutID,
-      tokenInExchangeRateDenom,
       tokenInPriceUSD,
-      tokenOutExchangeRateDenom,
-      tokenOutPriceUSD
+      tokenOutPriceUSD,
+      smartSwap
     } = activeRoute;
+
+    const tokenInExchangeRateDenom =
+      smartSwap?.tokenInExchangeRateDenom ??
+      activeRoute?.tokenInExchangeRateDenom;
+
+    const tokenOutExchangeRateDenom =
+      smartSwap?.tokenOutExchangeRateDenom ??
+      activeRoute?.tokenOutExchangeRateDenom;
 
     setTokenInId(tokenOutID);
     setTokenOutId(tokenInID);

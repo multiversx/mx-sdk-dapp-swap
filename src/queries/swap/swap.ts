@@ -47,6 +47,20 @@ const swapString = `
       pairs {
         ${pairAttributes}
       }
+      smartSwap {
+        amountOut
+        tokenOutExchangeRateDenom
+        tokenInExchangeRateDenom
+        routes {
+          pairs {
+            ${pairAttributes}
+          }
+          tokenRoute
+          pricesImpact
+          intermediaryAmounts
+          fees
+        }
+      }
       ${transactionsPlaceholder}
     }
   }

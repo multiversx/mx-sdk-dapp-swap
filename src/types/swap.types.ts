@@ -2,6 +2,26 @@ import { IPlainTransactionObject } from 'lib';
 import { PairType } from './pairs.types';
 import { UserEsdtType } from './tokens.types';
 
+export interface RouteType {
+  pairs: PairType[];
+  tokenRoute: string[];
+  pricesImpact: string[];
+  intermediaryAmounts: string[];
+  fees: string[];
+}
+
+export type SmartRouteType = {
+  amountOut: string;
+  tokenOutExchangeRateDenom: string;
+  tokenInExchangeRateDenom: string;
+  tokenInExchangeRate: number;
+  tokenOutExchangeRate: number;
+  tokensPriceDeviationPercent: number | null;
+  feePercentage: number;
+  feeAmount: number;
+  routes: RouteType[];
+} | null;
+
 export interface SwapRouteType {
   amountIn: string;
   tokenInID: string;
@@ -24,6 +44,8 @@ export interface SwapRouteType {
   intermediaryAmounts: string[];
   pairs: PairType[];
   transactions?: IPlainTransactionObject[];
+
+  smartSwap: SmartRouteType;
 }
 
 export enum SwapActionTypesEnum {
