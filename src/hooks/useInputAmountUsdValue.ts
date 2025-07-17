@@ -30,12 +30,14 @@ export const useInputAmountUsdValue = ({
     const {
       swapType,
       amountIn,
-      amountOut,
       tokenInID,
       tokenOutID,
       tokenInPriceUSD,
-      tokenOutPriceUSD
+      tokenOutPriceUSD,
+      smartSwap
     } = swapRoute;
+
+    const amountOut = smartSwap?.amountOut ?? swapRoute.amountOut;
 
     const isFixedInput = swapType === 0;
     const isFixedOutput = swapType === 1;

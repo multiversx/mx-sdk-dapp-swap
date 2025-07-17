@@ -1,3 +1,4 @@
+@use "sass:meta";
 code {
 
     word-break: break-word;
@@ -10,5 +11,5 @@ code {
     font-size: 105%;
 }
 
-@import './modules/app/app';
-@import './swapForm.scss';
+@include meta.load-css('modules/app/app');
+@include meta.load-css('swapForm.scss');

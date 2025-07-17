@@ -3,16 +3,16 @@ import { FormikErrors, FormikTouched } from 'formik';
 
 type SwapFormInputValidationErrorDisplayProps = {
   fieldName: string;
+  className?: string;
   errors: FormikErrors<object>;
   touched: FormikTouched<object>;
-  className?: string;
 };
 
 export const SwapFormInputValidationErrorDisplay: React.FC<SwapFormInputValidationErrorDisplayProps> =
   ({
-    fieldName,
     errors,
     touched,
+    fieldName,
     className = 'swap-form-input-validation-error-display'
   }) => {
     return (
@@ -22,7 +22,7 @@ export const SwapFormInputValidationErrorDisplay: React.FC<SwapFormInputValidati
             className='invalid-feedback d-flex mt-2'
             data-testid={`invalid-${fieldName}`}
           >
-            {errors[fieldName]}
+            {(errors as any)[fieldName]}
           </div>
         )}
       </small>

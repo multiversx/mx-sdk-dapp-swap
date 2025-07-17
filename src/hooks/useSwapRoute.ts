@@ -144,7 +144,8 @@ export const useSwapRoute = ({
 
           intermediaryAmounts: [],
           pairs: [],
-          transactions: tx ? [tx] : []
+          transactions: tx ? [tx] : [],
+          smartSwap: null
         };
 
         // ignore errors for wrapping because the endpoints don't work when not authenticated
