@@ -1,21 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import {
-  SelectOptionType,
   SwapRouteType,
+  PlatformFeeType,
+  SelectOptionType,
   SwapFeeDetailsType,
   SwapActionTypesEnum
 } from 'types';
 import {
-  getPairFeeDetails,
-  calculateMinimumReceived,
   removeCommas,
-  calculateSwapTransactionsFee,
-  getTotalFeesUsdValue,
-  getPriceImpacts,
-  PriceImpactType,
+  TokenRouteType,
   getTokenRoutes,
-  TokenRouteType
+  PriceImpactType,
+  getPriceImpacts,
+  getPairFeeDetails,
+  getTotalFeesUsdValue,
+  calculateMinimumReceived,
+  calculateSwapTransactionsFee
 } from 'utils';
 import { useRateCalculator } from './useRateCalculator';
 
@@ -38,6 +39,7 @@ export const useSwapInfo = ({
   const [minimumAmountReceived, setMinimumAmountReceived] = useState<string>();
   const [priceImpacts, setPriceImpacts] = useState<PriceImpactType[]>();
   const [feeDetails, setFeeDetails] = useState<SwapFeeDetailsType>();
+  const [platformFee, setPlatformFee] = useState<PlatformFeeType>();
   const [totalFeesUsdValue, setTotalFeesUsdValue] = useState<string>();
 
   const { tokenInId, tokenOutId, exchangeRate, switchTokensDirection } =
@@ -105,6 +107,17 @@ export const useSwapInfo = ({
         })
       : undefined;
 
+    setPlatformFee(
+      smartSwap
+        ? {
+            feeAmount: smartSwap.feeAmount,
+            feePercentage: new BigNumber(smartSwap.feePercentage)
+              .times(100)
+              .toNumber()
+          }
+        : undefined
+    );
+
     setTokenRoutes(tokenRoutes);
     setMinimumAmountReceived(minimumReceived);
     setPriceImpacts(newPriceImpacts);
@@ -113,23 +126,24 @@ export const useSwapInfo = ({
 
   useEffect(handleUpdateStats, [
     tolerance,
-    activeRoute,
     firstToken,
+    activeRoute,
     secondToken,
     swapActionType
   ]);
 
   return {
-    exchangeRate,
-    feeDetails,
-    priceImpacts,
     tokenInId,
+    feeDetails,
     tokenOutId,
-    totalFeesUsdValue,
     tokenRoutes,
-    switchTokensDirection,
+    platformFee,
+    priceImpacts,
+    exchangeRate,
+    totalFeesUsdValue,
+    exchangeRateUsdValue,
     totalTransactionsFee,
     minimumAmountReceived,
-    exchangeRateUsdValue
+    switchTokensDirection
   };
 };

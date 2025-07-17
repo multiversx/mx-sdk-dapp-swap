@@ -10,17 +10,18 @@ export interface RouteType {
   intermediaryAmounts: string[];
 }
 
-export type SmartRouteType = {
-  amountOut: string;
-  feeAmount: number;
-  routes: RouteType[];
+export interface PlatformFeeType {
+  feeAmount: string;
   feePercentage: number;
-  tokenInExchangeRate: number;
-  tokenOutExchangeRate: number;
+}
+
+export interface SmartRouteType extends PlatformFeeType {
+  amountOut: string;
+  routes: RouteType[];
   tokenInExchangeRateDenom: string;
   tokenOutExchangeRateDenom: string;
-  tokensPriceDeviationPercent: number | null;
-} | null;
+  tokensPriceDeviationPercent: number;
+}
 
 export interface SwapRouteType {
   amountIn: string;
