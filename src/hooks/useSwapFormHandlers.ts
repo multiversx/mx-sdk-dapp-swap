@@ -56,10 +56,14 @@ export const useSwapFormHandlers = ({
       return;
     }
 
-    const { swapType, tokenInID, tokenOutID, amountIn, amountOut, pairs } =
+    const { swapType, tokenInID, tokenOutID, amountIn, pairs, smartSwap } =
       swapRoute;
+    const amountOut = smartSwap?.amountOut ?? swapRoute.amountOut;
+    const tokensPriceDeviationPercent =
+      smartSwap?.tokensPriceDeviationPercent ??
+      swapRoute.tokensPriceDeviationPercent;
 
-    setActiveRoute(swapRoute);
+    setActiveRoute({ ...swapRoute, tokensPriceDeviationPercent });
 
     const isFixedInput = swapType === FIXED_INPUT;
     const amount = isFixedInput ? amountOut : amountIn;

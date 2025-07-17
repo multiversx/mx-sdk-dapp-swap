@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { GraphqlErrorsResponseType, SwapRouteType } from 'types';
+import { SwapRouteType } from 'types';
 import { transactionAttributes, pairAttributes } from '../attributes';
 
 const transactionsPlaceholder = 'TRANSACTIONS_PLACEHOLDER';
@@ -46,6 +46,23 @@ const swapString = `
       intermediaryAmounts
       pairs {
         ${pairAttributes}
+      }
+      smartSwap {
+        feeAmount
+        feePercentage
+        amountOut
+        tokenOutExchangeRateDenom
+        tokenInExchangeRateDenom
+        tokensPriceDeviationPercent
+        routes {
+          pairs {
+            ${pairAttributes}
+          }
+          tokenRoute
+          pricesImpact
+          intermediaryAmounts
+          fees
+        }
       }
       ${transactionsPlaceholder}
     }

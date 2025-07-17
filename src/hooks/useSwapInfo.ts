@@ -1,26 +1,30 @@
 import { useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import {
-  SelectOptionType,
   SwapRouteType,
+  PlatformFeeType,
+  SelectOptionType,
   SwapFeeDetailsType,
   SwapActionTypesEnum
 } from 'types';
 import {
-  getPairFeeDetails,
-  calculateMinimumReceived,
   removeCommas,
+  TokenRouteType,
+  getTokenRoutes,
+  PriceImpactType,
+  getPriceImpacts,
+  getPairFeeDetails,
+  getTotalFeesUsdValue,
+  calculateMinimumReceived,
   calculateSwapTransactionsFee
 } from 'utils';
 import { useRateCalculator } from './useRateCalculator';
 
 interface UseSwapInfoProps {
   tolerance: string;
-  firstToken?: SelectOptionType;
-  firstAmount?: string;
-  secondToken?: SelectOptionType;
-  secondAmount?: string;
   activeRoute?: SwapRouteType;
+  firstToken?: SelectOptionType;
+  secondToken?: SelectOptionType;
   swapActionType?: SwapActionTypesEnum;
 }
 
@@ -28,16 +32,15 @@ export const useSwapInfo = ({
   tolerance,
   activeRoute,
   firstToken,
-  firstAmount,
   secondToken,
-  secondAmount,
   swapActionType
 }: UseSwapInfoProps) => {
+  const [tokenRoutes, setTokenRoutes] = useState<TokenRouteType[]>();
   const [minimumAmountReceived, setMinimumAmountReceived] = useState<string>();
-  const [feeAmounts, setFeeAmounts] = useState<string[]>();
-  const [feePercentages, setFeePercentages] = useState<string[]>();
-  const [pricesImpact, setPricesImpact] = useState<string[]>();
+  const [priceImpacts, setPriceImpacts] = useState<PriceImpactType[]>();
   const [feeDetails, setFeeDetails] = useState<SwapFeeDetailsType>();
+  const [platformFee, setPlatformFee] = useState<PlatformFeeType>();
+  const [totalFeesUsdValue, setTotalFeesUsdValue] = useState<string>();
 
   const { tokenInId, tokenOutId, exchangeRate, switchTokensDirection } =
     useRateCalculator({
@@ -67,26 +70,18 @@ export const useSwapInfo = ({
       return;
     }
 
-    const { swapType, pairs } = activeRoute;
+    const { swapType, pairs, smartSwap, amountOut } = activeRoute;
 
     const minimumReceived = calculateMinimumReceived({
       tolerance,
-      secondAmount,
+      secondAmount: smartSwap?.amountOut ?? amountOut,
       secondTokenDecimals: secondToken?.token.decimals,
       isFixedOutput: swapType === 1,
       swapActionType
     });
 
-    const newFeePercentages: string[] = [];
-
     pairs.forEach((pair) => {
       const { totalFee, burn, lpHolders } = getPairFeeDetails(pair);
-      const isDirectSwap = pairs.length === 1;
-      const shouldPushFeePercentage = !isDirectSwap && totalFee;
-
-      if (shouldPushFeePercentage) {
-        newFeePercentages.push(`${totalFee}%`);
-      }
 
       const newFeeTooltip = {
         totalFee,
@@ -95,38 +90,60 @@ export const useSwapInfo = ({
       };
 
       setFeeDetails(newFeeTooltip);
+      return;
     });
 
-    const newPricesImpacts = firstAmount ? activeRoute.pricesImpact : undefined;
-    const newFeeAmounts = firstAmount ? activeRoute.fees : undefined;
+    const newPriceImpacts = activeRoute?.amountIn
+      ? getPriceImpacts({
+          activeRoute
+        })
+      : undefined;
 
+    const tokenRoutes = getTokenRoutes({ activeRoute });
+
+    const newTotalFeesUsdValue = activeRoute?.amountIn
+      ? getTotalFeesUsdValue({
+          activeRoute
+        })
+      : undefined;
+
+    setPlatformFee(
+      smartSwap
+        ? {
+            feeAmount: smartSwap.feeAmount,
+            feePercentage: new BigNumber(smartSwap.feePercentage)
+              .times(100)
+              .toNumber()
+          }
+        : undefined
+    );
+
+    setTokenRoutes(tokenRoutes);
     setMinimumAmountReceived(minimumReceived);
-    setFeeAmounts(newFeeAmounts);
-    setPricesImpact(newPricesImpacts);
-    setFeePercentages(newFeePercentages);
+    setPriceImpacts(newPriceImpacts);
+    setTotalFeesUsdValue(newTotalFeesUsdValue);
   };
 
   useEffect(handleUpdateStats, [
     tolerance,
-    activeRoute,
     firstToken,
-    firstAmount,
+    activeRoute,
     secondToken,
-    secondAmount,
     swapActionType
   ]);
 
   return {
-    exchangeRate,
-    feeDetails,
-    feeAmounts,
-    pricesImpact,
-    feePercentages,
     tokenInId,
+    feeDetails,
     tokenOutId,
-    switchTokensDirection,
+    tokenRoutes,
+    platformFee,
+    priceImpacts,
+    exchangeRate,
+    totalFeesUsdValue,
+    exchangeRateUsdValue,
     totalTransactionsFee,
     minimumAmountReceived,
-    exchangeRateUsdValue
+    switchTokensDirection
   };
 };
