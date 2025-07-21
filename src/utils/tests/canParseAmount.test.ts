@@ -1,6 +1,5 @@
 import { canParseAmount } from '../canParseAmount';
 
-// TODO needs fixing because of sass upgrade
 describe('canParseAmount tests', () => {
   it('canParseAmount returns true when no decimals are provided', () => {
     const canParse = canParseAmount('1');

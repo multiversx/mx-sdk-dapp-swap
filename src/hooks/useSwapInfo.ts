@@ -42,10 +42,15 @@ export const useSwapInfo = ({
   const [platformFee, setPlatformFee] = useState<PlatformFeeType>();
   const [totalFeesUsdValue, setTotalFeesUsdValue] = useState<string>();
 
-  const { tokenInId, tokenOutId, exchangeRate, switchTokensDirection } =
-    useRateCalculator({
-      activeRoute
-    });
+  const {
+    tokenInId,
+    direction,
+    tokenOutId,
+    exchangeRate,
+    switchTokensDirection
+  } = useRateCalculator({
+    activeRoute
+  });
 
   const totalTransactionsFee = useMemo(
     () => calculateSwapTransactionsFee(activeRoute?.transactions),
@@ -75,7 +80,10 @@ export const useSwapInfo = ({
     const minimumReceived = calculateMinimumReceived({
       tolerance,
       secondAmount: smartSwap?.amountOut ?? amountOut,
-      secondTokenDecimals: secondToken?.token.decimals,
+      secondTokenDecimals:
+        direction === 'normal'
+          ? secondToken?.token.decimals
+          : firstToken?.token.decimals,
       isFixedOutput: swapType === 1,
       swapActionType
     });

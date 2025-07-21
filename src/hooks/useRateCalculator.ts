@@ -58,6 +58,7 @@ export const useRateCalculator = ({
   useEffect(calcRate, [activeRoute, direction]);
 
   return {
+    direction,
     tokenInId: direction === 'normal' ? tokenInId : reverseTokenInId,
     tokenInIdPriceUsd:
       direction === 'normal' ? tokenInPriceUsd : reverseTokenInPriceUsd,

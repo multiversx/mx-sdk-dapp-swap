@@ -17,8 +17,8 @@
     "build:esm-types": "tsc --project tsconfig.json",
     "build:cjs-types": "tsc --build tsconfig.cjs.json",
     "build": "rimraf dist && node esbuild.js && yarn build:esm-types && yarn build:cjs-types && cp package.json dist && cp README.md dist",
-    "publish-package": "yarn build && cd dist && npm publish",
-    "publish-package-next": "yarn build && cd dist && npm publish --tag next",
+    "publish-package": "yarn test && yarn build && cd dist && npm publish",
+    "publish-package-next": "yarn test && yarn build && cd dist && npm publish --tag next",
     "publish-yalc": "yarn build && cd dist && yalc publish --push",
     "watch": "yarn node esbuild-watch.js && yarn build:types -- --watch",
     "test": "jest",
@@ -44,7 +44,6 @@
     "esbuild": "0.14.47",
     "esbuild-node-externals": "1.4.1",
     "esbuild-plugin-svgr": "1.0.1",
-    "esbuild-sass-plugin": "3.3.1",
     "eslint": "8.21.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-react": "1.1.7",
@@ -100,9 +99,6 @@
     "react": ">=18",
     "react-dom": ">=18"
   },
-  "optionalDependencies": {
-    "classnames": "2.3.1"
-  },
   "dependencies": {
     "@multiversx/sdk-dapp-utils": "^2.x",
     "anchorme": "2.1.2",
@@ -110,7 +106,6 @@
     "formik": "2.2.9",
     "react-bootstrap-typeahead": "6.4.1",
     "react-select": "5.4.0",
-    "sass": "1.89.2",
     "yup": "0.32.11"
   }
 }
