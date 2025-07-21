@@ -25,43 +25,66 @@ export const SelectOption = ({
     }
   };
 
+  const tokenStyle = {
+    flexShrink: 0,
+    display: 'flex',
+    width: '3.25rem',
+    height: '3.25rem',
+    borderRadius: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2b2d2e',
+    border: '1px solid #49494d'
+  };
+
   return (
     <div
       className={`dapp-core-swap-select-option ${isDisabled ? 'disabled' : ''}`}
       onClick={handleOnClick}
     >
-      <div className='d-flex flex-row align-items-center'>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'row'
+        }}
+      >
         <div
-          className={`token-image mr-2 ${
-            inDropdown ? 'in-dropdown' : 'd-none d-md-flex'
-          }
-        `}
+          className='token-image'
+          style={{ marginRight: '8px', display: 'flex' }}
         >
           <img
-            src={token?.assets?.svgUrl}
             alt={value}
+            style={tokenStyle}
             className='token-symbol'
-            style={{ width: '1.5rem', height: '1.5rem' }}
+            src={token?.assets?.svgUrl}
           />
         </div>
 
-        <div className='d-flex flex-column'>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           {token.ticker}{' '}
-          <small className='text-secondary'>
+          <small style={{ color: '#49494d' }}>
             {roundAmount(token.price ?? '0')}
           </small>
         </div>
       </div>
 
       {inDropdown && (
-        <div className='d-flex flex-column ml-spacer ml-lg-5 align-items-end'>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'end',
+            marginLeft: '16px',
+            flexDirection: 'column'
+          }}
+        >
           {meaningfulFormatAmount({
             amount: token.balance ?? '',
             decimals: token.decimals
           })}
 
           {/* {token.totalUsdPrice && (
-            <small className='text-secondary'>
+            <small style={{ color: '#49494d' }}>
               {token.totalUsdPrice !== '$0' ? <>≈&nbsp;</> : <></>}
               {token.totalUsdPrice}
             </small>
