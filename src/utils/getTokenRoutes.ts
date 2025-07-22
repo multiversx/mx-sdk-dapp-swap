@@ -1,4 +1,4 @@
-import { formatAmount } from 'lib';
+import { DECIMALS, formatAmount } from 'lib';
 import { EsdtType, SwapRouteType } from 'types';
 import { getTokensFromPairs } from './getTokensFromPairs';
 
@@ -48,15 +48,18 @@ export const getTokenRoutes = ({
   const tokensReturned = getTokensFromPairs({ pairs, tokenRoute });
 
   const formattedAmountIn = formatAmount({
-    input: activeRoute.amountIn ?? '0',
-    decimals: tokensReturned[0].decimals,
-    showLastNonZeroDecimal: true
+    input: activeRoute.amountIn,
+    showLastNonZeroDecimal: true,
+    decimals: tokensReturned.length > 0 ? tokensReturned[0].decimals : DECIMALS // EGLD decimals fallback
   });
 
   const formattedAmountOut = formatAmount({
-    input: activeRoute.amountOut ?? '0',
-    decimals: tokensReturned[tokensReturned.length - 1].decimals,
-    showLastNonZeroDecimal: true
+    input: activeRoute.amountOut,
+    showLastNonZeroDecimal: true,
+    decimals:
+      tokensReturned.length > 0
+        ? tokensReturned[tokensReturned.length - 1]?.decimals
+        : DECIMALS // EGLD decimals fallback
   });
 
   return [
