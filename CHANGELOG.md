@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.0.4](https://github.com/multiversx/mx-sdk-dapp-swap/pull/68)] - 2025-07-22
+
+- [Wrapping fix](https://github.com/multiversx/mx-sdk-dapp-swap/pull/67)
+
 ## [[4.0.3](https://github.com/multiversx/mx-sdk-dapp-swap/pull/65)] - 2025-07-21
 
-- [Removes sass. Fixes minimum received edge case. Enables tests.](https://github.com/multiversx/mx-sdk-dapp-swap/pull/64)
+- [Removes sass. Fixes minimum received edge case. Enables tests](https://github.com/multiversx/mx-sdk-dapp-swap/pull/64)
 - [Added swc and removed ts-jest to fix tests](https://github.com/multiversx/mx-sdk-dapp-swap/pull/63)
 
 ## [[4.0.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/60)] - 2025-07-17
