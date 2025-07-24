@@ -6,7 +6,9 @@ export const useRateCalculator = ({
 }: {
   activeRoute?: SwapRouteType;
 }) => {
-  const [direction, setDirection] = useState<'normal' | 'reverse'>('normal');
+  const [rateDirection, setRateDirection] = useState<'normal' | 'reverse'>(
+    'normal'
+  );
 
   const [exchangeRate, setExchangeRate] = useState<string>();
   const [tokenInId, setTokenInId] = useState<string>();
@@ -52,18 +54,21 @@ export const useRateCalculator = ({
   };
 
   const switchTokensDirection = () => {
-    setDirection((existing) => (existing === 'normal' ? 'reverse' : 'normal'));
+    setRateDirection((existing) =>
+      existing === 'normal' ? 'reverse' : 'normal'
+    );
   };
 
-  useEffect(calcRate, [activeRoute, direction]);
+  useEffect(calcRate, [activeRoute, rateDirection]);
 
   return {
-    direction,
-    tokenInId: direction === 'normal' ? tokenInId : reverseTokenInId,
+    rateDirection,
+    tokenInId: rateDirection === 'normal' ? tokenInId : reverseTokenInId,
     tokenInIdPriceUsd:
-      direction === 'normal' ? tokenInPriceUsd : reverseTokenInPriceUsd,
-    tokenOutId: direction === 'normal' ? tokenOutId : reverseTokenOutId,
-    exchangeRate: direction === 'normal' ? exchangeRate : reverseExchangeRate,
+      rateDirection === 'normal' ? tokenInPriceUsd : reverseTokenInPriceUsd,
+    tokenOutId: rateDirection === 'normal' ? tokenOutId : reverseTokenOutId,
+    exchangeRate:
+      rateDirection === 'normal' ? exchangeRate : reverseExchangeRate,
     switchTokensDirection
   };
 };
