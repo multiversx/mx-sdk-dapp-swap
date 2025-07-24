@@ -1,11 +1,12 @@
 import { DECIMALS, formatAmount } from 'lib';
-import { EsdtType, SwapRouteType } from 'types';
+import { EsdtType, PairType, SwapRouteType } from 'types';
 import { getTokensFromPairs } from './getTokensFromPairs';
 
 export interface TokenRouteType {
-  tokens: EsdtType[];
   amountIn: string;
+  pairs: PairType[];
   amountOut: string;
+  tokens: EsdtType[];
 }
 
 export const getTokenRoutes = ({
@@ -36,6 +37,7 @@ export const getTokenRoutes = ({
       });
 
       tokenRoutes.push({
+        pairs,
         tokens: tokensReturned,
         amountIn: formattedAmountIn,
         amountOut: formattedAmountOut
@@ -64,6 +66,7 @@ export const getTokenRoutes = ({
 
   return [
     {
+      pairs,
       tokens: tokensReturned,
       amountIn: formattedAmountIn,
       amountOut: formattedAmountOut
