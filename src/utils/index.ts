@@ -1,5 +1,6 @@
 export * from './roundAmount';
 export * from './removeCommas';
+export * from './getPriceImpact';
 export * from './canParseAmount';
 export * from './getTokenRoutes';
 export * from './getPriceImpacts';
@@ -16,5 +17,6 @@ export * from './meaningfulFormatAmount';
 export * from './calculateMinimumReceived';
 export * from './createTransactionFromRaw';
 export * from './getSortedTokensByUsdValue';
+export * from './getPriceDeviationDetails';
 export * from './calculateSwapTransactionsFee';
 export * from './getCorrectAmountsOnTokenChange';

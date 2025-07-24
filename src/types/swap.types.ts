@@ -2,6 +2,12 @@ import { IPlainTransactionObject } from 'lib';
 import { PairType } from './pairs.types';
 import { UserEsdtType } from './tokens.types';
 
+export enum PriceImpactLevelEnum {
+  normal = 'normal',
+  high = 'high',
+  veryHigh = 'veryHigh'
+}
+
 export interface RouteType {
   fees: string[];
   pairs: PairType[];
@@ -40,7 +46,7 @@ export interface SwapRouteType {
   pricesImpact: string[];
 
   maxPriceDeviationPercent: number;
-  tokensPriceDeviationPercent: number | null;
+  tokensPriceDeviationPercent: number;
 
   intermediaryAmounts: string[];
   pairs: PairType[];

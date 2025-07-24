@@ -1,6 +1,6 @@
 import { PairType, SwapRouteType } from 'types';
 
-export interface PriceImpactType {
+export interface PriceImpactsType {
   pair: PairType;
   priceImpactPercentage: string;
 }
@@ -13,7 +13,7 @@ export const getPriceImpacts = ({
   const { pricesImpact, smartSwap, pairs } = activeRoute;
 
   if (smartSwap) {
-    const impactsPerRoute: PriceImpactType[] = [];
+    const impactsPerRoute: PriceImpactsType[] = [];
 
     smartSwap.routes.forEach((route, i) => {
       const { pairs, pricesImpact } = route;
