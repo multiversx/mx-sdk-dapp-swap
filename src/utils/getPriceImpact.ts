@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { PriceImpactLevelEnum, SwapRouteType } from 'types';
 
 export interface PriceImpactType {
-  priceImpactPercentage?: number;
+  priceImpactPercentage?: string;
   priceImpactLevel?: PriceImpactLevelEnum;
 }
 
@@ -13,21 +13,49 @@ export const getPriceImpact = ({
 }) => {
   if (!activeRoute) return;
 
-  const { smartSwap, tokensPriceDeviationPercent } = activeRoute;
+  const {
+    pairs,
+    smartSwap,
+    maxPriceDeviationPercent,
+    tokensPriceDeviationPercent
+  } = activeRoute;
 
-  const priceImpactPercentage =
-    smartSwap?.tokensPriceDeviationPercent ?? tokensPriceDeviationPercent;
+  const isDirectSwap = !smartSwap && pairs.length === 1;
+  const bnPriceImpactPercentage = new BigNumber(
+    smartSwap?.tokensPriceDeviationPercent ?? tokensPriceDeviationPercent ?? 0
+  );
 
-  const bnPriceImpactPercentage = new BigNumber(priceImpactPercentage ?? 0);
+  const bnMaxPriceDeviationPercent = new BigNumber(maxPriceDeviationPercent);
 
-  const priceImpactLevel = bnPriceImpactPercentage.isLessThan(5)
+  const isAboveMaxDeviation = bnPriceImpactPercentage.isGreaterThan(
+    maxPriceDeviationPercent
+  );
+
+  const canShowPriceImpactWarning = Boolean(
+    isDirectSwap && isAboveMaxDeviation
+  );
+
+  const bnNormalLevelPercentage = bnMaxPriceDeviationPercent
+    .times(100)
+    .times(0.33)
+    .dividedBy(100);
+
+  const bnHighLevelPercentage = bnMaxPriceDeviationPercent
+    .times(100)
+    .times(0.66)
+    .dividedBy(100);
+
+  const priceImpactLevel = bnPriceImpactPercentage.isLessThan(
+    bnNormalLevelPercentage
+  )
     ? PriceImpactLevelEnum.normal
-    : bnPriceImpactPercentage.isLessThan(10)
+    : bnPriceImpactPercentage.isLessThan(bnHighLevelPercentage)
     ? PriceImpactLevelEnum.high
     : PriceImpactLevelEnum.veryHigh;
 
   return {
     priceImpactLevel,
-    priceImpactPercentage
+    canShowPriceImpactWarning,
+    priceImpactPercentage: bnPriceImpactPercentage.times(100).toString(10)
   };
 };

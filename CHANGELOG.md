@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.0.6](https://github.com/multiversx/mx-sdk-dapp-swap/pull/72)] - 2025-07-25
+
+- [Price impact improvements](https://github.com/multiversx/mx-sdk-dapp-swap/pull/71)
+
 ## [[4.0.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/70)] - 2025-07-23
 
 - [Price impact refactor. Moves price deviation logic from dapp to package.](https://github.com/multiversx/mx-sdk-dapp-swap/pull/69)

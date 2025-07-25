@@ -71,7 +71,7 @@ export const useQueryWrapper = <TData>({
   const isRefetching = loading;
 
   return {
-    data: isError ? undefined : data,
+    data,
     error,
     isError,
     isLoading,
