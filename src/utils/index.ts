@@ -17,6 +17,5 @@ export * from './meaningfulFormatAmount';
 export * from './calculateMinimumReceived';
 export * from './createTransactionFromRaw';
 export * from './getSortedTokensByUsdValue';
-export * from './getPriceDeviationDetails';
 export * from './calculateSwapTransactionsFee';
 export * from './getCorrectAmountsOnTokenChange';
