@@ -11,12 +11,9 @@ import {
   getPriceImpact,
   TokenRouteType,
   getTokenRoutes,
-  getPriceImpacts,
   PriceImpactType,
-  PriceImpactsType,
   getPairFeeDetails,
   getTotalFeesUsdValue,
-  getPriceDeviationDetails,
   calculateMinimumReceived,
   calculateSwapTransactionsFee
 } from 'utils';
@@ -39,11 +36,6 @@ export const useSwapInfo = ({
   const [feeDetails, setFeeDetails] = useState<SwapFeeDetailsType>();
   const [receivedUsdValue, setReceivedUsdValue] = useState<string>();
   const [totalFeesUsdValue, setTotalFeesUsdValue] = useState<string>();
-  const [priceImpacts, setPriceImpacts] = useState<PriceImpactsType[]>();
-  const [priceDeviationPercentage, setPriceDeviationPercentage] =
-    useState<string>();
-  const [canShowDeviationWarning, setCanShowDeviationWarning] =
-    useState<boolean>(false);
   const [minimumAmountReceived, setMinimumAmountReceived] = useState<string>();
 
   const {
@@ -113,12 +105,6 @@ export const useSwapInfo = ({
       return;
     });
 
-    const newPriceImpacts = activeRoute?.amountIn
-      ? getPriceImpacts({
-          activeRoute
-        })
-      : undefined;
-
     const newPriceImpact = activeRoute?.amountIn
       ? getPriceImpact({
           activeRoute
@@ -142,16 +128,11 @@ export const useSwapInfo = ({
         : undefined
     );
 
-    const priceDeviationDetails = getPriceDeviationDetails({ activeRoute });
-
     setTokenRoutes(tokenRoutes);
     setPriceImpact(newPriceImpact);
-    setPriceImpacts(newPriceImpacts);
     setReceivedUsdValue(newReceivedUsdValue);
     setMinimumAmountReceived(minimumReceived);
     setTotalFeesUsdValue(newTotalFeesUsdValue);
-    setCanShowDeviationWarning(priceDeviationDetails.canShowDeviationWarning);
-    setPriceDeviationPercentage(priceDeviationDetails.priceDeviationPercentage);
   };
 
   useEffect(handleUpdateStats, [tolerance, activeRoute, swapActionType]);
@@ -163,15 +144,12 @@ export const useSwapInfo = ({
     tokenRoutes,
     priceImpact,
     platformFee,
-    priceImpacts,
     exchangeRate,
     rateDirection,
     receivedUsdValue,
     totalFeesUsdValue,
     totalTransactionsFee,
     minimumAmountReceived,
-    canShowDeviationWarning,
-    priceDeviationPercentage,
     switchTokensDirection
   };
 };

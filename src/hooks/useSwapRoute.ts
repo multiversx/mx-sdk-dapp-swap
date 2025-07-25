@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { OperationVariables } from '@apollo/client';
+import BigNumber from 'bignumber.js';
 import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
 import { FIXED_INPUT, FIXED_OUTPUT } from 'constants/general';
 import { IPlainTransactionObject } from 'lib';
@@ -110,7 +111,7 @@ export const useSwapRoute = ({
   const handleOnCompleted = () => {
     if (!variables) {
       setSwapRoute(undefined);
-      setSwapRouteError(translateSwapError(error?.message));
+      setSwapRouteError(translateSwapError({ serviceError: error?.message }));
       return;
     }
 
@@ -154,7 +155,13 @@ export const useSwapRoute = ({
         break;
       default:
         const swap = (data as SwapRouteQueryResponseType)?.swap;
-        const translatedError = translateSwapError(error?.message);
+
+        const translatedError = translateSwapError({
+          serviceError: error?.message,
+          lossPercentage: new BigNumber(swap?.maxPriceDeviationPercent)
+            .times(100)
+            .toString(10)
+        });
 
         // we do not set partial routes
         setSwapRouteError(translatedError);
