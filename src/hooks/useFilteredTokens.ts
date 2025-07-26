@@ -15,6 +15,7 @@ import { getSortedTokensByUsdValue, mergeTokens } from 'utils';
 import { useFetchTokenPrices } from './useFetchTokenPrices';
 import { useIntersectionObserver } from './useIntersectionObserver';
 import { useLazyQueryWrapper } from './useLazyQueryWrapper';
+import { useTokenMetadataSubscription } from './useTokenMetadataSubscription';
 
 const DEFAULT_OFFSET = 0;
 const DEFAULT_LIMIT = 500;
@@ -68,6 +69,19 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   const { tokenPrices } = useFetchTokenPrices({
     isPollingEnabled: pricePolling
   });
+
+  const { subscriptionPrices, subscriptionData } =
+    useTokenMetadataSubscription();
+
+  useEffect(() => {
+    if (subscriptionData?.tokenMetadataChanged) {
+      const { identifier, price } = subscriptionData.tokenMetadataChanged;
+
+      if (wrappedEgld && wrappedEgld.identifier === identifier) {
+        setWrappedEgld((prev) => (prev ? { ...prev, price } : prev));
+      }
+    }
+  }, [subscriptionData]);
 
   const handleOnCompleted = (data?: FilteredTokensQueryType | null) => {
     if (!data) return;
@@ -141,20 +155,19 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     }
   };
 
-  const tokensWithUpdatedPrice = useMemo(
-    () =>
-      tokens.map((token) => {
-        const tokenPrice = tokenPrices?.find(
-          ({ identifier }) => identifier === token.identifier
-        )?.price;
+  const tokensWithUpdatedPrice = useMemo(() => {
+    return tokens.map((token) => {
+      const subscriptionPrice = subscriptionPrices[token.identifier];
+      const pollingPrice = tokenPrices?.find(
+        ({ identifier }) => identifier === token.identifier
+      )?.price;
 
-        return {
-          ...token,
-          price: tokenPrice ?? token.price
-        };
-      }),
-    [tokens, tokenPrices]
-  );
+      return {
+        ...token,
+        price: subscriptionPrice ?? pollingPrice ?? token.price
+      };
+    });
+  }, [tokens, tokenPrices, subscriptionPrices]);
 
   useEffect(() => {
     if (isInitialLoad.current) {
