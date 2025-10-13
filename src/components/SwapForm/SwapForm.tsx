@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
-  SwapFormValuesEnum,
-  UserEsdtType,
   FactoryType,
+  UserEsdtType,
+  SwapRouteType,
   SelectOptionType,
-  SwapRouteType
+  SwapFormValuesEnum
 } from 'types';
 import { meaningfulFormatAmount } from 'utils';
 import { useSwapValidationSchema } from 'validation/hooks/useSwapValidationSchema';

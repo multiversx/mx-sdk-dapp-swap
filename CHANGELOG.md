@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.0.7](https://github.com/multiversx/mx-sdk-dapp-swap/pull/74)] - 2025-10-02
+
+- [Fixes swap route polling issue after form submission](https://github.com/multiversx/mx-sdk-dapp-swap/pull/73)
+
+## [[4.0.6](https://github.com/multiversx/mx-sdk-dapp-swap/pull/72)] - 2025-07-25
+
+- [Price impact improvements](https://github.com/multiversx/mx-sdk-dapp-swap/pull/71)
+
+## [[4.0.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/70)] - 2025-07-23
+
+- [Price impact refactor. Moves price deviation logic from dapp to package.](https://github.com/multiversx/mx-sdk-dapp-swap/pull/69)
+
+## [[4.0.4](https://github.com/multiversx/mx-sdk-dapp-swap/pull/68)] - 2025-07-22
+
+- [Wrapping fix](https://github.com/multiversx/mx-sdk-dapp-swap/pull/67)
+
+## [[4.0.3](https://github.com/multiversx/mx-sdk-dapp-swap/pull/65)] - 2025-07-21
+
+- [Removes sass. Fixes minimum received edge case. Enables tests](https://github.com/multiversx/mx-sdk-dapp-swap/pull/64)
+- [Added swc and removed ts-jest to fix tests](https://github.com/multiversx/mx-sdk-dapp-swap/pull/63)
+
+## [[4.0.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/60)] - 2025-07-17
+
+- [Adds smart swap feature](https://github.com/multiversx/mx-sdk-dapp-swap/pull/59)
+
+## [[4.0.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/58)] - 2025-07-14
+
+- [Upgrade axios to 1.10.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/57)
+
+## [[4.0.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/56)] - 2025-07-10
+
+- [Upgrade sdk-dapp V5 to major version](https://github.com/multiversx/mx-sdk-dapp-swap/pull/55)
+
+## [[4.0.0-alpha.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/54)] - 2025-07-04
+
+- [Upgrade MVX packages. Fixes EGLD balance check](https://github.com/multiversx/mx-sdk-dapp-swap/pull/54)
+
+## [[4.0.0-alpha.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/52)] - 2025-06-23
+
+- [Upgrade sdk-dapp to v.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/51)
+- [Moved sdk-dapp and sdk-core imports to the lib folder](https://github.com/multiversx/mx-sdk-dapp-swap/pull/50)
+
+## [[3.0.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/48)] - 2025-03-27
+
+- [Upgrade sdk-core to v.14](https://github.com/multiversx/mx-sdk-dapp-swap/pull/47)
+
 ## [[2.1.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/45)] - 2025-01-17
 
 - [FIX: Swap route is defined when both inputs don't have amounts](https://github.com/multiversx/mx-sdk-dapp-swap/pull/44)

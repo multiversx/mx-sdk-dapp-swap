@@ -1,6 +1,5 @@
-import { formatAmount } from '@multiversx/sdk-dapp/utils';
-import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 import BigNumber from 'bignumber.js';
+import { formatAmount } from 'lib';
 import { SwapActionTypesEnum } from 'types';
 
 export const calculateMinimumReceived = ({
@@ -21,16 +20,12 @@ export const calculateMinimumReceived = ({
   }
 
   if (isFixedOutput || swapActionType !== SwapActionTypesEnum.swap) {
-    return secondAmount;
+    return formatAmount({ input: secondAmount, decimals: secondTokenDecimals });
   }
-
-  const bnSecondAmount = new BigNumber(
-    parseAmount(secondAmount, secondTokenDecimals)
-  );
 
   const minAmount = new BigNumber(1)
     .dividedBy(new BigNumber(tolerance).dividedBy(100).plus(1))
-    .times(bnSecondAmount)
+    .times(secondAmount)
     .toFixed(0);
 
   return formatAmount({ input: minAmount, decimals: secondTokenDecimals });

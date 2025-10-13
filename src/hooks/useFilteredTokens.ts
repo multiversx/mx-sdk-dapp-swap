@@ -8,8 +8,8 @@ import {
 import {
   EsdtType,
   FactoryType,
-  TokensPaginationType,
-  UserEsdtType
+  UserEsdtType,
+  TokensPaginationType
 } from 'types';
 import { getSortedTokensByUsdValue, mergeTokens } from 'utils';
 import { useFetchTokenPrices } from './useFetchTokenPrices';

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { formatAmount } from '@multiversx/sdk-dapp/utils';
 import BigNumber from 'bignumber.js';
+import { formatAmount } from 'lib';
 import { SwapRouteType, SelectOptionType } from 'types';
 import { roundAmount } from 'utils';
 
@@ -30,12 +30,14 @@ export const useInputAmountUsdValue = ({
     const {
       swapType,
       amountIn,
-      amountOut,
       tokenInID,
       tokenOutID,
       tokenInPriceUSD,
-      tokenOutPriceUSD
+      tokenOutPriceUSD,
+      smartSwap
     } = swapRoute;
+
+    const amountOut = smartSwap?.amountOut ?? swapRoute.amountOut;
 
     const isFixedInput = swapType === 0;
     const isFixedOutput = swapType === 1;

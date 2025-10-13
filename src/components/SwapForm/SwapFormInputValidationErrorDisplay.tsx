@@ -3,26 +3,30 @@ import { FormikErrors, FormikTouched } from 'formik';
 
 type SwapFormInputValidationErrorDisplayProps = {
   fieldName: string;
+  className?: string;
   errors: FormikErrors<object>;
   touched: FormikTouched<object>;
-  className?: string;
 };
 
 export const SwapFormInputValidationErrorDisplay: React.FC<SwapFormInputValidationErrorDisplayProps> =
   ({
-    fieldName,
     errors,
     touched,
+    fieldName,
     className = 'swap-form-input-validation-error-display'
   }) => {
     return (
-      <small className={`d-flex flex-column flex-sm-row ${className}`}>
+      <small
+        className={className}
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
         {fieldName in errors && fieldName in touched && (
           <div
-            className='invalid-feedback d-flex mt-2'
+            className='invalid-feedback'
             data-testid={`invalid-${fieldName}`}
+            style={{ display: 'flex', marginTop: '8px' }}
           >
-            {errors[fieldName]}
+            {(errors as any)[fieldName]}
           </div>
         )}
       </small>

@@ -1,6 +1,33 @@
-import { RawTransactionType } from '@multiversx/sdk-dapp/types/transactions.types';
+import { IPlainTransactionObject } from 'lib';
 import { PairType } from './pairs.types';
 import { UserEsdtType } from './tokens.types';
+
+export enum PriceImpactLevelEnum {
+  normal = 'normal',
+  high = 'high',
+  veryHigh = 'veryHigh'
+}
+
+export interface RouteType {
+  fees: string[];
+  pairs: PairType[];
+  tokenRoute: string[];
+  pricesImpact: string[];
+  intermediaryAmounts: string[];
+}
+
+export interface PlatformFeeType {
+  feeAmount: string;
+  feePercentage: number;
+}
+
+export interface SmartRouteType extends PlatformFeeType {
+  amountOut: string;
+  routes: RouteType[];
+  tokenInExchangeRateDenom: string;
+  tokenOutExchangeRateDenom: string;
+  tokensPriceDeviationPercent: number;
+}
 
 export interface SwapRouteType {
   amountIn: string;
@@ -19,11 +46,13 @@ export interface SwapRouteType {
   pricesImpact: string[];
 
   maxPriceDeviationPercent: number;
-  tokensPriceDeviationPercent: number | null;
+  tokensPriceDeviationPercent: number;
 
   intermediaryAmounts: string[];
   pairs: PairType[];
-  transactions?: RawTransactionType[];
+  transactions?: IPlainTransactionObject[];
+
+  smartSwap: SmartRouteType | null;
 }
 
 export enum SwapActionTypesEnum {

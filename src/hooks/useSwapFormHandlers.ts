@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
-import { stringIsFloat } from '@multiversx/sdk-dapp/utils';
-import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 import { EGLD_IDENTIFIER, FIXED_INPUT, FIXED_OUTPUT } from 'constants/general';
+import { stringIsFloat, parseAmount } from 'lib';
 import { SwapRouteType, SelectOptionType } from 'types';
 import {
   getTokenDecimals,
@@ -9,6 +8,7 @@ import {
   meaningfulFormatAmount,
   getCorrectAmountsOnTokenChange
 } from 'utils';
+
 import { useInputAmountUsdValue } from './useInputAmountUsdValue';
 import { usePrevious } from './usePrevious';
 import { GetSwapRouteType } from './useSwapRoute';
@@ -56,10 +56,14 @@ export const useSwapFormHandlers = ({
       return;
     }
 
-    const { swapType, tokenInID, tokenOutID, amountIn, amountOut, pairs } =
+    const { swapType, tokenInID, tokenOutID, amountIn, pairs, smartSwap } =
       swapRoute;
+    const amountOut = smartSwap?.amountOut ?? swapRoute.amountOut;
+    const tokensPriceDeviationPercent =
+      smartSwap?.tokensPriceDeviationPercent ??
+      swapRoute.tokensPriceDeviationPercent;
 
-    setActiveRoute(swapRoute);
+    setActiveRoute({ ...swapRoute, tokensPriceDeviationPercent });
 
     const isFixedInput = swapType === FIXED_INPUT;
     const amount = isFixedInput ? amountOut : amountIn;

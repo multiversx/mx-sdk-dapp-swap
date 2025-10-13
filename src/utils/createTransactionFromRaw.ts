@@ -1,15 +1,16 @@
 import {
+  GAS_LIMIT,
+  GAS_PRICE,
+  VERSION,
+  isStringBase64,
+  getStore,
+  accountSelector,
   Address,
   Transaction,
   TransactionOptions,
-  TransactionPayload,
   TransactionVersion,
   IPlainTransactionObject
-} from '@multiversx/sdk-core';
-import { GAS_LIMIT, GAS_PRICE, VERSION } from '@multiversx/sdk-dapp/constants';
-import { accountSelector } from '@multiversx/sdk-dapp/reduxStore/selectors';
-import { store } from '@multiversx/sdk-dapp/reduxStore/store';
-import { isStringBase64 } from '@multiversx/sdk-dapp/utils/decoders/base64Utils';
+} from 'lib';
 
 export const createTransactionFromRaw = (
   rawTransaction: IPlainTransactionObject
@@ -26,21 +27,28 @@ export const createTransactionFromRaw = (
     options
   } = rawTransaction;
 
-  const { address } = accountSelector(store.getState());
+  const { address } = accountSelector(getStore().getState());
 
-  const dataPayload = isStringBase64(data ?? '')
-    ? TransactionPayload.fromEncoded(data)
-    : new TransactionPayload(data);
+  const dataPayload = data
+    ? isStringBase64(data)
+      ? Buffer.from(data, 'base64')
+      : Buffer.from(data.trim())
+    : undefined;
 
-  return new Transaction({
-    value: value.valueOf(),
+  const transaction = new Transaction({
+    value: BigInt(value),
     data: dataPayload,
     receiver: new Address(receiver),
     sender: new Address(sender && sender !== '' ? sender : address),
-    gasLimit: gasLimit.valueOf() ?? GAS_LIMIT,
-    gasPrice: gasPrice.valueOf() ?? GAS_PRICE,
+    gasLimit: BigInt(gasLimit.valueOf() ?? GAS_LIMIT),
+    gasPrice: BigInt(gasPrice.valueOf() ?? GAS_PRICE),
     chainID: chainID.valueOf(),
-    version: new TransactionVersion(version ?? VERSION),
-    ...(options ? { options: new TransactionOptions(options) } : {})
+    version: new TransactionVersion(version ?? VERSION).valueOf()
   });
+
+  if (options) {
+    transaction.options = new TransactionOptions(options).valueOf();
+  }
+
+  return transaction;
 };

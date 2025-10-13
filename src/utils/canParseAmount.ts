@@ -1,4 +1,4 @@
-import { DECIMALS } from '@multiversx/sdk-dapp/constants';
+import { DECIMALS } from 'lib';
 
 export const canParseAmount = (amount: string, paramDecimals?: number) => {
   const isFloat = amount.indexOf('.') >= 0;

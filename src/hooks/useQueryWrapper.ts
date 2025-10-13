@@ -37,14 +37,13 @@ export const useQueryWrapper = <TData>({
     ...queryOptions
   });
 
-  // listening on queryOptions resets the polling interval -> posibile race condition fix
   const startPollingCallback = useCallback(() => {
-    if (isPageVisible && isPollingEnabled && !error) {
+    if (isPageVisible && isPollingEnabled && !error && !queryOptions?.skip) {
       startPolling(POLLING_INTERVAL);
     } else {
       stopPolling();
     }
-  }, [isPageVisible, isPollingEnabled, error, queryOptions]);
+  }, [error, isPageVisible, isPollingEnabled, queryOptions?.skip]);
 
   // mount and unmount
   useEffect(() => {
@@ -71,7 +70,7 @@ export const useQueryWrapper = <TData>({
   const isRefetching = loading;
 
   return {
-    data: isError ? undefined : data,
+    data,
     error,
     isError,
     isLoading,

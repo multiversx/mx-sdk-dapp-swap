@@ -1,5 +1,5 @@
-import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 import BigNumber from 'bignumber.js';
+import { parseAmount } from 'lib';
 import { EsdtType } from 'types';
 import { RuleType } from 'validation/types';
 
@@ -14,7 +14,7 @@ export const getInputInsufficientFundsRule = (
       const bnAmount = new BigNumber(parsedAmount);
       const bnBalance = new BigNumber(token.balance ?? '0');
 
-      return bnBalance.comparedTo(bnAmount) >= 0;
+      return bnBalance.isGreaterThanOrEqualTo(bnAmount);
     }
     return true;
   }
