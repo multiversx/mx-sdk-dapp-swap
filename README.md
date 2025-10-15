@@ -60,15 +60,15 @@ import { SwapAuthorizationProvider } from '@multiversx/sdk-dapp-swap/components'
 
 ```jsx
 <SwapAuthorizationProvider
+    accessToken={accessToken}
     graphQLAddress={network.graphQlAddress}
-    getAccessToken={getAccessToken}
     getAuthorizationHeaders={getAuthorizationHeaders} // optional
 >
 ```
 
 `graphQLAddress` is a required key that is needed to tell the Apollo Client on what graphQL address it should send the requests. Accepted values are any url string as well as the xExchange GraphQL service environment based endpoint (provided in `SwapGraphQLAddressEnum`).
 
-`getAccessToken` is an async function that returns the accessToken mandatory for authorizing the requests.
+`accessToken` is the accessToken mandatory for authorizing the requests.
 
 SwapAuthorizationProvider also accepts an optional `getAuthorizationHeaders` async function that returns the headers object that will be provided on each request.
 This allows the user to specify extra rules for the authorization of the requests.
@@ -85,19 +85,21 @@ These hooks are exposed as named exports, which can be imported from sdk-dapp-sw
 ```typescript
 import { useTokens } from '@multiversx/sdk-dapp-swap/hooks';
 or;
-import { useTokens } from '@multiversx/sdk-dapp-swap/hooks/useTokens';
+import { useFilteredTokens } from '@multiversx/sdk-dapp-swap/hooks/useFilteredTokens';
 
 const {
   tokens,
-  wrappedEgld,
-  swapConfig,
+  refetch,
   getTokens,
+  swapConfig,
+  wrappedEgld,
+  isTokensError,
   isTokensLoading,
-  isTokensError
-} = useTokens(options);
+  totalTokensCount
+} = useFilteredTokens(options);
 ```
 
-The useTokens hook returns the state of the tokens based on whether you are authenticated or not. This hook accepts the `options` object in case the user wants to provide extra variables information for the query (see GetTokensType type).
+The useFilteredTokens hook returns the state of the tokens based on whether you are authenticated or not. This hook accepts the `options` object in case the user wants to provide extra variables information for the query (see GetTokensType type).
 
 ```typescript
 import { useSwapRoute } from '@multiversx/sdk-dapp-swap/hooks';
@@ -105,13 +107,13 @@ or;
 import { useSwapRoute } from '@multiversx/sdk-dapp-swap/hooks/useSwapRoute';
 
 const {
-  getSwapRoute,
   swapRoute,
-  isSwapRouteLoading,
-  isAmountInLoading,
-  isAmountOutLoading,
+  getSwapRoute,
+  swapActionType,
   swapRouteError,
-  swapActionType
+  isAmountInLoading,
+  isSwapRouteLoading,
+  isAmountOutLoading
 } = useSwapRoute({
   wrappedEgld,
   isPollingEnabled: true

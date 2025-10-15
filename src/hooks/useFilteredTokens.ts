@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
 import {
-  FilteredTokensQueryType,
   GET_FILTERED_TOKENS,
+  FilteredTokensQueryType,
   GET_FILTERED_TOKENS_AND_BALANCE
 } from 'queries';
 import {
@@ -12,30 +12,27 @@ import {
   TokensPaginationType
 } from 'types';
 import { getSortedTokensByUsdValue, mergeTokens } from 'utils';
-import { useFetchTokenPrices } from './useFetchTokenPrices';
 import { useIntersectionObserver } from './useIntersectionObserver';
 import { useLazyQueryWrapper } from './useLazyQueryWrapper';
 import { useTokenMetadataSubscription } from './useTokenMetadataSubscription';
 
 const DEFAULT_OFFSET = 0;
-const DEFAULT_LIMIT = 500;
+const DEFAULT_LIMIT = 1000;
+const DEFAULT_SEARCH_INPUT = '';
 const DEFAULT_ENABLED_SWAPS = true;
-const DEFAULT_PRICE_POLLING = false;
 const DEFAULT_IDENTIFIERS: string[] = [];
 const DEFAULT_PAGINATION: TokensPaginationType = { first: 20, after: '' };
-const DEFAULT_SEARCH_INPUT = '';
 
 interface GetTokensType {
   limit?: number;
   offset?: number;
+  searchInput?: string;
   identifiers?: string[];
   enabledSwaps?: boolean;
   pagination?: TokensPaginationType;
-  searchInput?: string;
 }
 
 interface UseTokensType {
-  pricePolling?: boolean;
   observerId?: string;
   searchInput?: string;
   identifiers?: string[];
@@ -49,7 +46,6 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     throw new Error('Swap GraphQL client not initialized');
   }
 
-  const pricePolling = options?.pricePolling ?? DEFAULT_PRICE_POLLING;
   const searchInput = options?.searchInput;
 
   const [pagination, setPagination] = useState<TokensPaginationType>({
@@ -66,22 +62,8 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   const [tokensCount, setTokensCount] = useState<number>();
   let ignoreNextHasMore = false;
 
-  const { tokenPrices } = useFetchTokenPrices({
-    isPollingEnabled: pricePolling
-  });
-
   const { subscriptionPrices, subscriptionData } =
     useTokenMetadataSubscription();
-
-  useEffect(() => {
-    if (subscriptionData?.tokenMetadataChanged) {
-      const { identifier, price } = subscriptionData.tokenMetadataChanged;
-
-      if (wrappedEgld && wrappedEgld.identifier === identifier) {
-        setWrappedEgld((prev) => (prev ? { ...prev, price } : prev));
-      }
-    }
-  }, [subscriptionData]);
 
   const handleOnCompleted = (data?: FilteredTokensQueryType | null) => {
     if (!data) return;
@@ -155,19 +137,30 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     }
   };
 
-  const tokensWithUpdatedPrice = useMemo(() => {
-    return tokens.map((token) => {
-      const subscriptionPrice = subscriptionPrices[token.identifier];
-      const pollingPrice = tokenPrices?.find(
-        ({ identifier }) => identifier === token.identifier
-      )?.price;
+  const updateWEGLDPrice = () => {
+    if (subscriptionData?.tokenMetadataChanged) {
+      const { identifier, price } = subscriptionData.tokenMetadataChanged;
 
-      return {
-        ...token,
-        price: subscriptionPrice ?? pollingPrice ?? token.price
-      };
-    });
-  }, [tokens, tokenPrices, subscriptionPrices]);
+      if (wrappedEgld && wrappedEgld.identifier === identifier) {
+        setWrappedEgld((prev) => (prev ? { ...prev, price } : prev));
+      }
+    }
+  };
+
+  useEffect(updateWEGLDPrice, [subscriptionData]);
+
+  const tokensWithUpdatedPrice = useMemo(
+    () =>
+      tokens.map((token) => {
+        const subscriptionPrice = subscriptionPrices[token.identifier];
+
+        return {
+          ...token,
+          price: subscriptionPrice ?? token.price
+        };
+      }),
+    [tokens, subscriptionPrices]
+  );
 
   useEffect(() => {
     if (isInitialLoad.current) {
@@ -190,10 +183,10 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   useIntersectionObserver({
     tokens,
     hasMore,
-    isLoading: isLoading ?? false,
-    observerId: options?.observerId ?? '',
     loadedCursors,
+    isLoading: isLoading ?? false,
     currentCursor: currentCursor ?? '',
+    observerId: options?.observerId ?? '',
     setPagination
   });
 
@@ -202,8 +195,8 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     wrappedEgld,
     isTokensError: isError,
     isTokensLoading: isLoading,
-    tokens: tokensWithUpdatedPrice,
     totalTokensCount: tokensCount,
+    tokens: tokensWithUpdatedPrice,
     getTokens,
     refetch: getTokensTrigger
   };
