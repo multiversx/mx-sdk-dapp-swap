@@ -164,11 +164,11 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   useEffect(updateWEGLDPrice, [priceSubscriptions]);
 
   const tokensWithUpdatedPrice = useMemo(() => {
-    const keys = Object(priceSubscriptions).keys();
+    const keys = Object.keys(priceSubscriptions);
 
     // we update prices only if the tokens are fetched
     if (tokens.some(({ identifier }) => keys.includes(identifier))) {
-      tokens.map((token) => {
+      return tokens.map((token) => {
         const subscriptionPrice = priceSubscriptions[token.identifier];
 
         return {
