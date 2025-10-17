@@ -2,8 +2,15 @@ import { useEffect, useState } from 'react';
 import { gql, useSubscription } from '@apollo/client';
 
 export interface TokenMetadataChangedType {
-  identifier: string;
+  tokenMetadataChanged: {
+    identifier: string;
+    price: string;
+  };
+}
+
+export interface PriceSubscriptionType {
   price: string;
+  timestamp: number;
 }
 
 const TOKEN_METADATA_SUBSCRIPTION = gql`
@@ -16,28 +23,36 @@ const TOKEN_METADATA_SUBSCRIPTION = gql`
 `;
 
 export const useTokenMetadataSubscription = () => {
-  const [subscriptionPrices, setSubscriptionPrices] = useState<
-    Record<string, string>
+  const [priceSubscriptions, setPriceSubscriptions] = useState<
+    Record<string, PriceSubscriptionType>
   >({});
 
-  const { data: subscriptionData } = useSubscription(
+  const { data } = useSubscription<TokenMetadataChangedType>(
     TOKEN_METADATA_SUBSCRIPTION
   );
 
   useEffect(() => {
-    console.log({ subscriptionData });
+    if (!data?.tokenMetadataChanged) return;
 
-    if (subscriptionData?.tokenMetadataChanged) {
-      const { identifier, price } = subscriptionData.tokenMetadataChanged;
-      setSubscriptionPrices((prev) => ({
-        ...prev,
-        [identifier]: price
-      }));
-    }
-  }, [subscriptionData]);
+    setPriceSubscriptions((prev) => {
+      const updatedPriceSubscriptions = { ...prev };
+      const { identifier, price } = data?.tokenMetadataChanged;
+
+      // Update the current symbol
+      updatedPriceSubscriptions[identifier] = { price, timestamp: Date.now() };
+
+      for (const sym in updatedPriceSubscriptions) {
+        // prices older than 10s will be deleted
+        if (Date.now() - updatedPriceSubscriptions[sym].timestamp > 10000) {
+          delete updatedPriceSubscriptions[sym];
+        }
+      }
+
+      return updatedPriceSubscriptions;
+    });
+  }, [data]);
 
   return {
-    subscriptionPrices,
-    subscriptionData
+    priceSubscriptions
   };
 };

@@ -57,13 +57,14 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   const [loadedCursors, setLoadedCursors] = useState<Set<string>>(new Set());
 
   const [tokens, setTokens] = useState<UserEsdtType[]>([]);
-  const [wrappedEgld, setWrappedEgld] = useState<EsdtType>();
+  const [wrappedEgld, setWrappedEgld] = useState<
+    { timestamp: number; token: EsdtType } | undefined
+  >();
   const [swapConfig, setSwapConfig] = useState<FactoryType>();
   const [tokensCount, setTokensCount] = useState<number>();
   let ignoreNextHasMore = false;
 
-  const { subscriptionPrices, subscriptionData } =
-    useTokenMetadataSubscription();
+  const { priceSubscriptions } = useTokenMetadataSubscription();
 
   const handleOnCompleted = (data?: FilteredTokensQueryType | null) => {
     if (!data) return;
@@ -78,7 +79,10 @@ export const useFilteredTokens = (options?: UseTokensType) => {
       wrappingInfo && wrappingInfo.length
         ? wrappingInfo[0].wrappedToken
         : undefined;
-    setWrappedEgld(newWrappedEgld);
+
+    if (newWrappedEgld) {
+      setWrappedEgld({ timestamp: Date.now(), token: newWrappedEgld });
+    }
 
     if (!edges) return;
 
@@ -138,29 +142,44 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   };
 
   const updateWEGLDPrice = () => {
-    if (subscriptionData?.tokenMetadataChanged) {
-      const { identifier, price } = subscriptionData.tokenMetadataChanged;
+    if (priceSubscriptions) {
+      const priceUpdate = wrappedEgld?.token.identifier
+        ? priceSubscriptions[wrappedEgld?.token.identifier]
+        : undefined;
 
-      if (wrappedEgld && wrappedEgld.identifier === identifier) {
-        setWrappedEgld((prev) => (prev ? { ...prev, price } : prev));
+      // update price only if it is outdated
+      if (
+        wrappedEgld &&
+        priceUpdate &&
+        priceUpdate.timestamp > wrappedEgld.timestamp
+      ) {
+        setWrappedEgld({
+          timestamp: Date.now(),
+          token: { ...wrappedEgld.token, price: priceUpdate.price }
+        });
       }
     }
   };
 
-  useEffect(updateWEGLDPrice, [subscriptionData]);
+  useEffect(updateWEGLDPrice, [priceSubscriptions]);
 
-  const tokensWithUpdatedPrice = useMemo(
-    () =>
+  const tokensWithUpdatedPrice = useMemo(() => {
+    const keys = Object(priceSubscriptions).keys();
+
+    // we update prices only if the tokens are fetched
+    if (tokens.some(({ identifier }) => keys.includes(identifier))) {
       tokens.map((token) => {
-        const subscriptionPrice = subscriptionPrices[token.identifier];
+        const subscriptionPrice = priceSubscriptions[token.identifier];
 
         return {
           ...token,
-          price: subscriptionPrice ?? token.price
+          price: subscriptionPrice.price ?? token.price
         };
-      }),
-    [tokens, subscriptionPrices]
-  );
+      });
+    }
+
+    return tokens;
+  }, [tokens, priceSubscriptions]);
 
   useEffect(() => {
     if (isInitialLoad.current) {
@@ -192,11 +211,11 @@ export const useFilteredTokens = (options?: UseTokensType) => {
 
   return {
     swapConfig,
-    wrappedEgld,
     isTokensError: isError,
     isTokensLoading: isLoading,
     totalTokensCount: tokensCount,
     tokens: tokensWithUpdatedPrice,
+    wrappedEgld: wrappedEgld?.token,
     getTokens,
     refetch: getTokensTrigger
   };
