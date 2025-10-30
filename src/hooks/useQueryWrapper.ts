@@ -25,7 +25,7 @@ export const useQueryWrapper = <TData>({
     loading,
     previousData,
     data = previousData,
-    refetch,
+    refetch: internalRefetch,
     stopPolling,
     startPolling,
     ...rest
@@ -37,13 +37,25 @@ export const useQueryWrapper = <TData>({
     ...queryOptions
   });
 
+  // polling must be sincronized with manual requests
   const startPollingCallback = useCallback(() => {
+    stopPolling();
+
     if (isPageVisible && isPollingEnabled && !error && !queryOptions?.skip) {
       startPolling(POLLING_INTERVAL);
-    } else {
-      stopPolling();
     }
-  }, [error, isPageVisible, isPollingEnabled, queryOptions?.skip]);
+  }, [
+    error,
+    isPageVisible,
+    isPollingEnabled,
+    queryOptions?.skip,
+    queryOptions?.variables
+  ]);
+
+  const refetch = () => {
+    internalRefetch();
+    startPollingCallback();
+  };
 
   // mount and unmount
   useEffect(() => {
