@@ -1,5 +1,6 @@
 export * from './useWrapEgld';
 export * from './useSwapInfo';
+export * from './usePrevious';
 export * from './useSwapRoute';
 export * from './useUnwrapEgld';
 export * from './useQueryWrapper';
@@ -11,4 +12,4 @@ export * from './useSwapFormHandlers';
 export * from './useInputAmountUsdValue';
 export * from './useFetchMaintenanceFlag';
 export * from './useIntersectionObserver';
-export * from './usePrevious';
+export * from './useTokenPriceSubscription';

@@ -14,7 +14,7 @@ import {
 import { getSortedTokensByUsdValue, mergeTokens } from 'utils';
 import { useIntersectionObserver } from './useIntersectionObserver';
 import { useLazyQueryWrapper } from './useLazyQueryWrapper';
-import { useTokenMetadataSubscription } from './useTokenMetadataSubscription';
+import { useTokenPriceSubscription } from './useTokenPriceSubscription';
 
 const DEFAULT_OFFSET = 0;
 const DEFAULT_LIMIT = 1000;
@@ -64,7 +64,7 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   const [tokensCount, setTokensCount] = useState<number>();
   let ignoreNextHasMore = false;
 
-  const { priceSubscriptions } = useTokenMetadataSubscription();
+  const { priceSubscriptions } = useTokenPriceSubscription();
 
   const handleOnCompleted = (data?: FilteredTokensQueryType | null) => {
     if (!data) return;
@@ -173,7 +173,7 @@ export const useFilteredTokens = (options?: UseTokensType) => {
 
         return {
           ...token,
-          price: subscriptionPrice.price ?? token.price
+          price: subscriptionPrice?.price ?? token.price
         };
       });
     }

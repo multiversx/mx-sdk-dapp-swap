@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
-  ApolloClient,
   from,
+  split,
   HttpLink,
-  InMemoryCache,
-  split
+  ApolloClient,
+  InMemoryCache
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
@@ -30,88 +30,105 @@ export const SwapAuthorizationProvider = ({
     requestParams: AuthorizationHeadersRequestParamsType
   ) => Promise<void | null | Record<string, string>>;
 }) => {
-  const authMiddleware = setContext(async (req, { headers }) => {
-    const requestParams: AuthorizationHeadersRequestParamsType = {
-      url: graphQLAddress,
-      params: req?.variables,
-      body: {
-        operationName: req?.operationName,
-        variables: req?.variables,
-        query: print(req?.query)
-      },
-      method: 'POST'
-    };
+  const authMiddleware = useMemo(
+    () =>
+      setContext(async (req, { headers }) => {
+        // start - specific to xPortal
+        const requestParams: AuthorizationHeadersRequestParamsType = {
+          url: graphQLAddress,
+          params: req?.variables,
+          body: {
+            operationName: req?.operationName,
+            variables: req?.variables,
+            query: print(req?.query)
+          },
+          method: 'POST'
+        };
 
-    const authorizationHeaders = await getAuthorizationHeaders?.(requestParams);
-
-    const authorizationBearerHeader = accessToken
-      ? {
-          Authorization: `Bearer ${accessToken}`
-        }
-      : {};
-
-    return {
-      headers: {
-        ...headers,
-        ...authorizationBearerHeader,
-        ...authorizationHeaders
-      }
-    };
-  });
-
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors) {
-      graphQLErrors.forEach(({ message, locations, path }) => {
-        console.log(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        const requestedAuthorizationHeaders = await getAuthorizationHeaders?.(
+          requestParams
         );
-      });
-    }
+        // end - specific to xPortal
 
-    if (networkError) {
-      console.log(`[Network error]: ${networkError}`);
-    }
-  });
+        const authorization = accessToken
+          ? { Authorization: `Bearer ${accessToken}` }
+          : {};
 
-  const httpLink = new HttpLink({
-    uri: graphQLAddress
-  });
-
-  const wsLink = new WebSocketLink({
-    uri: graphQLAddress,
-    options: {
-      reconnect: true
-    }
-  });
-
-  // Split traffic between HTTP and WebSocket
-  const splitLink = split(
-    ({ query }) => {
-      const definition = getMainDefinition(query);
-      return (
-        definition.kind === 'OperationDefinition' &&
-        definition.operation === 'subscription'
-      );
-    },
-    wsLink,
-    httpLink
+        return {
+          headers: {
+            ...headers,
+            ...authorization,
+            ...requestedAuthorizationHeaders
+          }
+        };
+      }),
+    [accessToken]
   );
 
-  const client = new ApolloClient({
-    link: from([authMiddleware, errorLink, splitLink]),
-    cache: new InMemoryCache(),
-    queryDeduplication: false,
-    defaultOptions: {
-      watchQuery: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
-      },
-      query: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
+  const httpLink = useMemo(() => {
+    const errorLink = onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors) {
+        graphQLErrors.forEach(({ message, locations, path }) => {
+          console.log(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+          );
+        });
       }
-    }
-  });
+
+      if (networkError) {
+        console.log(`[Network error]: ${networkError}`);
+      }
+    });
+
+    return from([errorLink, new HttpLink({ uri: graphQLAddress })]);
+  }, [graphQLAddress]);
+
+  const wsLink = useMemo(
+    () =>
+      new WebSocketLink({
+        uri: graphQLAddress.replace('https', 'wss'),
+        options: {
+          reconnect: true
+        }
+      }),
+    []
+  );
+
+  const splitLink = useMemo(
+    () =>
+      split(
+        ({ query }) => {
+          const definition = getMainDefinition(query);
+          return (
+            definition.kind === 'OperationDefinition' &&
+            definition.operation === 'subscription'
+          );
+        },
+        wsLink,
+        authMiddleware.concat(httpLink)
+      ),
+    [wsLink, authMiddleware, httpLink]
+  );
+
+  const client = useMemo(
+    () =>
+      new ApolloClient({
+        cache: new InMemoryCache(),
+        link: authMiddleware.concat(splitLink),
+        queryDeduplication: false, // FIX: fixes canceled queries not beeing sent to the server when retriggered
+        defaultOptions: {
+          watchQuery: {
+            fetchPolicy: 'no-cache',
+            errorPolicy: 'all'
+          },
+          query: {
+            fetchPolicy: 'no-cache',
+            errorPolicy: 'all'
+          }
+        }
+      }),
+    [authMiddleware, splitLink]
+  );
 
   return (
     <AuthorizationContext.Provider

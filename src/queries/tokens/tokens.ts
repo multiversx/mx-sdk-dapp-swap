@@ -55,7 +55,7 @@ export const GET_FILTERED_TOKENS = gql`
 
 export const GET_FILTERED_TOKENS_AND_BALANCE = gql`
   query swapPackageFilteredTokensWithBalance ($identifiers: [String!], $pagination: ConnectionArgs, $searchInput: String, $offset: Int, $limit: Int, $enabledSwaps: Boolean) {
-   filteredTokens (pagination: $pagination, filters: {searchToken: $searchInput, enabledSwaps: $enabledSwaps, identifiers: $identifiers}) {
+    filteredTokens (pagination: $pagination, filters: {searchToken: $searchInput, enabledSwaps: $enabledSwaps, identifiers: $identifiers}) {
       edges {
         node {
           ${esdtAttributes}
