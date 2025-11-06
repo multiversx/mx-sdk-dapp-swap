@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.0.8](https://github.com/multiversx/mx-sdk-dapp-swap/pull/75)] - 2025-11-06
+
+- [Implement subscriptions for token prices](https://github.com/multiversx/mx-sdk-dapp-swap/pull/46)
+
 ## [[4.0.7](https://github.com/multiversx/mx-sdk-dapp-swap/pull/74)] - 2025-10-02
 
 - [Fixes swap route polling issue after form submission](https://github.com/multiversx/mx-sdk-dapp-swap/pull/73)
