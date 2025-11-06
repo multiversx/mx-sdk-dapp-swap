@@ -35,7 +35,6 @@ export const useTokenPriceSubscription = () => {
     setPriceSubscriptions((prev) => {
       const updatedPriceSubscriptions = { ...prev };
 
-      console.log(data?.tokensPriceUpdated);
       try {
         data?.tokensPriceUpdated.updates.forEach((entry) => {
           const identifier = entry[0];
