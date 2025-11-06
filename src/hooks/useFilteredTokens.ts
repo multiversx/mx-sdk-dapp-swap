@@ -57,9 +57,7 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   const [loadedCursors, setLoadedCursors] = useState<Set<string>>(new Set());
 
   const [tokens, setTokens] = useState<UserEsdtType[]>([]);
-  const [wrappedEgld, setWrappedEgld] = useState<
-    { timestamp: number; token: EsdtType } | undefined
-  >();
+  const [wrappedEgld, setWrappedEgld] = useState<EsdtType>();
   const [swapConfig, setSwapConfig] = useState<FactoryType>();
   const [tokensCount, setTokensCount] = useState<number>();
   let ignoreNextHasMore = false;
@@ -81,7 +79,7 @@ export const useFilteredTokens = (options?: UseTokensType) => {
         : undefined;
 
     if (newWrappedEgld) {
-      setWrappedEgld({ timestamp: Date.now(), token: newWrappedEgld });
+      setWrappedEgld(newWrappedEgld);
     }
 
     if (!edges) return;
@@ -143,19 +141,15 @@ export const useFilteredTokens = (options?: UseTokensType) => {
 
   const updateWEGLDPrice = () => {
     if (priceSubscriptions) {
-      const priceUpdate = wrappedEgld?.token.identifier
-        ? priceSubscriptions[wrappedEgld?.token.identifier]
+      const priceUpdateForWegld = wrappedEgld?.identifier
+        ? priceSubscriptions[wrappedEgld?.identifier]
         : undefined;
 
       // update price only if it is outdated
-      if (
-        wrappedEgld &&
-        priceUpdate &&
-        priceUpdate.timestamp > wrappedEgld.timestamp
-      ) {
+      if (wrappedEgld && priceUpdateForWegld) {
         setWrappedEgld({
-          timestamp: Date.now(),
-          token: { ...wrappedEgld.token, price: priceUpdate.price }
+          ...wrappedEgld,
+          price: priceUpdateForWegld.price
         });
       }
     }
@@ -211,11 +205,11 @@ export const useFilteredTokens = (options?: UseTokensType) => {
 
   return {
     swapConfig,
+    wrappedEgld,
     isTokensError: isError,
     isTokensLoading: isLoading,
     totalTokensCount: tokensCount,
     tokens: tokensWithUpdatedPrice,
-    wrappedEgld: wrappedEgld?.token,
     getTokens,
     refetch: getTokensTrigger
   };
