@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { OperationVariables } from '@apollo/client';
 import BigNumber from 'bignumber.js';
 import { useAuthorizationContext } from 'components/SwapAuthorizationProvider';
-import { FIXED_INPUT, FIXED_OUTPUT } from 'constants/general';
+import { FIXED_INPUT, FIXED_OUTPUT, POLLING_INTERVAL } from 'constants/general';
 import { IPlainTransactionObject } from 'lib';
 import {
   swapQuery,
@@ -52,9 +52,11 @@ export interface UseSwapRouteType {
 
 export const useSwapRoute = ({
   wrappedEgld,
-  isPollingEnabled = false
+  isPollingEnabled = false,
+  pollingIntervalMiliseconds = POLLING_INTERVAL
 }: {
   wrappedEgld?: EsdtType;
+  pollingIntervalMiliseconds?: number;
   isPollingEnabled?: boolean;
 }): UseSwapRouteType => {
   const { client, isAuthenticated } = useAuthorizationContext();
@@ -105,7 +107,8 @@ export const useSwapRoute = ({
         client,
         variables
       },
-      isPollingEnabled
+      isPollingEnabled,
+      pollingIntervalMiliseconds
     });
 
   const handleOnCompleted = () => {
