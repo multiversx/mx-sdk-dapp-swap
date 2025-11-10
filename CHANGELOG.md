@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.0.9](https://github.com/multiversx/mx-sdk-dapp-swap/pull/77)] - 2025-11-10
+
+- [Implement customizable polling interval. Lowers default interval to 2s. Maintenance interval increased to 30s.](https://github.com/multiversx/mx-sdk-dapp-swap/pull/76)
+
 ## [[4.0.8](https://github.com/multiversx/mx-sdk-dapp-swap/pull/75)] - 2025-11-06
 
 - [Implement subscriptions for token prices](https://github.com/multiversx/mx-sdk-dapp-swap/pull/46)

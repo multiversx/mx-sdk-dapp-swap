@@ -9,10 +9,12 @@ export const useQueryWrapper = <TData>({
   queryOptions,
   refetchTrigger,
   isPollingEnabled = false,
+  pollingIntervalMiliseconds = POLLING_INTERVAL,
   isRefetchEnabled = false
 }: {
   query: DocumentNode;
   refetchTrigger?: number;
+  pollingIntervalMiliseconds?: number;
   isPollingEnabled?: boolean;
   isRefetchEnabled?: boolean;
   queryOptions?: QueryHookOptions<TData>;
@@ -42,7 +44,7 @@ export const useQueryWrapper = <TData>({
     stopPolling();
 
     if (isPageVisible && isPollingEnabled && !error && !queryOptions?.skip) {
-      startPolling(POLLING_INTERVAL);
+      startPolling(pollingIntervalMiliseconds);
     }
   }, [
     error,
