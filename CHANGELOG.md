@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.1.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/79)] - 2025-11-24
+
+- [Migrated to sdk-dapp v5.3.3 and pnpm package manager](https://github.com/multiversx/mx-sdk-dapp-swap/pull/78)
+
 ## [[4.0.9](https://github.com/multiversx/mx-sdk-dapp-swap/pull/77)] - 2025-11-10
 
 - [Implement customizable polling interval. Lowers default interval to 2s. Maintenance interval increased to 30s.](https://github.com/multiversx/mx-sdk-dapp-swap/pull/76)
