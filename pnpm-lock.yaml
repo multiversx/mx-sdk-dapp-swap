@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@multiversx/sdk-dapp-utils':
-        specifier: ^2.x
-        version: 2.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
+        specifier: ^3.x
+        version: 3.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(bignumber.js@9.3.1)
       anchorme:
         specifier: 2.1.2
         version: 2.1.2
@@ -31,14 +31,14 @@ importers:
         version: 0.32.11
     devDependencies:
       '@apollo/client':
-        specifier: ^3.11.8
-        version: 3.14.0(@types/react@18.2.24)(graphql@16.12.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: 3.11.8
+        version: 3.11.8(@types/react@18.2.24)(graphql@16.12.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@multiversx/sdk-core':
         specifier: ^15.x
         version: 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
       '@multiversx/sdk-dapp':
         specifier: ^5.x
-        version: 5.3.3(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-dapp-utils@2.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))(@types/react@18.2.24)(axios@1.13.2)(bignumber.js@9.3.1)(protobufjs@7.5.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@4.7.4)(vue@3.5.25(typescript@4.7.4))
+        version: 5.5.0(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-dapp-utils@3.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(bignumber.js@9.3.1))(@types/react@18.2.24)(axios@1.13.2)(bignumber.js@9.3.1)(protobufjs@7.5.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@4.7.4)(vue@3.5.25(typescript@4.7.4))
       '@size-limit/preset-small-lib':
         specifier: 7.0.8
         version: 7.0.8(size-limit@7.0.8)
@@ -202,13 +202,13 @@ packages:
     peerDependencies:
       ajv: '>=8'
 
-  '@apollo/client@3.14.0':
-    resolution: {integrity: sha512-0YQKKRIxiMlIou+SekQqdCo0ZTHxOcES+K8vKB53cIDpwABNR0P0yRzPgsbgcj3zRJniD93S/ontsnZsCLZrxQ==}
+  '@apollo/client@3.11.8':
+    resolution: {integrity: sha512-CgG1wbtMjsV2pRGe/eYITmV5B8lXUCYljB2gB/6jWTFQcrvirUVvKg7qtFdjYkQSFbIffU1IDyxgeaN81eTjbA==}
     peerDependencies:
       graphql: ^15.0.0 || ^16.0.0
-      graphql-ws: ^5.5.5 || ^6.0.3
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc
+      graphql-ws: ^5.5.5
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0
       subscriptions-transport-ws: ^0.9.0 || ^0.11.0
     peerDependenciesMeta:
       graphql-ws:
@@ -1382,13 +1382,14 @@ packages:
     resolution: {integrity: sha512-87a7D+Qg1HrQBBfKTlIBD4gWB4zodyTuFUUDCDfXWPO5LMSQYtP/D2QUB5uHrNVn0Ng9QcBbY/wGTD/dQs3SMA==}
     engines: {node: '>=20.19.0'}
 
-  '@multiversx/sdk-dapp-utils@2.0.2':
-    resolution: {integrity: sha512-qxkYV3qtLxY6nckXsxtYZJ8zLY0zalpxgLQfYWaz2uOjEswraky/2PLxSaws1ts0YP3PPc0SrKIDfN9wVOA7EQ==}
+  '@multiversx/sdk-dapp-utils@3.0.2':
+    resolution: {integrity: sha512-x2b2Gz5j0mDPUV2UK0fyDideGq/tfznvFJUJIJUMfKRy9Frni26UXZuQXCN4ngs344fd+8XoJOeviNV6cXSFdw==}
     peerDependencies:
-      '@multiversx/sdk-core': '>= 14.0.1'
+      '@multiversx/sdk-core': ^14.0.0 || ^15.0.0
+      bignumber.js: ^9.x
 
-  '@multiversx/sdk-dapp@5.3.3':
-    resolution: {integrity: sha512-vQ1t02AYKQUc6xt2/0x1Pu2pi/iCJZHzwQwf3mRUsjbxeKB9efhcJFKIBtbVmIUn9DpAu+/bON4XMnxiOyg5cQ==}
+  '@multiversx/sdk-dapp@5.5.0':
+    resolution: {integrity: sha512-72ddiZRjDnV+IkvHvOBMTiD8zJmHaoyUP6niyRLH/C10fh7imlHbMXTnvCEkDA9Nef+OJYPDrRxB+10ABtpHLw==}
     peerDependencies:
       '@multiversx/sdk-core': ^14.x || ^15.x
       '@multiversx/sdk-dapp-utils': ^3.x
@@ -1396,13 +1397,13 @@ packages:
       bignumber.js: ^9.x
       protobufjs: ^7.2.6
 
-  '@multiversx/sdk-extension-provider@5.1.1':
-    resolution: {integrity: sha512-q24eSFiXQ4SQG3UZU8FILGut/fw9WL9o6UjTSzF6CIUuFHtSQ/bLJnMIHM1ZHTeqhOYNfXhI6ozOIwtP3mR+xQ==}
+  '@multiversx/sdk-extension-provider@5.1.2':
+    resolution: {integrity: sha512-jxu18WKnc8ZLaLdl6ePcLStG2aZB1f9W0m2wPJt2UbHnPMhnk/okoYZYWlHfiF/L8WZGzQn8VXwcmras/vdwlw==}
     peerDependencies:
       '@multiversx/sdk-core': ^14.0.0 || ^15.0.0
 
-  '@multiversx/sdk-hw-provider@8.1.1':
-    resolution: {integrity: sha512-vrCoqTRPmXDFyR8LeRlEk/oyrUXhD1nk9tAltXyzJgRIUcuyPJJKd45pi8mumBP0DTmzICeJKgi+A8wHxogL8g==}
+  '@multiversx/sdk-hw-provider@8.1.2':
+    resolution: {integrity: sha512-Q/cIOi+3JiZ4/FV/608kEcaQAprv9NP2GmuxONdPW5YACIHGdS5WILsQTL6xqDxBsNEfN71DbbNHKEr7pqnq6Q==}
     peerDependencies:
       '@multiversx/sdk-core': ^14.0.0 || ^15.0.0
 
@@ -1414,31 +1415,26 @@ packages:
   '@multiversx/sdk-transaction-decoder@1.0.2':
     resolution: {integrity: sha512-j43QsKquu8N51WLmVlJ7dV2P3A1448R7/ktvl8r3i6wRMpfdtzDPNofTdHmMRT7DdQdvs4+RNgz8hVKL11Etsw==}
 
-  '@multiversx/sdk-wallet-connect-provider@6.1.3':
-    resolution: {integrity: sha512-hulgy2aXqE/nYt7sYjKKvkU+h3OSJM57+6WSdUUdyslp/J3Gqe5vc0mWMkkEMDr0pDEpMlLGMu3J1SjtbMd+9w==}
+  '@multiversx/sdk-wallet-connect-provider@6.1.4':
+    resolution: {integrity: sha512-uiRLQ9oBM4KAUxuYlh/QgbYGRjgJuxHTuvjtmDgh5GYbfdiPeXXkoQsUI01IYgCvMl/8iVv4ss4YAfgob6riOw==}
     peerDependencies:
       '@multiversx/sdk-core': ^14.0.0 || ^15.0.0
 
-  '@multiversx/sdk-web-wallet-cross-window-provider@3.2.1':
-    resolution: {integrity: sha512-INWbQ+GXtGz+aIRZZcmFhTIfJPyf4F5X2HrG0BQu9riT31QxoIjpwSd8M91QyODbgUEJHUVCKppOe038/Xb1xw==}
+  '@multiversx/sdk-web-wallet-cross-window-provider@3.2.2':
+    resolution: {integrity: sha512-CBMrf+oNKoBa/YFDTqzItLrERaW4n0pJIlGsP67H0Vr6bUlFLIlc30qsOGvWNoZvMDeDxvhvR7crayypETJSJw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@multiversx/sdk-core': ^14.0.0 || ^15.0.0
 
-  '@multiversx/sdk-web-wallet-iframe-provider@4.0.0':
-    resolution: {integrity: sha512-V9eDWSublrau6yXASzQwCkdwr9ATxfQ8C8Ok27wSmx9Ok/JrSK1eCgN2XcrehFonn8nYnTHehYR1Qe0QZ6q+iw==}
+  '@multiversx/sdk-web-wallet-iframe-provider@4.0.1':
+    resolution: {integrity: sha512-zIIKX4G1xYk7XSBQsHuihOag7pUAVGMZ1q3vug9XpwBwcQvgcSwC5RHzrYQusPpVdkTHIn3qa3JHqjwNj1VtGA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@multiversx/sdk-core': ^14.0.0 || ^15.0.0
       '@multiversx/sdk-web-wallet-cross-window-provider': ^3.x
 
-  '@multiversx/sdk-web-wallet-provider@5.1.1':
-    resolution: {integrity: sha512-3ZKA3vhOKPkPzmpcRZRoAATBWOXnO7kOu/9yC2TEHQImQi38CoLkWCUH1uHWOlccZ32ciDsp/YIfOP/DgG1KiQ==}
-    peerDependencies:
-      '@multiversx/sdk-core': ^14.0.0  || ^15.0.0
-
-  '@multiversx/sdk-webview-provider@3.2.5':
-    resolution: {integrity: sha512-mHpQfuJc7xVXcyMx9iz/BLxM6pBftdibfFU4RLEGivBuw57xxY2veCWyfYW/MpaN9qFa7XA/X9N5PhEb6zbRsQ==}
+  '@multiversx/sdk-webview-provider@3.2.6':
+    resolution: {integrity: sha512-Zq+mjdbPavnSLRvt4TuFqfIbnh0esADbEJgxs0lbGP6YxyL1zDbyxoDpWNpjYDb6o6X87buZMrO8qlHaInxQ6g==}
     peerDependencies:
       '@multiversx/sdk-core': ^14.0.0 || ^15.0.0
       '@multiversx/sdk-web-wallet-cross-window-provider': ^3.x
@@ -3626,8 +3622,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.259:
-    resolution: {integrity: sha512-I+oLXgpEJzD6Cwuwt1gYjxsDmu/S/Kd41mmLA3O+/uH2pFRO/DvOjUyGozL8j3KeLV6WyZ7ssPwELMsXCcsJAQ==}
+  electron-to-chromium@1.5.260:
+    resolution: {integrity: sha512-ov8rBoOBhVawpzdre+Cmz4FB+y66Eqrk6Gwqd8NGxuhv99GQ8XqMAr351KEkOt7gukXWDg6gJWEMKgL2RLMPtA==}
 
   elliptic@6.6.1:
     resolution: {integrity: sha512-RaddvvMatK2LJHqFJ+YA4WysVN5Ita9E35botqIYspQ4TkRAlCicdzKOjlyv/1Za5RyTNn7di//eEV0uTAfe3g==}
@@ -6602,10 +6598,6 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  qs@6.10.3:
-    resolution: {integrity: sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==}
-    engines: {node: '>=0.6'}
-
   qs@6.11.2:
     resolution: {integrity: sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==}
     engines: {node: '>=0.6'}
@@ -6868,6 +6860,10 @@ packages:
   resolve@2.0.0-next.5:
     resolution: {integrity: sha512-U7WjGVG9sH8tvjW5SmGbQuui75FiyjAX72HX15DwBBwF9dNiQZRQAg9nnPhYy+TUnE0+VcrttuvNI8oSxZcocA==}
     hasBin: true
+
+  response-iterator@0.2.25:
+    resolution: {integrity: sha512-15K4tT8X35W0zJ5bv3fAf4eEKqOwS7yzd+Bg6YEE9NLltVbPbuTcYo3J2AP6AMQGMJmJkFCG421+kP2/iCBfDA==}
+    engines: {node: '>=0.8'}
 
   restore-cursor@3.1.0:
     resolution: {integrity: sha512-l+sSefzHpj5qimhFSE5a8nufZYAM3sBSVMAPtYkmC+4EH2anSGaEMXSD0izRQbu9nfyQ9y5JrVmp7E8oZrUjvA==}
@@ -8167,7 +8163,7 @@ snapshots:
       jsonpointer: 5.0.1
       leven: 3.1.0
 
-  '@apollo/client@3.14.0(@types/react@18.2.24)(graphql@16.12.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@apollo/client@3.11.8(@types/react@18.2.24)(graphql@16.12.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.12.0)
       '@wry/caches': 1.0.1
@@ -8179,6 +8175,7 @@ snapshots:
       optimism: 0.18.1
       prop-types: 15.8.1
       rehackt: 0.1.0(@types/react@18.2.24)(react@18.2.0)
+      response-iterator: 0.2.25
       symbol-observable: 4.0.0
       ts-invariant: 0.10.3
       tslib: 2.4.0
@@ -9819,23 +9816,23 @@ snapshots:
       - vue-router
     optional: true
 
-  '@multiversx/sdk-dapp-utils@2.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))':
+  '@multiversx/sdk-dapp-utils@3.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(bignumber.js@9.3.1)':
     dependencies:
       '@multiversx/sdk-core': 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
+      bignumber.js: 9.3.1
 
-  '@multiversx/sdk-dapp@5.3.3(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-dapp-utils@2.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))(@types/react@18.2.24)(axios@1.13.2)(bignumber.js@9.3.1)(protobufjs@7.5.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@4.7.4)(vue@3.5.25(typescript@4.7.4))':
+  '@multiversx/sdk-dapp@5.5.0(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-dapp-utils@3.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(bignumber.js@9.3.1))(@types/react@18.2.24)(axios@1.13.2)(bignumber.js@9.3.1)(protobufjs@7.5.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@4.7.4)(vue@3.5.25(typescript@4.7.4))':
     dependencies:
       '@lifeomic/axios-fetch': 3.0.1
       '@multiversx/sdk-core': 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
-      '@multiversx/sdk-dapp-utils': 2.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
-      '@multiversx/sdk-extension-provider': 5.1.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
-      '@multiversx/sdk-hw-provider': 8.1.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
+      '@multiversx/sdk-dapp-utils': 3.0.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(bignumber.js@9.3.1)
+      '@multiversx/sdk-extension-provider': 5.1.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
+      '@multiversx/sdk-hw-provider': 8.1.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
       '@multiversx/sdk-native-auth-client': 2.0.1(axios@1.13.2)
-      '@multiversx/sdk-wallet-connect-provider': 6.1.3(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(typescript@4.7.4)
-      '@multiversx/sdk-web-wallet-cross-window-provider': 3.2.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
-      '@multiversx/sdk-web-wallet-iframe-provider': 4.0.0(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-web-wallet-cross-window-provider@3.2.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))
-      '@multiversx/sdk-web-wallet-provider': 5.1.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
-      '@multiversx/sdk-webview-provider': 3.2.5(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-web-wallet-cross-window-provider@3.2.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))
+      '@multiversx/sdk-wallet-connect-provider': 6.1.4(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(typescript@4.7.4)
+      '@multiversx/sdk-web-wallet-cross-window-provider': 3.2.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
+      '@multiversx/sdk-web-wallet-iframe-provider': 4.0.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-web-wallet-cross-window-provider@3.2.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))
+      '@multiversx/sdk-webview-provider': 3.2.6(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-web-wallet-cross-window-provider@3.2.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))
       axios: 1.13.2
       bignumber.js: 9.3.1
       immer: 10.1.1
@@ -9882,11 +9879,11 @@ snapshots:
       - vue-router
       - zod
 
-  '@multiversx/sdk-extension-provider@5.1.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))':
+  '@multiversx/sdk-extension-provider@5.1.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))':
     dependencies:
       '@multiversx/sdk-core': 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
 
-  '@multiversx/sdk-hw-provider@8.1.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))':
+  '@multiversx/sdk-hw-provider@8.1.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))':
     dependencies:
       '@ledgerhq/devices': 8.0.3
       '@ledgerhq/errors': 6.12.6
@@ -9906,7 +9903,7 @@ snapshots:
     dependencies:
       bech32: 2.0.0
 
-  '@multiversx/sdk-wallet-connect-provider@6.1.3(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(typescript@4.7.4)':
+  '@multiversx/sdk-wallet-connect-provider@6.1.4(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(typescript@4.7.4)':
     dependencies:
       '@multiversx/sdk-core': 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
       '@walletconnect/sign-client': 2.22.4(typescript@4.7.4)
@@ -9937,28 +9934,23 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@multiversx/sdk-web-wallet-cross-window-provider@3.2.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))':
+  '@multiversx/sdk-web-wallet-cross-window-provider@3.2.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))':
     dependencies:
       '@multiversx/sdk-core': 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
       qs: 6.11.2
 
-  '@multiversx/sdk-web-wallet-iframe-provider@4.0.0(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-web-wallet-cross-window-provider@3.2.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))':
+  '@multiversx/sdk-web-wallet-iframe-provider@4.0.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-web-wallet-cross-window-provider@3.2.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))':
     dependencies:
       '@multiversx/sdk-core': 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
-      '@multiversx/sdk-web-wallet-cross-window-provider': 3.2.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
+      '@multiversx/sdk-web-wallet-cross-window-provider': 3.2.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
       '@types/jest': 29.5.14
       '@types/qs': 6.9.10
       qs: 6.11.2
 
-  '@multiversx/sdk-web-wallet-provider@5.1.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))':
+  '@multiversx/sdk-webview-provider@3.2.6(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-web-wallet-cross-window-provider@3.2.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))':
     dependencies:
       '@multiversx/sdk-core': 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
-      qs: 6.10.3
-
-  '@multiversx/sdk-webview-provider@3.2.5(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))(@multiversx/sdk-web-wallet-cross-window-provider@3.2.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)))':
-    dependencies:
-      '@multiversx/sdk-core': 15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4)
-      '@multiversx/sdk-web-wallet-cross-window-provider': 3.2.1(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
+      '@multiversx/sdk-web-wallet-cross-window-provider': 3.2.2(@multiversx/sdk-core@15.3.1(bignumber.js@9.3.1)(protobufjs@7.5.4))
 
   '@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1':
     dependencies:
@@ -11836,7 +11828,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.8.31
       caniuse-lite: 1.0.30001757
-      electron-to-chromium: 1.5.259
+      electron-to-chromium: 1.5.260
       node-releases: 2.0.27
       update-browserslist-db: 1.1.4(browserslist@4.28.0)
 
@@ -12601,7 +12593,7 @@ snapshots:
     dependencies:
       jake: 10.9.4
 
-  electron-to-chromium@1.5.259: {}
+  electron-to-chromium@1.5.260: {}
 
   elliptic@6.6.1:
     dependencies:
@@ -15157,7 +15149,7 @@ snapshots:
 
   log-symbols@4.1.0:
     dependencies:
-      chalk: 4.1.2
+      chalk: 4.1.1
       is-unicode-supported: 0.1.0
 
   long@5.3.2: {}
@@ -16297,10 +16289,6 @@ snapshots:
       yargs: 15.4.1
     optional: true
 
-  qs@6.10.3:
-    dependencies:
-      side-channel: 1.1.0
-
   qs@6.11.2:
     dependencies:
       side-channel: 1.1.0
@@ -16686,6 +16674,8 @@ snapshots:
       is-core-module: 2.16.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+
+  response-iterator@0.2.25: {}
 
   restore-cursor@3.1.0:
     dependencies:
