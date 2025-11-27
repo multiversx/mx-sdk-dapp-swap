@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { gql, useSubscription } from '@apollo/client';
+import { useAuthorizationContext } from 'components/SwapAuthorizationProvider/context/AuthorizationContext';
 
 export interface TokenPriceDateSubscriptionType {
   tokensPriceUpdated: {
@@ -25,8 +26,13 @@ export const useTokenPriceSubscription = () => {
     Record<string, PriceSubscriptionType>
   >({});
 
+  const { client } = useAuthorizationContext();
+
   const { data } = useSubscription<TokenPriceDateSubscriptionType>(
-    tokensPriceSubscriptionQuery
+    tokensPriceSubscriptionQuery,
+    {
+      client
+    }
   );
 
   useEffect(() => {

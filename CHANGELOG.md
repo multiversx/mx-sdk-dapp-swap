@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.1.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/83)] - 2025-11-27
+
+- [Added missing `client` option to `useSubscription`](https://github.com/multiversx/mx-sdk-dapp-swap/pull/82)
+
 ## [[4.1.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/81)] - 2025-11-25
 
 - [Migrated sdk-dapp-utils to ^3.x](https://github.com/multiversx/mx-sdk-dapp-swap/pull/80)
