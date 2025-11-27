@@ -1,6 +1,6 @@
 {
   "name": "@multiversx/sdk-dapp-swap",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "A library to hold the main logic for swapping between tokens on the MultiversX blockchain",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
@@ -13,14 +13,16 @@
     "node": ">=18"
   },
   "scripts": {
-    "start": "yarn watch",
+    "start": "npm run watch",
     "build:esm-types": "tsc --project tsconfig.json",
     "build:cjs-types": "tsc --build tsconfig.cjs.json",
-    "build": "rimraf dist && node esbuild.js && yarn build:esm-types && yarn build:cjs-types && cp package.json dist && cp README.md dist",
-    "publish-package": "yarn test && yarn build && cd dist && npm publish",
-    "publish-package-next": "yarn test && yarn build && cd dist && npm publish --tag next",
-    "publish-yalc": "yarn build && cd dist && yalc publish --push",
-    "watch": "yarn node esbuild-watch.js && yarn build:types -- --watch",
+    "build": "rimraf dist && node esbuild.js && npm run build:esm-types && npm run build:cjs-types && cp package.json dist && cp README.md dist",
+    "publish-package": "npm run test && npm run build && cd dist && npm publish",
+    "publish-package-next": "npm run test && npm run build && cd dist && npm publish --tag next",
+    "publish-yalc": "npm run build && cd dist && yalc publish --push",
+    "unpublish-verdaccio": "npm unpublish @multiversx/sdk-dapp-swap --force --registry http://localhost:4873",
+    "publish-verdaccio": "npm run unpublish-verdaccio && npm run build && cd dist && npm publish --registry http://localhost:4873/",
+    "watch": "npm run node esbuild-watch.js && npm run build:types -- --watch",
     "test": "jest",
     "test:watch": "jest --watch"
   },
