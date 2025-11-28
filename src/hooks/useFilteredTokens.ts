@@ -21,35 +21,42 @@ const DEFAULT_LIMIT = 1000;
 const DEFAULT_SEARCH_INPUT = '';
 const DEFAULT_ENABLED_SWAPS = true;
 const DEFAULT_IDENTIFIERS: string[] = [];
-const DEFAULT_PAGINATION: TokensPaginationType = { first: 20, after: '' };
 
 interface GetTokensType {
-  limit?: number;
-  offset?: number;
   searchInput?: string;
   identifiers?: string[];
   enabledSwaps?: boolean;
   pagination?: TokensPaginationType;
 }
 
-interface UseTokensType {
+interface UseFilteredTokensType {
   observerId?: string;
   searchInput?: string;
   identifiers?: string[];
+  enableProgressiveFetching?: boolean;
 }
 
-export const useFilteredTokens = (options?: UseTokensType) => {
+export const useFilteredTokens = (
+  filteredTokensParams?: UseFilteredTokensType
+) => {
   const isInitialLoad = useRef(true);
+  const enableProgressiveFetching =
+    filteredTokensParams?.enableProgressiveFetching ?? true;
   const { client, isAuthenticated } = useAuthorizationContext();
+
+  const DEFAULT_PAGE_SIZE = useMemo(
+    () => (enableProgressiveFetching ? 20 : 60),
+    [enableProgressiveFetching]
+  );
 
   if (!client) {
     throw new Error('Swap GraphQL client not initialized');
   }
 
-  const searchInput = options?.searchInput;
+  const searchInput = filteredTokensParams?.searchInput;
 
   const [pagination, setPagination] = useState<TokensPaginationType>({
-    first: 20,
+    first: DEFAULT_PAGE_SIZE,
     after: ''
   });
   const [hasMore, setHasMore] = useState(true);
@@ -60,7 +67,6 @@ export const useFilteredTokens = (options?: UseTokensType) => {
   const [wrappedEgld, setWrappedEgld] = useState<EsdtType>();
   const [swapConfig, setSwapConfig] = useState<FactoryType>();
   const [tokensCount, setTokensCount] = useState<number>();
-  let ignoreNextHasMore = false;
 
   const { priceSubscriptions } = useTokenPriceSubscription();
 
@@ -98,12 +104,9 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     });
 
     setTokens((prevTokens) => mergeTokens(prevTokens, sortedTokensWithBalance));
-
-    if (!pageInfo?.hasNextPage && !ignoreNextHasMore) {
-      setHasMore(false);
-    } else {
-      ignoreNextHasMore = false;
-    }
+    setHasMore(
+      enableProgressiveFetching && pageInfo?.hasNextPage ? true : false
+    );
   };
 
   const {
@@ -120,23 +123,22 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     }
   });
 
-  const getTokens = (options?: GetTokensType, continueFetching?: boolean) => {
+  const getTokens = (options?: GetTokensType) => {
     const variables = {
-      limit: options?.limit ?? DEFAULT_LIMIT,
-      offset: options?.offset ?? DEFAULT_OFFSET,
+      userTokensLimit: DEFAULT_LIMIT,
+      userTokensOffset: DEFAULT_OFFSET,
       identifiers: options?.identifiers ?? DEFAULT_IDENTIFIERS,
       enabledSwaps: options?.enabledSwaps ?? DEFAULT_ENABLED_SWAPS,
-      pagination: options?.pagination ?? DEFAULT_PAGINATION,
+      pagination: options?.pagination ?? {
+        first: DEFAULT_PAGE_SIZE,
+        after: ''
+      },
       searchInput: options?.searchInput ?? DEFAULT_SEARCH_INPUT
     };
 
     getTokensTrigger({
       variables
     });
-
-    if (continueFetching) {
-      ignoreNextHasMore = true;
-    }
   };
 
   const updateWEGLDPrice = () => {
@@ -175,31 +177,44 @@ export const useFilteredTokens = (options?: UseTokensType) => {
     return tokens;
   }, [tokens, priceSubscriptions]);
 
-  useEffect(() => {
+  const onSearchInputChange = () => {
     if (isInitialLoad.current) {
       isInitialLoad.current = false;
       return;
     }
-    setPagination({ first: 20, after: '' });
+    setPagination({
+      first: DEFAULT_PAGE_SIZE,
+      after: ''
+    });
     setLoadedCursors(new Set());
     setHasMore(true);
-    getTokens({ pagination: { first: 20, after: '' }, searchInput });
-  }, [searchInput]);
+    getTokens({
+      pagination: {
+        first: DEFAULT_PAGE_SIZE,
+        after: ''
+      },
+      searchInput
+    });
+  };
 
-  useEffect(() => {
+  const onPaginationChange = () => {
     if (pagination.after) {
       setLoadedCursors((prev) => new Set(prev).add(pagination.after as string));
       getTokens({ pagination, searchInput });
     }
-  }, [pagination]);
+  };
+
+  useEffect(onSearchInputChange, [searchInput]);
+  useEffect(onPaginationChange, [pagination]);
 
   useIntersectionObserver({
     tokens,
     hasMore,
     loadedCursors,
+    pageSize: DEFAULT_PAGE_SIZE,
     isLoading: isLoading ?? false,
     currentCursor: currentCursor ?? '',
-    observerId: options?.observerId ?? '',
+    observerId: filteredTokensParams?.observerId ?? '',
     setPagination
   });
 
