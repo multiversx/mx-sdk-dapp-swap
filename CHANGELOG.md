@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [[4.1.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/83)] - 2025-11-27
+## [[4.1.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/84)] - 2025-11-28
 
+- [Added `enableProgressiveFetching` option to `useFilteredTokens`](https://github.com/multiversx/mx-sdk-dapp-swap/pull/83)
 - [Added missing `client` option to `useSubscription`](https://github.com/multiversx/mx-sdk-dapp-swap/pull/82)
 
 ## [[4.1.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/81)] - 2025-11-25
