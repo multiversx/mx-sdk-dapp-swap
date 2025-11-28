@@ -1,12 +1,12 @@
 import {
+  VERSION,
+  Address,
+  getStore,
   GAS_LIMIT,
   GAS_PRICE,
-  VERSION,
-  isStringBase64,
-  getStore,
-  accountSelector,
-  Address,
   Transaction,
+  isStringBase64,
+  accountSelector,
   TransactionOptions,
   TransactionVersion,
   IPlainTransactionObject

@@ -3,6 +3,7 @@ import { TokensPaginationType, UserEsdtType } from 'types';
 
 interface UseIntersectionObserverType {
   hasMore: boolean;
+  pageSize: number;
   observerId: string;
   isLoading: boolean;
   currentCursor: string;
@@ -14,6 +15,7 @@ interface UseIntersectionObserverType {
 export const useIntersectionObserver = ({
   tokens,
   hasMore,
+  pageSize,
   isLoading,
   observerId,
   loadedCursors,
@@ -31,7 +33,7 @@ export const useIntersectionObserver = ({
           // Check if the current cursor is already loaded
           if (currentCursor && !loadedCursors.has(currentCursor)) {
             const newPagination = {
-              first: 20,
+              first: pageSize,
               after: currentCursor
             };
 
