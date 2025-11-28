@@ -104,9 +104,7 @@ export const useFilteredTokens = (
     });
 
     setTokens((prevTokens) => mergeTokens(prevTokens, sortedTokensWithBalance));
-    setHasMore(
-      enableProgressiveFetching && pageInfo?.hasNextPage ? true : false
-    );
+    setHasMore(Boolean(enableProgressiveFetching && pageInfo?.hasNextPage));
   };
 
   const {
