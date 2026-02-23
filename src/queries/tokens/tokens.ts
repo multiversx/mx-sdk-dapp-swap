@@ -20,10 +20,10 @@ export interface TokensType {
 }
 
 export interface FilteredTokensQueryType {
-  filteredTokens: FilteredTokensType;
   factory: FactoryType;
   userTokens?: UserEsdtType[];
   wrappingInfo: WrappingInfoType[];
+  filteredTokens: FilteredTokensType;
 }
 
 export const GET_FILTERED_TOKENS = gql`
