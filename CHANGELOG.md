@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.1.3](https://github.com/multiversx/mx-sdk-dapp-swap/pull/86)] - 2026-02-23
+
+- [Restores price polling and improves the logic](https://github.com/multiversx/mx-sdk-dapp-swap/pull/85)
+
 ## [[4.1.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/84)] - 2025-11-28
 
 - [Added `enableProgressiveFetching` option to `useFilteredTokens`](https://github.com/multiversx/mx-sdk-dapp-swap/pull/83)
