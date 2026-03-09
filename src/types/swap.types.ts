@@ -9,7 +9,6 @@ export enum PriceImpactLevelEnum {
 }
 
 export interface RouteType {
-  fees: string[];
   pairs: PairType[];
   tokenRoute: string[];
   pricesImpact: string[];
@@ -30,6 +29,8 @@ export interface SmartRouteType extends PlatformFeeType {
 }
 
 export interface SwapRouteType {
+  source: string;
+
   amountIn: string;
   tokenInID: string;
   tokenInPriceUSD: string;
@@ -40,7 +41,6 @@ export interface SwapRouteType {
   tokenOutPriceUSD: string;
   tokenOutExchangeRateDenom: string;
 
-  fees: string[];
   swapType: number; // 0 fixedInput, 1 fixedOutput
   tokenRoute: string[];
   pricesImpact: string[];
@@ -48,8 +48,8 @@ export interface SwapRouteType {
   maxPriceDeviationPercent: number;
   tokensPriceDeviationPercent: number;
 
-  intermediaryAmounts: string[];
   pairs: PairType[];
+  intermediaryAmounts: string[];
   transactions?: IPlainTransactionObject[];
 
   smartSwap: SmartRouteType | null;
@@ -59,12 +59,6 @@ export enum SwapActionTypesEnum {
   wrap = 'wrap',
   unwrap = 'unwrap',
   swap = 'swap'
-}
-
-export interface SwapFeeDetailsType {
-  totalFee?: number;
-  burn?: number;
-  lpHolders?: number;
 }
 
 export interface TokenType {

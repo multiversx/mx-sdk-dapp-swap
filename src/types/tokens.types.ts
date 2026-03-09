@@ -24,10 +24,6 @@ export interface EsdtType extends TokenBaseType {
   previous7dPrice?: string;
 }
 
-export interface NftCollectionType extends TokenBaseType {
-  collection: string;
-}
-
 export interface UserEsdtType extends EsdtType {
   valueUSD: string;
   usdPrice?: string;

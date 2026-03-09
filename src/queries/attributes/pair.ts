@@ -1,5 +1,4 @@
 import { esdtAttributes } from './esdt';
-import { simpleLockAttributes } from './simpleLock';
 
 export const pairAttributes = `
   address
@@ -9,15 +8,9 @@ export const pairAttributes = `
   secondToken {
     ${esdtAttributes}
   }
-  type
-  feesAPR
-  totalFeePercent
-  specialFeePercent
+`;
 
-  lockedTokensInfo {
-    lockingSC {
-      ${simpleLockAttributes}
-    }
-    unlockEpoch
-  }
+export const smartSwapPairAttributes = `
+  dex
+  ${pairAttributes}
 `;
