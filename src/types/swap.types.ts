@@ -21,6 +21,7 @@ export interface PlatformFeeType {
 }
 
 export interface SmartRouteType extends PlatformFeeType {
+  source: string;
   amountOut: string;
   routes: RouteType[];
   tokenInExchangeRateDenom: string;
@@ -29,8 +30,6 @@ export interface SmartRouteType extends PlatformFeeType {
 }
 
 export interface SwapRouteType {
-  source: string;
-
   amountIn: string;
   tokenInID: string;
   tokenInPriceUSD: string;

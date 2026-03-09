@@ -129,7 +129,6 @@ export const useSwapRoute = ({
         const amount = variables.amountIn ?? variables.amountOut;
 
         const wrappingSwapRoute: SwapRouteType = {
-          source: 'internal',
           amountIn: amount ?? '0',
           tokenInID: variables.tokenInID,
           tokenInPriceUSD: wrappedEgld?.price ?? '0',

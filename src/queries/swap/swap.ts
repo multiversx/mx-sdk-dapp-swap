@@ -29,8 +29,6 @@ const swapString = `
       tokenOutID: $tokenOutID
       tolerance: $tolerance
     ) {
-      source
-
       amountIn
       tokenInID
       tokenInPriceUSD
@@ -53,6 +51,7 @@ const swapString = `
         ${pairAttributes}
       }
       smartSwap {
+        source
         feeAmount
         feePercentage
         amountOut
