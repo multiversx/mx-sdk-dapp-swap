@@ -1,19 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import { formatAmount } from 'lib';
-import {
-  SwapRouteType,
-  PlatformFeeType,
-  SwapFeeDetailsType,
-  SwapActionTypesEnum
-} from 'types';
+import { SwapRouteType, PlatformFeeType, SwapActionTypesEnum } from 'types';
 import {
   getPriceImpact,
   TokenRouteType,
   getTokenRoutes,
   PriceImpactType,
-  getPairFeeDetails,
-  getTotalFeesUsdValue,
   calculateMinimumReceived,
   calculateSwapTransactionsFee
 } from 'utils';
@@ -33,9 +26,7 @@ export const useSwapInfo = ({
   const [priceImpact, setPriceImpact] = useState<PriceImpactType>();
   const [platformFee, setPlatformFee] = useState<PlatformFeeType>();
   const [tokenRoutes, setTokenRoutes] = useState<TokenRouteType[]>();
-  const [feeDetails, setFeeDetails] = useState<SwapFeeDetailsType>();
   const [receivedUsdValue, setReceivedUsdValue] = useState<string>();
-  const [totalFeesUsdValue, setTotalFeesUsdValue] = useState<string>();
   const [minimumAmountReceived, setMinimumAmountReceived] = useState<string>();
 
   const {
@@ -58,14 +49,8 @@ export const useSwapInfo = ({
       return;
     }
 
-    const {
-      pairs,
-      swapType,
-      smartSwap,
-      amountOut,
-      tokenOutID,
-      tokenOutPriceUSD
-    } = activeRoute;
+    const { swapType, smartSwap, amountOut, tokenOutID, tokenOutPriceUSD } =
+      activeRoute;
 
     const tokenRoutes = getTokenRoutes({ activeRoute });
 
@@ -92,27 +77,8 @@ export const useSwapInfo = ({
       .times(tokenOutPriceUSD)
       .toString(10);
 
-    pairs.forEach((pair) => {
-      const { totalFee, burn, lpHolders } = getPairFeeDetails(pair);
-
-      const newFeeTooltip = {
-        totalFee,
-        burn,
-        lpHolders
-      };
-
-      setFeeDetails(newFeeTooltip);
-      return;
-    });
-
     const newPriceImpact = activeRoute?.amountIn
       ? getPriceImpact({
-          activeRoute
-        })
-      : undefined;
-
-    const newTotalFeesUsdValue = activeRoute?.amountIn
-      ? getTotalFeesUsdValue({
           activeRoute
         })
       : undefined;
@@ -132,14 +98,12 @@ export const useSwapInfo = ({
     setPriceImpact(newPriceImpact);
     setReceivedUsdValue(newReceivedUsdValue);
     setMinimumAmountReceived(minimumReceived);
-    setTotalFeesUsdValue(newTotalFeesUsdValue);
   };
 
   useEffect(handleUpdateStats, [tolerance, activeRoute, swapActionType]);
 
   return {
     tokenInId,
-    feeDetails,
     tokenOutId,
     tokenRoutes,
     priceImpact,
@@ -147,7 +111,6 @@ export const useSwapInfo = ({
     exchangeRate,
     rateDirection,
     receivedUsdValue,
-    totalFeesUsdValue,
     totalTransactionsFee,
     minimumAmountReceived,
     switchTokensDirection

@@ -154,13 +154,10 @@ or;
 import { useSwapInfo } from '@multiversx/sdk-dapp-swap/hooks/useSwapInfo';
 
 const {
-  exchangeRate,
-  feeDetails,
-  feeAmounts,
-  pricesImpact,
-  feePercentages,
   tokenInId,
   tokenOutId,
+  exchangeRate,
+  pricesImpact,
   totalTransactionsFee,
   minimumAmountReceived,
   exchangeRateUsdValue,
@@ -254,7 +251,6 @@ import {
   removeCommas,
   canParseAmount,
   getTokenDecimals,
-  getPairFeeDetails,
   getTransactionFee,
   translateSwapError,
   getSwapActionType,

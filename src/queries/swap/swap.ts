@@ -1,6 +1,10 @@
 import { gql } from '@apollo/client';
 import { SwapRouteType } from 'types';
-import { transactionAttributes, pairAttributes } from '../attributes';
+import {
+  transactionAttributes,
+  pairAttributes,
+  smartSwapPairAttributes
+} from '../attributes';
 
 const transactionsPlaceholder = 'TRANSACTIONS_PLACEHOLDER';
 
@@ -35,7 +39,6 @@ const swapString = `
       tokenOutPriceUSD
       tokenOutExchangeRateDenom
 
-      fees
       swapType
       tokenRoute
       pricesImpact
@@ -48,6 +51,7 @@ const swapString = `
         ${pairAttributes}
       }
       smartSwap {
+        source
         feeAmount
         feePercentage
         amountOut
@@ -56,12 +60,11 @@ const swapString = `
         tokensPriceDeviationPercent
         routes {
           pairs {
-            ${pairAttributes}
+            ${smartSwapPairAttributes}
           }
           tokenRoute
           pricesImpact
           intermediaryAmounts
-          fees
         }
       }
       ${transactionsPlaceholder}

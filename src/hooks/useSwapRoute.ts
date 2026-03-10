@@ -141,7 +141,6 @@ export const useSwapRoute = ({
           tokenOutPriceUSD: wrappedEgld?.price ?? '0',
           tokenOutExchangeRateDenom: '1',
 
-          fees: [],
           swapType,
           tokenRoute: [],
           pricesImpact: [],
