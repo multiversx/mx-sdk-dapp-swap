@@ -1,6 +1,6 @@
 import { IPlainTransactionObject } from 'lib';
 import { PairType } from './pairs.types';
-import { UserEsdtType } from './tokens.types';
+import { EsdtType, UserEsdtType } from './tokens.types';
 
 export enum PriceImpactLevelEnum {
   normal = 'normal',
@@ -17,6 +17,7 @@ export interface RouteType {
 
 export interface PlatformFeeType {
   feeAmount: string;
+  feeToken: EsdtType;
   feePercentage: number;
 }
 

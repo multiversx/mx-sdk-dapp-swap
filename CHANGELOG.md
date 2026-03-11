@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.1.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/89)] - 2026-03-11
+
+- [Adds feeToken to SmartSwap](https://github.com/multiversx/mx-sdk-dapp-swap/pull/89)
+
 ## [[4.1.4](https://github.com/multiversx/mx-sdk-dapp-swap/pull/88)] - 2026-03-09
 
 - [Adds multi dex swaps support. Cleanup.](https://github.com/multiversx/mx-sdk-dapp-swap/pull/87)

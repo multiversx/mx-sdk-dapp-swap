@@ -52,6 +52,7 @@ const swapString = `
       }
       smartSwap {
         source
+        feeToken
         feeAmount
         feePercentage
         amountOut
