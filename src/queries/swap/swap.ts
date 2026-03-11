@@ -3,7 +3,8 @@ import { SwapRouteType } from 'types';
 import {
   transactionAttributes,
   pairAttributes,
-  smartSwapPairAttributes
+  smartSwapPairAttributes,
+  esdtAttributes
 } from '../attributes';
 
 const transactionsPlaceholder = 'TRANSACTIONS_PLACEHOLDER';
@@ -52,6 +53,9 @@ const swapString = `
       }
       smartSwap {
         source
+        feeToken {
+          ${esdtAttributes}
+        }
         feeAmount
         feePercentage
         amountOut

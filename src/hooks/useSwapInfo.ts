@@ -86,6 +86,7 @@ export const useSwapInfo = ({
     setPlatformFee(
       smartSwap
         ? {
+            feeToken: smartSwap.feeToken,
             feeAmount: smartSwap.feeAmount,
             feePercentage: new BigNumber(smartSwap.feePercentage)
               .times(100)
