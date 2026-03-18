@@ -21,6 +21,7 @@ import { translateSwapError, getSwapActionType } from 'utils';
 import { useQueryWrapper } from './useQueryWrapper';
 
 export interface GetSwapRouteType {
+  sender?: string;
   amountIn?: string;
   tokenInID: string;
   amountOut?: string;
@@ -59,7 +60,7 @@ export const useSwapRoute = ({
   pollingIntervalMiliseconds?: number;
   isPollingEnabled?: boolean;
 }): UseSwapRouteType => {
-  const { client, isAuthenticated } = useAuthorizationContext();
+  const { client, sender, isAuthenticated } = useAuthorizationContext();
 
   if (!client) {
     throw new Error('Swap GraphQL client not initialized');
@@ -99,13 +100,22 @@ export const useSwapRoute = ({
     return false;
   }, [variables]);
 
+  const finalVariables = useMemo(() => {
+    if (!variables) return variables;
+
+    return {
+      ...variables,
+      sender
+    };
+  }, [variables, sender]);
+
   const { data, error, refetch, isRefetching, isLoading, isError } =
     useQueryWrapper<SwapRouteQueryResponseType | WrappingQueryResponseType>({
       query,
       queryOptions: {
         skip,
         client,
-        variables
+        variables: finalVariables
       },
       isPollingEnabled,
       pollingIntervalMiliseconds
@@ -189,11 +199,11 @@ export const useSwapRoute = ({
         : tolerancePercentage;
 
     const variables: GetSwapRouteVariablesType = {
-      wrappingAmount: amountIn ?? amountOut,
       amountIn,
       amountOut,
       tokenInID,
       tokenOutID,
+      wrappingAmount: amountIn ?? amountOut,
       tolerance: guardedTolerancePercentage / 100
     };
 

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.1.6](https://github.com/multiversx/mx-sdk-dapp-swap/pull/91)] - 2026-03-18
+
+- [Adds sender param to swap query](https://github.com/multiversx/mx-sdk-dapp-swap/pull/90)
+
 ## [[4.1.5](https://github.com/multiversx/mx-sdk-dapp-swap/pull/89)] - 2026-03-11
 
 - [Adds feeToken to SmartSwap](https://github.com/multiversx/mx-sdk-dapp-swap/pull/89)
