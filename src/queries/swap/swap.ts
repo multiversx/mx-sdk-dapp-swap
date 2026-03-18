@@ -22,6 +22,7 @@ const swapString = `
     $tokenInID: String!
     $tokenOutID: String!
     $tolerance: Float!
+    $sender: String
   ) {
     swap(
       amountIn: $amountIn
@@ -29,6 +30,7 @@ const swapString = `
       tokenInID: $tokenInID
       tokenOutID: $tokenOutID
       tolerance: $tolerance
+      sender: $sender
     ) {
       amountIn
       tokenInID

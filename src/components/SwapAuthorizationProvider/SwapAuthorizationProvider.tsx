@@ -11,6 +11,7 @@ import { onError } from '@apollo/client/link/error';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { print } from 'graphql';
+import { decodeNativeAuthToken } from 'lib';
 import {
   SwapGraphQLAddressEnum,
   AuthorizationHeadersRequestParamsType
@@ -130,10 +131,16 @@ export const SwapAuthorizationProvider = ({
     [authMiddleware, splitLink]
   );
 
+  const sender = useMemo(
+    () => decodeNativeAuthToken(accessToken)?.address,
+    [accessToken]
+  );
+
   return (
     <AuthorizationContext.Provider
       value={{
         client,
+        sender,
         accessToken,
         isAuthenticated: Boolean(accessToken)
       }}
