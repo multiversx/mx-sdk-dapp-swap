@@ -106,6 +106,9 @@ import { useSwapRoute } from '@multiversx/sdk-dapp-swap/hooks';
 or;
 import { useSwapRoute } from '@multiversx/sdk-dapp-swap/hooks/useSwapRoute';
 
+// reduces load on the microservice side by not querying transactions if the user does not have enough balance for the swap
+const [hasEnoughBalance, setHasEnoughBalance] = useState(false);
+
 const {
   swapRoute,
   getSwapRoute,
@@ -116,6 +119,7 @@ const {
   isAmountOutLoading
 } = useSwapRoute({
   wrappedEgld,
+  hasEnoughBalance,
   isPollingEnabled: true
 });
 ```
@@ -144,6 +148,12 @@ const {
   getSwapRoute,
   tolerancePercentage
 });
+
+useMemo(() => {
+  setHasEnoughBalance(
+    getHasEnoughBalance({ token: firstToken?.token, amount: firstAmount })
+  );
+}, [firstToken?.token, firstAmount]);
 ```
 
 The useSwapFormHandlers hook returns the state of both the tokens and amounts, as well as the callbacks required for the inputs, selects, the maximum amount button and the button that triggers both tokens to switch. This hook accepts a mandatory parameter called `getSwapRoute` which is a function that comes from useSwapRoute (see useSwapRoute for reference) and an optional `tolerancePercentage`, which is the tolerance of the user account.
