@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.1.7](https://github.com/multiversx/mx-sdk-dapp-swap/pull/93)] - 2026-03-23
+
+- [Improves useSwapRoute query by adding hasEnoughBalance param](https://github.com/multiversx/mx-sdk-dapp-swap/pull/92)
+
 ## [[4.1.6](https://github.com/multiversx/mx-sdk-dapp-swap/pull/91)] - 2026-03-18
 
 - [Adds sender param to swap query](https://github.com/multiversx/mx-sdk-dapp-swap/pull/90)
