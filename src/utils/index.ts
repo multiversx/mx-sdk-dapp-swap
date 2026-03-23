@@ -11,6 +11,7 @@ export * from './getSwapActionType';
 export * from './getTokensFromPairs';
 export * from './translateSwapError';
 export * from './getBalanceMinusDust';
+export * from './getHasEnoughBalance';
 export * from './meaningfulFormatAmount';
 export * from './calculateMinimumReceived';
 export * from './createTransactionFromRaw';

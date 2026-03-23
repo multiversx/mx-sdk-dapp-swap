@@ -53,12 +53,14 @@ export interface UseSwapRouteType {
 
 export const useSwapRoute = ({
   wrappedEgld,
+  hasEnoughBalance = true, // this is default true in order to not break the logic for dapps that do not send hasEnoughBalance
   isPollingEnabled = false,
   pollingIntervalMiliseconds = POLLING_INTERVAL
 }: {
   wrappedEgld?: EsdtType;
-  pollingIntervalMiliseconds?: number;
+  hasEnoughBalance?: boolean;
   isPollingEnabled?: boolean;
+  pollingIntervalMiliseconds?: number;
 }): UseSwapRouteType => {
   const { client, sender, isAuthenticated } = useAuthorizationContext();
 
@@ -86,8 +88,10 @@ export const useSwapRoute = ({
     if (swapActionType === SwapActionTypesEnum.wrap) return wrapEgldQuery;
     if (swapActionType === SwapActionTypesEnum.unwrap) return unwrapEgldQuery;
 
-    return isAuthenticated ? swapQuery : swapWithoutTransactionsQuery;
-  }, [isAuthenticated, swapActionType]);
+    return isAuthenticated && hasEnoughBalance
+      ? swapQuery
+      : swapWithoutTransactionsQuery;
+  }, [isAuthenticated, swapActionType, hasEnoughBalance]);
 
   const skip = useMemo(() => {
     if (!variables) return true;
@@ -105,9 +109,9 @@ export const useSwapRoute = ({
 
     return {
       ...variables,
-      sender
+      sender: hasEnoughBalance ? sender : undefined
     };
-  }, [variables, sender]);
+  }, [variables, sender, hasEnoughBalance]);
 
   const { data, error, refetch, isRefetching, isLoading, isError } =
     useQueryWrapper<SwapRouteQueryResponseType | WrappingQueryResponseType>({
