@@ -12,10 +12,9 @@ import {
   TokensPaginationType
 } from 'types';
 import { getSortedTokensByUsdValue, mergeTokens } from 'utils';
-import { useFetchTokenPrices } from './useFetchTokenPrices';
 import { useIntersectionObserver } from './useIntersectionObserver';
 import { useLazyQueryWrapper } from './useLazyQueryWrapper';
-// import { useTokenPriceSubscription } from './useTokenPriceSubscription';
+import { useTokenPriceSubscription } from './useTokenPriceSubscription';
 
 const DEFAULT_OFFSET = 0;
 const DEFAULT_LIMIT = 1000;
@@ -34,7 +33,6 @@ interface UseFilteredTokensType {
   observerId?: string;
   searchInput?: string;
   identifiers?: string[];
-  pricePolling?: boolean;
   enableProgressiveFetching?: boolean;
 }
 
@@ -70,13 +68,7 @@ export const useFilteredTokens = (
   const [swapConfig, setSwapConfig] = useState<FactoryType>();
   const [tokensCount, setTokensCount] = useState<number>();
 
-  // TODO enable when moving back to subs
-  // const { priceSubscriptions } = useTokenPriceSubscription();
-
-  const { tokenPrices } = useFetchTokenPrices({
-    identifiers: tokens.map(({ identifier }) => identifier),
-    isPollingEnabled: filteredTokensParams?.pricePolling ?? false
-  });
+  const { priceSubscriptions } = useTokenPriceSubscription();
 
   const handleOnCompleted = (data?: FilteredTokensQueryType | null) => {
     if (!data) return;
@@ -147,69 +139,41 @@ export const useFilteredTokens = (
     });
   };
 
-  // TODO revert when moving back to subs
-  // const updateWEGLDPrice = () => {
-  //   if (priceSubscriptions) {
-  //     const priceUpdateForWegld = wrappedEgld?.identifier
-  //       ? priceSubscriptions[wrappedEgld?.identifier]
-  //       : undefined;
-
-  //     // update price only if it is outdated
-  //     if (wrappedEgld && priceUpdateForWegld) {
-  //       setWrappedEgld({
-  //         ...wrappedEgld,
-  //         price: priceUpdateForWegld.price
-  //       });
-  //     }
-  //   }
-  // };
-
-  // useEffect(updateWEGLDPrice, [priceSubscriptions]);
-
-  // const tokensWithUpdatedPrice = useMemo(() => {
-  //   const keys = Object.keys(priceSubscriptions);
-
-  //   // we update prices only if the tokens are fetched
-  //   if (tokens.some(({ identifier }) => keys.includes(identifier))) {
-  //     return tokens.map((token) => {
-  //       const subscriptionPrice = priceSubscriptions[token.identifier];
-
-  //       return {
-  //         ...token,
-  //         price: subscriptionPrice?.price ?? token.price
-  //       };
-  //     });
-  //   }
-
-  //   return tokens;
-  // }, [tokens, priceSubscriptions]);
-
   const updateWEGLDPrice = () => {
-    const price = tokenPrices?.find(
-      ({ node }) => node.identifier === wrappedEgld?.identifier
-    )?.node.price;
+    if (priceSubscriptions) {
+      const priceUpdateForWegld = wrappedEgld?.identifier
+        ? priceSubscriptions[wrappedEgld?.identifier]
+        : undefined;
 
-    if (price) {
-      setWrappedEgld((prev) => (prev ? { ...prev, price } : prev));
+      // update price only if it is outdated
+      if (wrappedEgld && priceUpdateForWegld) {
+        setWrappedEgld({
+          ...wrappedEgld,
+          price: priceUpdateForWegld.price
+        });
+      }
     }
   };
 
-  useEffect(updateWEGLDPrice, [tokenPrices]);
+  useEffect(updateWEGLDPrice, [priceSubscriptions]);
 
-  const tokensWithUpdatedPrice = useMemo(
-    () =>
-      tokens.map((token) => {
-        const tokenPrice = tokenPrices?.find(
-          ({ node }) => node.identifier === token.identifier
-        )?.node.price;
+  const tokensWithUpdatedPrice = useMemo(() => {
+    const keys = Object.keys(priceSubscriptions);
+
+    // we update prices only if the tokens are fetched
+    if (tokens.some(({ identifier }) => keys.includes(identifier))) {
+      return tokens.map((token) => {
+        const subscriptionPrice = priceSubscriptions[token.identifier];
 
         return {
           ...token,
-          price: tokenPrice ?? token.price
+          price: subscriptionPrice?.price ?? token.price
         };
-      }),
-    [tokens, tokenPrices]
-  );
+      });
+    }
+
+    return tokens;
+  }, [tokens, priceSubscriptions]);
 
   const onSearchInputChange = () => {
     if (isInitialLoad.current) {
