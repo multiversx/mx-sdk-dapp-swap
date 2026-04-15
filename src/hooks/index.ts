@@ -8,7 +8,6 @@ export * from './useIsPageVisible';
 export * from './useFilteredTokens';
 export * from './useRateCalculator';
 export * from './useLazyQueryWrapper';
-export * from './useFetchTokenPrices';
 export * from './useSwapFormHandlers';
 export * from './useInputAmountUsdValue';
 export * from './useFetchMaintenanceFlag';
