@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.1.9](https://github.com/multiversx/mx-sdk-dapp-swap/pull/97)] - 2026-04-30
+
+- [Fixes getHasEnoughBalance for tokens with 6 decimals](https://github.com/multiversx/mx-sdk-dapp-swap/pull/96)
+
 ## [[4.1.8](https://github.com/multiversx/mx-sdk-dapp-swap/pull/95)] - 2026-04-15
 
 - [Enables websocket price updates](https://github.com/multiversx/mx-sdk-dapp-swap/pull/94)

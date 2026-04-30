@@ -16,5 +16,5 @@ export const getHasEnoughBalance = ({
 
   return new BigNumber(token.balance ?? '0')
     .minus(parsedAmount)
-    .isGreaterThan(0);
+    .isGreaterThanOrEqualTo(0);
 };
