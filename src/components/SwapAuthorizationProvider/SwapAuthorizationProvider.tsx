@@ -46,9 +46,8 @@ export const SwapAuthorizationProvider = ({
           method: 'POST'
         };
 
-        const requestedAuthorizationHeaders = await getAuthorizationHeaders?.(
-          requestParams
-        );
+        const requestedAuthorizationHeaders =
+          await getAuthorizationHeaders?.(requestParams);
         // end - specific to xPortal
 
         const authorization = accessToken
