@@ -93,6 +93,10 @@
     "smart-contract",
     "transaction"
   ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "peerDependencies": {
     "@apollo/client": "^3.14.1",
     "@multiversx/sdk-core": "^14.0.0 || ^15.0.0",

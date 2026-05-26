@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   publish-npm:
@@ -39,13 +40,9 @@ jobs:
         uses: andreigiura/action-nodejs-package-info@v1.0.2
 
       - name: Publish to npmjs next version
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.package.outputs.is-prerelease == 'true'}}
         run: echo ${{ steps.package.outputs.is-prerelease}} && cd dist && npm publish --tag next
 
       - name: Publish to npmjs
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.package.outputs.is-prerelease == 'false' }}
         run: cd dist && npm publish
