@@ -8,9 +8,10 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { WebSocketLink } from '@apollo/client/link/ws';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { print } from 'graphql';
+import { createClient } from 'graphql-ws';
 import { decodeNativeAuthToken } from 'lib';
 import {
   SwapGraphQLAddressEnum,
@@ -85,12 +86,11 @@ export const SwapAuthorizationProvider = ({
 
   const wsLink = useMemo(
     () =>
-      new WebSocketLink({
-        uri: graphQLAddress.replace('https', 'wss'),
-        options: {
-          reconnect: true
-        }
-      }),
+      new GraphQLWsLink(
+        createClient({
+          url: graphQLAddress.replace('https', 'wss')
+        })
+      ),
     []
   );
 
