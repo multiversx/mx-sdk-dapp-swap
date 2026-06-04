@@ -1,6 +1,6 @@
 {
   "name": "@multiversx/sdk-dapp-swap",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "A library to hold the main logic for swapping between tokens on the MultiversX blockchain",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
@@ -27,6 +27,7 @@
     "test:watch": "jest --watch"
   },
   "devDependencies": {
+    "graphql-ws": "6.0.3",
     "@apollo/client": "3.14.1",
     "@multiversx/sdk-core": "^15.x",
     "@multiversx/sdk-dapp": "^5.x",
@@ -99,6 +100,7 @@
   },
   "peerDependencies": {
     "@apollo/client": "^3.14.1",
+    "graphql-ws": "^6.0.3",
     "@multiversx/sdk-core": "^14.0.0 || ^15.0.0",
     "@multiversx/sdk-dapp": "^5.x",
     "axios": "^1.16.1",
