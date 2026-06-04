@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [[4.2.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/101)] - 2026-06-04
+## [[4.2.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/103)] - 2026-06-04
 
-- [Integrating graphql-ws package for WS connection](https://github.com/multiversx/mx-sdk-dapp-swap/pull/100)
+- [Integrating graphql-ws package for WS connection](https://github.com/multiversx/mx-sdk-dapp-swap/pull/102)
 
 ## [[4.2.0](https://github.com/multiversx/mx-sdk-dapp-swap/pull/99)] - 2026-05-25
 
