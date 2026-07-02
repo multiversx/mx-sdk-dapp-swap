@@ -1,6 +1,6 @@
 {
   "name": "@multiversx/sdk-dapp-swap",
-  "version": "4.3.0-alpha.0",
+  "version": "4.3.0",
   "description": "A library to hold the main logic for swapping between tokens on the MultiversX blockchain",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
@@ -9,9 +9,6 @@
   "module": "./",
   "types": "./",
   "react-native": "./",
-  "engines": {
-    "node": ">=24"
-  },
   "scripts": {
     "start": "npm run watch",
     "build:esm": "tsc --project tsconfig.json && tsc-alias --project tsconfig.json",
