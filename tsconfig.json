@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2015",
+    "module": "ESNext",
     "outDir": "./dist",
     "jsx": "react",
     "declaration": true,
@@ -12,6 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "rootDir": "./src",
     "baseUrl": "./src",
+    "paths": { "*": ["*"] },
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
@@ -23,9 +25,18 @@
     "noUnusedParameters": false,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
-    "emitDeclarationOnly": true,
     "resolveJsonModule": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/**/tests/**",
+    "src/**/__mocks__/**",
+    "src/setupTests.js"
+  ]
 }
