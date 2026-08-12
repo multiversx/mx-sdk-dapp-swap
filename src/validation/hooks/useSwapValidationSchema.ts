@@ -1,14 +1,11 @@
 import { object, string } from 'yup';
 import { TokenOptionType } from 'types/form.types';
-import { SwapRouteType } from 'types/swap.types';
-import { Shape } from 'types/yupShape.types';
 import { getIsValidNumberRule } from 'validation/rules/common/getIsValidNumberRule';
 import { getMinAmountRule } from 'validation/rules/common/getMinAmountRule';
 import { getAmountRequiredRule } from 'validation/rules/swap/getAmountRequiredRule';
 import { getInputInsufficientFundsRule } from 'validation/rules/swap/getInputInsufficientFundsRule';
 import { getTokenRequiredRule } from 'validation/rules/swap/getTokenRequiredRule';
 import { getTooManyDecimalsRule } from 'validation/rules/swap/getTooManyDecimalsRule';
-import { SwapFormType } from 'validation/types/swapForm.types';
 import { applyValidationSchemaRules } from 'validation/utils';
 import { RuleType } from '../types';
 
@@ -56,9 +53,12 @@ export const useSwapValidationSchema = ({
     ...secondInputRules
   ]);
 
-  return object().shape<Shape<SwapFormType>>({
+  // yup 1 infers the object schema from the shape passed to `object()`; the
+  // explicit `Shape<SwapFormType>` generic of yup 0.32 no longer applies, since
+  // an untyped `object()` field cannot claim `SwapRouteType` as its output type.
+  return object({
     firstAmount: firstInputValidationSchema,
     secondAmount: secondInputValidationSchema,
-    activeRoute: object<Shape<SwapRouteType>>().required('Required')
+    activeRoute: object().required('Required')
   });
 };

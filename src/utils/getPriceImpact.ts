@@ -50,8 +50,8 @@ export const getPriceImpact = ({
   )
     ? PriceImpactLevelEnum.normal
     : bnPriceImpactPercentage.isLessThan(bnHighLevelPercentage)
-    ? PriceImpactLevelEnum.high
-    : PriceImpactLevelEnum.veryHigh;
+      ? PriceImpactLevelEnum.high
+      : PriceImpactLevelEnum.veryHigh;
 
   return {
     priceImpactLevel,

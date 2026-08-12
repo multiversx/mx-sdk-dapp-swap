@@ -23,7 +23,7 @@ export const getTransactionFee = (rawTransaction: IPlainTransactionObject) => {
       networkConfig
     );
     return fee.toString(10);
-  } catch (err) {
+  } catch {
     return 0;
   }
 };

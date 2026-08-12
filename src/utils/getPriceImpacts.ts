@@ -15,7 +15,7 @@ export const getPriceImpacts = ({
   if (smartSwap) {
     const impactsPerRoute: PriceImpactsType[] = [];
 
-    smartSwap.routes.forEach((route, i) => {
+    smartSwap.routes.forEach((route) => {
       const { pairs, pricesImpact } = route;
 
       const impactPerPair = pairs.map((pair, i) => {
