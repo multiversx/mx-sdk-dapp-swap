@@ -9,8 +9,8 @@ import {
 } from 'types';
 import { meaningfulFormatAmount } from 'utils';
 import { useSwapValidationSchema } from 'validation/hooks/useSwapValidationSchema';
-import { TokenSelect } from '../TokenSelect/TokenSelect';
 import { SwapFormInputValidationErrorDisplay } from './SwapFormInputValidationErrorDisplay';
+import { TokenSelect } from '../TokenSelect/TokenSelect';
 
 export interface SwapFormType {
   tokens: UserEsdtType[];
