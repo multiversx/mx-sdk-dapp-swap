@@ -2,11 +2,9 @@
 
 > A library to hold the main logic for swapping between tokens on the MultiversX blockchain
 
-[![NPM](https://img.shields.io/npm/v/@multiversx/sdk-dapp-swap.svg)](https://www.npmjs.com/package/@multiversx/sdk-dapp-swap) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@multiversx/sdk-dapp-swap.svg)](https://www.npmjs.com/package/@multiversx/sdk-dapp-swap) [![License: GPL-3.0-or-later](https://img.shields.io/npm/l/@multiversx/sdk-dapp-swap.svg)](#license)
 
 # Installation
-
-The library can be installed via npm or yarn.
 
 ```bash
 npm install @multiversx/sdk-dapp-swap
@@ -15,8 +13,31 @@ npm install @multiversx/sdk-dapp-swap
 or
 
 ```bash
+pnpm add @multiversx/sdk-dapp-swap
+```
+
+or
+
+```bash
 yarn add @multiversx/sdk-dapp-swap
 ```
+
+## Peer dependencies
+
+The following packages are expected to be installed by the consuming application:
+
+| Package | Range |
+| --- | --- |
+| `react` / `react-dom` | `>=18` |
+| `@apollo/client` | `^3.14.1` |
+| `graphql` | `>=16.9.0` |
+| `graphql-ws` | `^6.0.3` |
+| `@multiversx/sdk-core` | `^14.0.0 \|\| ^15.0.0` |
+| `@multiversx/sdk-dapp` | `^5.x` |
+| `bignumber.js` | `^9.x` |
+
+The package ships both ESM (`dist/` root) and CommonJS (`dist/__commonjs/`) builds as one file per
+module, so bundlers can tree-shake it without any `optimizeDeps` configuration.
 
 # Usage
 
@@ -83,7 +104,7 @@ This area covers the hooks required to implement a basic swap functionality.
 These hooks are exposed as named exports, which can be imported from sdk-dapp-swap.
 
 ```typescript
-import { useTokens } from '@multiversx/sdk-dapp-swap/hooks';
+import { useFilteredTokens } from '@multiversx/sdk-dapp-swap/hooks';
 or;
 import { useFilteredTokens } from '@multiversx/sdk-dapp-swap/hooks/useFilteredTokens';
 
@@ -197,7 +218,23 @@ const validationSchema = useSwapValidationSchema({
 });
 ```
 
-The useSwapInfo hook provides the validation schema in order to facilitate a proper swap. This schema provides rules like insufficient balance, token / minimum token required etc. This hook accepts 2 mandatory `firstToken` and `secondToken` parameters, as well as an optional number called `minAcceptedAmount` which is the minimum amount required for the validation schema.
+The useSwapValidationSchema hook provides the validation schema in order to facilitate a proper swap. This schema provides rules like insufficient balance, token / minimum token required etc. This hook accepts 2 mandatory `firstToken` and `secondToken` parameters, as well as an optional number called `minAcceptedAmount` which is the minimum amount required for the validation schema.
+
+It returns a [yup](https://github.com/jquense/yup) `ObjectSchema` (yup 1.x), ready to be passed to Formik's `validationSchema`. Extra rules can be appended per field through the optional `firstTokenValidations` / `secondTokenValidations` parameters, each an array of `{ name, message, test }` objects:
+
+```typescript
+const validationSchema = useSwapValidationSchema({
+  firstToken,
+  secondToken,
+  firstTokenValidations: [
+    {
+      name: 'maxAmount',
+      message: 'Amount too large',
+      test: (amount?: string) => Number(amount ?? 0) <= 100
+    }
+  ]
+});
+```
 
 # sdk-dapp-swap exports
 
@@ -238,18 +275,21 @@ import {
 
 ```typescript
 import {
-  useTokens,
+  usePrevious,
   useWrapEgld,
   useSwapInfo,
   useSwapRoute,
   useUnwrapEgld,
   useQueryWrapper,
   useIsPageVisible,
+  useFilteredTokens,
   useRateCalculator,
   useLazyQueryWrapper,
   useSwapFormHandlers,
   useInputAmountUsdValue,
-  useFetchMaintenanceFlag
+  useFetchMaintenanceFlag,
+  useIntersectionObserver,
+  useTokenPriceSubscription
 } from '@multiversx/sdk-dapp-swap/hooks';
 ```
 
@@ -259,16 +299,24 @@ import {
 import {
   roundAmount,
   removeCommas,
+  getPriceImpact,
   canParseAmount,
+  getTokenRoutes,
+  getPriceImpacts,
+  mergeTokenArrays,
   getTokenDecimals,
   getTransactionFee,
-  translateSwapError,
   getSwapActionType,
+  getTokensFromPairs,
+  translateSwapError,
   getBalanceMinusDust,
+  getHasEnoughBalance,
   meaningfulFormatAmount,
-  createTransactionFromRaw,
   calculateMinimumReceived,
-  getSortedTokensByUsdValue
+  createTransactionFromRaw,
+  getSortedTokensByUsdValue,
+  calculateSwapTransactionsFee,
+  getCorrectAmountsOnTokenChange
 } from '@multiversx/sdk-dapp-swap/utils';
 ```
 
@@ -277,11 +325,25 @@ import {
 ```typescript
 import {
   SwapForm,
-  SelectOpion,
+  SelectOption,
   TokenSelect,
   SwapAuthorizationProvider
 } from '@multiversx/sdk-dapp-swap/components';
 ```
+
+## Development
+
+Requires Node >= 24 and pnpm.
+
+```bash
+pnpm install
+pnpm build   # full ESM + CJS build, and the primary typecheck gate
+pnpm test
+pnpm lint
+```
+
+[AGENTS.md](./AGENTS.md) documents the repository layout, architecture, conventions, the build
+output contract, and the verification steps expected before a change is published.
 
 ## Roadmap
 
@@ -298,6 +360,9 @@ One can contribute by creating _pull requests_, or by opening _issues_ for disco
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+Before opening the pull request, run `pnpm build`, `pnpm test` and `pnpm lint`, and add a
+`CHANGELOG.md` entry describing the change.
 
 ## License
 

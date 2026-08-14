@@ -1,11 +1,5 @@
 allowBuilds:
   '@swc/core': false
-  core-js: false
-  core-js-pure: false
-  esbuild: false
   keccak: false
-  msw: false
   protobufjs: false
   unrs-resolver: false
-minimumReleaseAgeExclude:
-  - '@multiversx/*'

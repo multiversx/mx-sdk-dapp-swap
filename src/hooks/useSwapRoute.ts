@@ -30,8 +30,10 @@ export interface GetSwapRouteType {
   wrappingAmount?: string; // used only by wrapping queries
 }
 
-export interface GetSwapRouteVariablesType
-  extends Omit<GetSwapRouteType, 'tolerancePercentage'> {
+export interface GetSwapRouteVariablesType extends Omit<
+  GetSwapRouteType,
+  'tolerancePercentage'
+> {
   tolerance?: number;
 }
 

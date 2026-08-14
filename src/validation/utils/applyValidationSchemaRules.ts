@@ -1,8 +1,8 @@
-import { BaseSchema } from 'yup';
+import { Schema } from 'yup';
 import { RulesTypes } from 'validation/types/rules.types';
 
 export const applyValidationSchemaRules = <TValue>(
-  initialSchema: BaseSchema,
+  initialSchema: Schema,
   rules: RulesTypes<TValue>
 ) => {
   rules.forEach(({ name, message, test }) => {
