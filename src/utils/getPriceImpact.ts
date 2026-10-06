@@ -2,15 +2,16 @@ import BigNumber from 'bignumber.js';
 import { PriceImpactLevelEnum, SwapRouteType } from 'types';
 
 export interface PriceImpactType {
-  priceImpactPercentage?: string;
-  priceImpactLevel?: PriceImpactLevelEnum;
+  priceImpactPercentage: string;
+  canShowPriceImpactWarning: boolean;
+  priceImpactLevel: PriceImpactLevelEnum;
 }
 
 export const getPriceImpact = ({
   activeRoute
 }: {
   activeRoute?: SwapRouteType;
-}) => {
+}): PriceImpactType | undefined => {
   if (!activeRoute) return;
 
   const {
