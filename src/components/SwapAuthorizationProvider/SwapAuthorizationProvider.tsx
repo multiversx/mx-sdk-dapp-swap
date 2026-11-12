@@ -22,15 +22,11 @@ import { AuthorizationContext } from './context';
 export const SwapAuthorizationProvider = ({
   children,
   accessToken,
-  graphQLAddress,
-  getAuthorizationHeaders
+  graphQLAddress
 }: {
   accessToken?: string;
   children: React.ReactNode;
   graphQLAddress: SwapGraphQLAddressEnum | string;
-  getAuthorizationHeaders?: (
-    requestParams: AuthorizationHeadersRequestParamsType
-  ) => Promise<void | null | Record<string, string>>;
 }) => {
   const authMiddleware = useMemo(
     () =>
@@ -47,10 +43,6 @@ export const SwapAuthorizationProvider = ({
           method: 'POST'
         };
 
-        const requestedAuthorizationHeaders =
-          await getAuthorizationHeaders?.(requestParams);
-        // end - specific to xPortal
-
         const authorization = accessToken
           ? { Authorization: `Bearer ${accessToken}` }
           : {};
@@ -58,8 +50,7 @@ export const SwapAuthorizationProvider = ({
         return {
           headers: {
             ...headers,
-            ...authorization,
-            ...requestedAuthorizationHeaders
+            ...authorization
           }
         };
       }),
