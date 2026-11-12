@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[4.4.2](https://github.com/multiversx/mx-sdk-dapp-swap/pull/112)] - 2026-11-12
+
+- [Removes unused getAuthorizationHeaders from SwapAuthorizationProvider. getTokenRoutes code improvement](https://github.com/multiversx/mx-sdk-dapp-swap/pull/111)
+
 ## [[4.4.1](https://github.com/multiversx/mx-sdk-dapp-swap/pull/110)] - 2026-10-06
 
 - [Fixes PriceImpactType](https://github.com/multiversx/mx-sdk-dapp-swap/pull/110)
