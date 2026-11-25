@@ -24,16 +24,16 @@ is what CI uses.
 
 ## Commands
 
-| Command | Purpose |
-| --- | --- |
-| `pnpm build` | Full build: clean `dist/`, emit per-module ESM (`build:esm`) and CJS (`build:cjs`) via `tsc` + `tsc-alias`, copy `package.json` + `README.md` into `dist/`. |
-| `pnpm start` / `pnpm watch` | `tsc --watch` + `tsc-alias --watch` for local development. |
-| `pnpm test` | Jest test suite (jsdom + `@swc/jest`). |
-| `pnpm test:watch` | Jest watch mode. |
-| `pnpm lint` | ESLint over `src/`. |
-| `npx jest src/utils/tests/canParseAmount.test.ts` | Run a single test file. |
-| `npx jest -t "partial test name"` | Filter tests by name. |
-| `pnpm lint --fix` | Apply ESLint and Prettier fixes. |
+| Command                                           | Purpose                                                                                                                                                     |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm build`                                      | Full build: clean `dist/`, emit per-module ESM (`build:esm`) and CJS (`build:cjs`) via `tsc` + `tsc-alias`, copy `package.json` + `README.md` into `dist/`. |
+| `pnpm start` / `pnpm watch`                       | `tsc --watch` + `tsc-alias --watch` for local development.                                                                                                  |
+| `pnpm test`                                       | Jest test suite (jsdom + `@swc/jest`).                                                                                                                      |
+| `pnpm test:watch`                                 | Jest watch mode.                                                                                                                                            |
+| `pnpm lint`                                       | ESLint over `src/`.                                                                                                                                         |
+| `npx jest src/utils/tests/canParseAmount.test.ts` | Run a single test file.                                                                                                                                     |
+| `npx jest -t "partial test name"`                 | Filter tests by name.                                                                                                                                       |
+| `pnpm lint --fix`                                 | Apply ESLint and Prettier fixes.                                                                                                                            |
 
 `pnpm build` is the primary correctness gate — it runs a full `tsc` typecheck over `src/` for both
 output targets. Test coverage is thin, so a green test run alone does not mean a change is safe.
@@ -49,7 +49,7 @@ compute swap state)** → **`SwapForm` / `TokenSelect` components**.
 
 - **`src/components/SwapAuthorizationProvider`** — the required root wrapper. Builds the
   `ApolloClient` (HTTP link + `graphql-ws` subscription link split by operation type, auth middleware
-  injecting the `Bearer` token and optional `getAuthorizationHeaders`, error link) and exposes it via
+  injecting the `Bearer` token, error link) and exposes it via
   React context (`useAuthorizationContext`). Everything else assumes this provider is mounted. WS
   subscriptions (e.g. token price) use `graphql-ws`, not the deprecated `subscriptions-transport-ws`.
 

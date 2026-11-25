@@ -23,9 +23,9 @@ export const calculateMinimumReceived = ({
     return formatAmount({ input: secondAmount, decimals: secondTokenDecimals });
   }
 
-  const minAmount = new BigNumber(1)
-    .dividedBy(new BigNumber(tolerance).dividedBy(100).plus(1))
-    .times(secondAmount)
+  // Fixed-input swap minimum: floor(amount / (1 + t))
+  const minAmount = new BigNumber(secondAmount)
+    .idiv(new BigNumber(tolerance).dividedBy(100).plus(1))
     .toFixed(0);
 
   return formatAmount({ input: minAmount, decimals: secondTokenDecimals });

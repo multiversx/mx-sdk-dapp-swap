@@ -26,13 +26,17 @@ export const getTokenRoutes = ({
 
       const formattedAmountIn = formatAmount({
         input: intermediaryAmounts[0] ?? '0',
-        decimals: tokensReturned[0].decimals,
+        decimals:
+          tokensReturned.length > 0 ? tokensReturned[0].decimals : DECIMALS,
         showLastNonZeroDecimal: true
       });
 
       const formattedAmountOut = formatAmount({
         input: intermediaryAmounts[intermediaryAmounts.length - 1] ?? '0',
-        decimals: tokensReturned[tokensReturned.length - 1].decimals,
+        decimals:
+          tokensReturned.length > 0
+            ? tokensReturned[tokensReturned.length - 1]?.decimals
+            : DECIMALS,
         showLastNonZeroDecimal: true
       });
 

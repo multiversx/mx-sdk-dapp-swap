@@ -26,15 +26,15 @@ yarn add @multiversx/sdk-dapp-swap
 
 The following packages are expected to be installed by the consuming application:
 
-| Package | Range |
-| --- | --- |
-| `react` / `react-dom` | `>=18` |
-| `@apollo/client` | `^3.14.1` |
-| `graphql` | `>=16.9.0` |
-| `graphql-ws` | `^6.0.3` |
+| Package                | Range                  |
+| ---------------------- | ---------------------- |
+| `react` / `react-dom`  | `>=18`                 |
+| `@apollo/client`       | `^3.14.1`              |
+| `graphql`              | `>=16.9.0`             |
+| `graphql-ws`           | `^6.0.3`               |
 | `@multiversx/sdk-core` | `^14.0.0 \|\| ^15.0.0` |
-| `@multiversx/sdk-dapp` | `^5.x` |
-| `bignumber.js` | `^9.x` |
+| `@multiversx/sdk-dapp` | `^5.x`                 |
+| `bignumber.js`         | `^9.x`                 |
 
 The package ships both ESM (`dist/` root) and CommonJS (`dist/__commonjs/`) builds as one file per
 module, so bundlers can tree-shake it without any `optimizeDeps` configuration.
@@ -83,17 +83,12 @@ import { SwapAuthorizationProvider } from '@multiversx/sdk-dapp-swap/components'
 <SwapAuthorizationProvider
     accessToken={accessToken}
     graphQLAddress={network.graphQlAddress}
-    getAuthorizationHeaders={getAuthorizationHeaders} // optional
 >
 ```
 
 `graphQLAddress` is a required key that is needed to tell the Apollo Client on what graphQL address it should send the requests. Accepted values are any url string as well as the xExchange GraphQL service environment based endpoint (provided in `SwapGraphQLAddressEnum`).
 
 `accessToken` is the accessToken mandatory for authorizing the requests.
-
-SwapAuthorizationProvider also accepts an optional `getAuthorizationHeaders` async function that returns the headers object that will be provided on each request.
-This allows the user to specify extra rules for the authorization of the requests.
-`getAuthorizationHeaders` accepts the `requestParams` parameter which is of type `AuthorizationHeadersRequestParamsType` (also exported from the package).
 
   </details>
 
